@@ -4,44 +4,80 @@ import 'package:provider/provider.dart';
 
 class ColorResources {
   static Color getGreyColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFFb2b8bd) : Color(0xFFE4EAEF);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFFb2b8bd)
+        : Color(0xFFE4EAEF);
+  }
+
+  static Color getPrimaryColor(BuildContext context) {
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFF7594D8)
+        : Color(0xFF4c73f4);
   }
 
   static Color getTimeColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFFFFFFFF) : Color(0xFFE4EAEF);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFFFFFFFF)
+        : Color(0xFFE4EAEF);
   }
+
   static Color getDarkColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFF4d5054) : Color(0xFF25282B);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFF4d5054)
+        : Color(0xFF25282B);
   }
+
   static Color getCardBgColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFFFFFFFF).withOpacity(0.05) : Color(0xFFFFFFFF);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFFFFFFFF).withOpacity(0.05)
+        : Color(0xFFFFFFFF);
   }
+
   static Color getTextColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFFFFFFFF).withOpacity(0.6) : Color(0xFF1F1F1F);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFFFFFFFF).withOpacity(0.6)
+        : Color(0xFF1F1F1F);
   }
+
   static Color getHintColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFF98a1ab) : Color(0xFF7A7A7A);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFF98a1ab)
+        : Color(0xFF7A7A7A);
   }
+
   static Color getBackgroundColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFF4d5054) : Color(0xFFFAFAFA);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFF4d5054)
+        : Color(0xFFFAFAFA);
   }
+
   static Color getGreyLightColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFFb2b8bd) : Color(0xFF98a1ab);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFFb2b8bd)
+        : Color(0xFF98a1ab);
   }
+
   static Color getYellow(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFF916129) : Color(0xFFFFAA47);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFF916129)
+        : Color(0xFFFFAA47);
   }
 
   static Color getGreen(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFF167d3c) : Color(0xFF23CB60);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFF167d3c)
+        : Color(0xFF23CB60);
   }
 
   static Color getCategoryBgColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFFFFFFFF) : Color(0xFFb2b8bd);
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFFFFFFFF)
+        : Color(0xFFb2b8bd);
   }
 
   static Color getOrderColor(BuildContext context) {
-    return Provider.of<ThemeProvider>(context).darkTheme ? Color(0xFF4d5054) : Color(0xFFE4EAEF).withOpacity(0.9);
-   }
-
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFF4d5054)
+        : Color(0xFFE4EAEF).withOpacity(0.9);
+  }
 }

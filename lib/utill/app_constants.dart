@@ -1,7 +1,7 @@
 import 'package:flutter_grocery/data/model/response/language_model.dart';
 
 class AppConstants {
-  static const String APP_NAME = 'BuyYourMedicine';
+  static const String APP_NAME = 'Lifesap';
 
   static const String BASE_URL = 'https://drug.buyyourmart.com';
   static const String CONFIG_URI = '/api/v1/config';
@@ -32,22 +32,28 @@ class AppConstants {
   static const String CUSTOMER_INFO_URI = '/api/v1/customer/info';
   static const String UPDATE_PROFILE_URI = '/api/v1/customer/update-profile';
   static const String ADDRESS_LIST_URI = '/api/v1/customer/address/list';
-  static const String REMOVE_ADDRESS_URI = '/api/v1/customer/address/delete?address_id=';
+  static const String REMOVE_ADDRESS_URI =
+      '/api/v1/customer/address/delete?address_id=';
   static const String ADD_ADDRESS_URI = '/api/v1/customer/address/add';
   static const String UPDATE_ADDRESS_URI = '/api/v1/customer/address/update/';
   static const String ORDER_LIST_URI = '/api/v1/customer/order/list';
   static const String ORDER_CANCEL_URI = '/api/v1/customer/order/cancel';
-  static const String ORDER_DETAILS_URI = '/api/v1/customer/order/details?order_id=';
+  static const String ORDER_DETAILS_URI =
+      '/api/v1/customer/order/details?order_id=';
   static const String TRACK_URI = '/api/v1/customer/order/track?order_id=';
   static const String PLACE_ORDER_URI = '/api/v1/customer/order/place';
-  static const String LAST_LOCATION_URI = '/api/v1/delivery-man/last-location?order_id=';
+  static const String LAST_LOCATION_URI =
+      '/api/v1/delivery-man/last-location?order_id=';
   static const String TIMESLOT_URI = '/api/v1/timeSlot';
   static const String TOKEN_URI = '/api/v1/customer/cm-firebase-token';
-  static const String UPDATE_METHOD_URI = '/api/v1/customer/order/payment-method';
+  static const String UPDATE_METHOD_URI =
+      '/api/v1/customer/order/payment-method';
   static const String REVIEW_URI = '/api/v1/products/reviews/submit';
-  static const String DELIVER_MAN_REVIEW_URI = '/api/v1/delivery-man/reviews/submit';
+  static const String DELIVER_MAN_REVIEW_URI =
+      '/api/v1/delivery-man/reviews/submit';
   static const String DISTANCE_MATRIX_URI = '/api/v1/mapapi/distance-api';
-  static const String SEARCH_LOCATION_URI = '/api/v1/mapapi/place-api-autocomplete';
+  static const String SEARCH_LOCATION_URI =
+      '/api/v1/mapapi/place-api-autocomplete';
   static const String PLACE_DETAILS_URI = '/api/v1/mapapi/place-api-details';
   static const String GEOCODE_URI = '/api/v1/mapapi/geocode-api';
 
@@ -64,7 +70,15 @@ class AppConstants {
   static const String TOPIC = 'grofresh';
 
   static List<LanguageModel> languages = [
-    LanguageModel(imageUrl: '', languageName: 'English', countryCode: 'US', languageCode: 'en'),
-    LanguageModel(imageUrl: '', languageName: 'arabic', countryCode: 'SA', languageCode: 'ar'),
+    LanguageModel(
+        imageUrl: '',
+        languageName: 'English',
+        countryCode: 'US',
+        languageCode: 'en'),
+    LanguageModel(
+        imageUrl: '',
+        languageName: 'arabic',
+        countryCode: 'SA',
+        languageCode: 'ar'),
   ];
 }

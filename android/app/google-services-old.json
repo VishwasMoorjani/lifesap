@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "885169862162",
-    "project_id": "lifesap-c8112",
-    "storage_bucket": "lifesap-c8112.appspot.com"
+    "project_number": "427653744147",
+    "project_id": "buyyourmedicine-643c2",
+    "storage_bucket": "buyyourmedicine-643c2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:885169862162:android:7f9a2f7634fa7927bacacb",
+        "mobilesdk_app_id": "1:427653744147:android:a47abcc55922a0193721e6",
         "android_client_info": {
           "package_name": "com.buyyourmedicine.www"
         }
       },
       "oauth_client": [
         {
-          "client_id": "885169862162-sgpv4mhq0shjjejb5udu3b9b031ijm43.apps.googleusercontent.com",
+          "client_id": "427653744147-v8itbcde622trc9a9v3916eek1qqd5sb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBD1GBDqfOqqKCevOtQZV0IGBTt3pKK03A"
+          "current_key": "AIzaSyBo5MEvUiWkTyhg9cwYpWtT7yjJHFW0T1k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "885169862162-sgpv4mhq0shjjejb5udu3b9b031ijm43.apps.googleusercontent.com",
+              "client_id": "427653744147-v8itbcde622trc9a9v3916eek1qqd5sb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
