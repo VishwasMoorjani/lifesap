@@ -359,11 +359,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                           authProvider
                                               .clearUserNumberAndPassword();
                                         }
-                                        Navigator.pushNamedAndRemoveUntil(
+                                        // Navigator.pushNamedAndRemoveUntil(
+                                        //     context,
+                                        //     RouteHelper.menu,
+                                        //     (route) => false,
+                                        //     arguments: MenuScreen());
+                                        Navigator.pushReplacement(
                                             context,
-                                            RouteHelper.menu,
-                                            (route) => false,
-                                            arguments: MenuScreen());
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavigatorScreen()));
                                       }
                                     });
                                   }
