@@ -1,3 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_grocery/helper/email_checker.dart';
+import 'package:flutter_grocery/helper/route_helper.dart';
+import 'package:flutter_grocery/localization/language_constrants.dart';
+import 'package:flutter_grocery/provider/auth_provider.dart';
+import 'package:flutter_grocery/provider/splash_provider.dart';
+import 'package:flutter_grocery/view/base/custom_button.dart';
+import 'package:flutter_grocery/view/base/custom_snackbar.dart';
+import 'package:flutter_grocery/view/base/custom_text_field.dart';
+import 'package:flutter_grocery/view/screens/auth/create_account_screen.dart';
+import 'package:flutter_grocery/view/screens/forgot_password/verification_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/helper/email_checker.dart';
@@ -21,13 +34,84 @@ import 'package:flutter_grocery/view/screens/forgot_password/verification_screen
 import 'package:flutter_grocery/view/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:universal_html/html.dart';
 
-class SignUpScreen extends StatefulWidget {
+class otpVerification extends StatefulWidget {
+  var verificationID;
+  var countryCode;
+  var phoneNumber;
+  otpVerification(this.verificationID, this.countryCode, this.phoneNumber);
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  State<otpVerification> createState() => _otpVerificationState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _otpVerificationState extends State<otpVerification> {
+  TextEditingController otpController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        // body: Text('yay!!' + widget.verificationID),
+        body: Column(
+          children: [
+            Text('yay!!' + widget.verificationID),
+            CustomTextField(
+              controller: otpController,
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                      verificationId: widget.verificationID,
+                      smsCode: otpController.text);
+                  auth.signInWithCredential(credential).then((value) {
+                    Navigator.of(context).pushNamed(RouteHelper.createAccount,
+                        arguments: CreateAccountScreen());
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (contex) => NavigatorScreen()));
+                    // accountScreen(widget.countryCode, widget.phoneNumber);
+                    // authProvider.checkPhone(widget.countryCode + widget.phoneNumber).then(
+                    //   (value) async {
+                    //     if (value.isSuccess) {
+                    //       authProvider.updateEmail(widget.countryCode + widget.phoneNumber);
+                    //       if (value.message == 'active') {
+                    //         Navigator.of(context).pushNamed(
+                    //           RouteHelper.getVerifyRoute(
+                    //               'sign-up', widget.countryCode + widget.phoneNumber),
+                    //           arguments: VerificationScreen(
+                    //               emailAddress: widget.countryCode + widget.phoneNumber,
+                    //               fromSignUp: true),
+                    //         );
+                    //       } else {
+                    //         Navigator.of(context).pushNamed(
+                    //             RouteHelper.createAccount,
+                    //             arguments: CreateAccountScreen());
+                    //       }
+                    //     }
+                    //   },
+                    // );
+                  });
+                },
+                child: Text('VErify'))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class accountScreen extends StatefulWidget {
+  var countryCode;
+  var phoneNumber;
+  accountScreen(this.countryCode, this.phoneNumber);
+  @override
+  State<accountScreen> createState() => _accountScreenState();
+}
+
+class _accountScreenState extends State<accountScreen> {
   TextEditingController _emailController;
   final FocusNode _emailFocus = FocusNode();
   bool email = true;
@@ -50,6 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     double _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+        body: Scaffold(
       appBar: ResponsiveHelper.isDesktop(context) ? MainAppBar() : null,
       body: SafeArea(
         child: Center(
@@ -263,18 +348,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                             _email,
                                                     fromSignUp: true),
                                               );
+                                            } else {
+                                              Navigator.of(context).pushNamed(
+                                                  RouteHelper.createAccount,
+                                                  arguments:
+                                                      CreateAccountScreen());
                                             }
-                                            // else {
-                                            //   Navigator.of(context).pushNamed(
-                                            //       RouteHelper.createAccount,
-                                            //       arguments:
-                                            //           CreateAccountScreen());
-                                            // }
                                           }
                                         },
                                       );
-                                      phoneVerification(
-                                          _countryDialCode, _email, context);
+                                      // phoneVerification(
+                                      //     _countryDialCode, _email, context);
                                     }
                                   }
                                 },
@@ -323,37 +407,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
-}
-
-Future phoneVerification(
-    String countryCode, String phoneNumber, BuildContext context) {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  _auth.verifyPhoneNumber(
-      phoneNumber: countryCode + phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) {
-        _auth.signInWithCredential(credential).then((result) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
-        }).catchError((onError) {
-          print(onError);
-        });
-      },
-      verificationFailed: (FirebaseAuthException exception) {
-        print(exception.message);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => otpVerification(
-                    exception.message, exception.message, exception.message)));
-      },
-      codeSent: (String verificationID, forceResendingToken) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    otpVerification(verificationID, countryCode, phoneNumber)));
-      },
-      codeAutoRetrievalTimeout: (String s) {});
 }
