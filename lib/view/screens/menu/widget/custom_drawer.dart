@@ -16,7 +16,7 @@ class CustomDrawer extends StatefulWidget {
   CustomDrawer({
     this.controller,
     @required this.menuScreen,
-    @required this.mainScreen,
+    @required this.profileScreen,
     this.slideWidth = 275.0,
     this.borderRadius = 16.0,
     this.angle = -12.0,
@@ -28,7 +28,7 @@ class CustomDrawer extends StatefulWidget {
 
   final CustomDrawerController controller;
   final Widget menuScreen;
-  final Widget mainScreen;
+  final Widget profileScreen;
   final double slideWidth;
   final double borderRadius;
   final double angle;
@@ -57,10 +57,9 @@ class _CustomDrawerState extends State<CustomDrawer>
   final Curve _scaleUpCurve = Interval(0.0, 1.0, curve: Curves.easeOut);
   final Curve _slideOutCurve = Interval(0.0, 1.0, curve: Curves.easeOut);
   final Curve _slideInCurve =
-  Interval(0.0, 1.0, curve: Curves.easeOut); // Curves.bounceOut
+      Interval(0.0, 1.0, curve: Curves.easeOut); // Curves.bounceOut
 
   /// check the slide direction
-
 
   AnimationController _animationController;
   DrawerState _state = DrawerState.closed;
@@ -84,7 +83,7 @@ class _CustomDrawerState extends State<CustomDrawer>
   }
 
   bool isOpen() =>
-      _state == DrawerState.open  /*|| _state == DrawerState.opening*/;
+      _state == DrawerState.open /*|| _state == DrawerState.opening*/;
 
   /// Drawer state
   ValueNotifier<DrawerState> stateNotifier;
@@ -138,7 +137,7 @@ class _CustomDrawerState extends State<CustomDrawer>
     super.dispose();
   }
 
-  Widget _zoomAndSlideContent(Widget container,BuildContext context,
+  Widget _zoomAndSlideContent(Widget container, BuildContext context,
       {double angle, double scale, double slide = 0}) {
     var slidePercent, scalePercent;
 
@@ -186,14 +185,14 @@ class _CustomDrawerState extends State<CustomDrawer>
 
   @override
   Widget build(BuildContext context) {
-    final slidePercent =
-    CustomDrawer.isRTL(context) ? MediaQuery.of(context).size.width * .1 : 15.0;
+    final slidePercent = CustomDrawer.isRTL(context)
+        ? MediaQuery.of(context).size.width * .1
+        : 15.0;
 
     return Stack(
       children: [
         GestureDetector(
           child: widget.menuScreen,
-
           onPanUpdate: (details) {
             final bool _rtl = CustomDrawer.isRTL(context);
             if (details.delta.dx < -6 && !_rtl ||
@@ -206,7 +205,7 @@ class _CustomDrawerState extends State<CustomDrawer>
           /// Displaying the first shadow
           AnimatedBuilder(
             animation: _animationController,
-            builder: (_, w) => _zoomAndSlideContent(w,context,
+            builder: (_, w) => _zoomAndSlideContent(w, context,
                 angle: (widget.angle == 0.0) ? 0.0 : widget.angle - 8,
                 scale: .9,
                 slide: slidePercent * 2),
@@ -218,7 +217,7 @@ class _CustomDrawerState extends State<CustomDrawer>
           /// Displaying the second shadow
           AnimatedBuilder(
             animation: _animationController,
-            builder: (_, w) => _zoomAndSlideContent(w,context,
+            builder: (_, w) => _zoomAndSlideContent(w, context,
                 angle: (widget.angle == 0.0) ? 0.0 : widget.angle - 4.0,
                 scale: .95,
                 slide: slidePercent),
@@ -232,7 +231,7 @@ class _CustomDrawerState extends State<CustomDrawer>
         AnimatedBuilder(
           animation: _animationController,
           builder: (_, w) => _zoomAndSlideContent(w, context),
-          child: widget.mainScreen,
+          child: widget.profileScreen,
         ),
       ],
     );

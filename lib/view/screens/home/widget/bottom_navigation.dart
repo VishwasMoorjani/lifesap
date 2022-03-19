@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_grocery/provider/notification_provider.dart';
 import 'package:flutter_grocery/view/screens/category/all_category_screen.dart';
 import 'package:flutter_grocery/view/screens/home/home_screen.dart';
+import 'package:flutter_grocery/view/screens/notification/notification_screen.dart';
 import 'package:flutter_grocery/view/screens/profile/profile_screen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NavigatorScreen extends StatefulWidget {
   //const NavigatorScreen({ Key? key }) : super(key: key);
@@ -16,7 +19,7 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
     HomeScreen(),
     AllCategoryScreen(),
     AllCategoryScreen(),
-    AllCategoryScreen(),
+    NotificationScreen(),
     ProfileScreen()
   ];
   @override
@@ -35,33 +38,32 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: FaIcon(FontAwesomeIcons.home),
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              'assets/bottomnavicons/Vector.png',
-              color: current_index == 1
-                  ? Color.fromRGBO(118, 149, 216, 1)
-                  : Colors.black,
-            ),
+            icon: FaIcon(FontAwesomeIcons.flask),
             label: "Lab Tests",
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              'assets/bottomnavicons/Vector (1).png',
-              color: current_index == 2
-                  ? Color.fromRGBO(118, 149, 216, 1)
-                  : Colors.black,
+            icon: Container(
+              height: 30,
+              width: 30,
+              child: Image.asset(
+                'assets/bottomnavicons/pulse-rate.png',
+                color: current_index == 2
+                    ? Color.fromRGBO(118, 149, 216, 1)
+                    : Colors.black,
+              ),
             ),
             label: "Healthcare",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
+            icon: FaIcon(FontAwesomeIcons.bell),
             label: "Notifications",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: FaIcon(FontAwesomeIcons.user),
             label: "Profile",
           ),
         ],

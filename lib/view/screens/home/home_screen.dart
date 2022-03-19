@@ -119,9 +119,8 @@ class HomeScreen extends StatelessWidget {
                             ),
                             Text(
                               AppConstants.APP_NAME,
-                              style: TextStyle(
+                              style: poppinsBold.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-                                fontWeight: FontWeight.bold,
                                 color: ColorResources.getPrimaryColor(context),
                               ),
                             )

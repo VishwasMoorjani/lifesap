@@ -95,7 +95,7 @@ class _otpVerificationState extends State<otpVerification> {
                     // );
                   });
                 },
-                child: Text('VErify'))
+                child: Text('Verify'))
           ],
         ),
       ),

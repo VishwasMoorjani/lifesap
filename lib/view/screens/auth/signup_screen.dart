@@ -1,4 +1,5 @@
 import 'package:country_code_picker/country_code.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/helper/email_checker.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_grocery/helper/route_helper.dart';
 import 'package:flutter_grocery/localization/language_constrants.dart';
 import 'package:flutter_grocery/provider/auth_provider.dart';
 import 'package:flutter_grocery/provider/splash_provider.dart';
+import 'package:flutter_grocery/utill/app_constants.dart';
 import 'package:flutter_grocery/utill/color_resources.dart';
 import 'package:flutter_grocery/utill/dimensions.dart';
 import 'package:flutter_grocery/utill/images.dart';
@@ -21,6 +23,7 @@ import 'package:flutter_grocery/view/screens/forgot_password/verification_screen
 import 'package:flutter_grocery/view/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -29,6 +32,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _emailController;
+  bool isChecked = false;
   final FocusNode _emailFocus = FocusNode();
   bool email = true;
   bool phone = false;
@@ -49,273 +53,519 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: ResponsiveHelper.isDesktop(context) ? MainAppBar() : null,
-      body: SafeArea(
-        child: Center(
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: ResponsiveHelper.isDesktop(context) ? MainAppBar() : null,
+        body: SafeArea(
           child: Scrollbar(
             child: SingleChildScrollView(
-              padding: EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+              padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
               physics: BouncingScrollPhysics(),
-              child: Center(
-                child: Container(
-                  width: _width > 700 ? 700 : _width,
-                  padding: _width > 700
-                      ? EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT)
-                      : null,
-                  decoration: _width > 700
-                      ? BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey[300],
-                                blurRadius: 5,
-                                spreadRadius: 1)
-                          ],
-                        )
-                      : null,
-                  child: Consumer<AuthProvider>(
-                    builder: (context, authProvider, child) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(height: 30),
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
+              child: Container(
+                child: Consumer<AuthProvider>(
+                  builder: (context, authProvider, child) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 60,
                             child: Image.asset(
                               Images.app_logo,
-                              height: MediaQuery.of(context).size.height / 4.5,
+                              height: MediaQuery.of(context).size.height / 9,
                               fit: BoxFit.scaleDown,
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Center(
-                            child: Text(
-                          getTranslated('signup', context),
-                          style: poppinsMedium.copyWith(
-                              fontSize: 24,
-                              color: ColorResources.getTextColor(context)),
-                        )),
-                        SizedBox(height: 35),
-                        Provider.of<SplashProvider>(context, listen: false)
-                                .configModel
-                                .emailVerification
-                            ? Text(
-                                getTranslated('email', context),
-                                style: poppinsRegular.copyWith(
-                                    color:
-                                        ColorResources.getHintColor(context)),
-                              )
-                            : Text(
-                                getTranslated('mobile_number', context),
-                                style: poppinsRegular.copyWith(
-                                    color:
-                                        ColorResources.getHintColor(context)),
-                              ),
-                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-                        Provider.of<SplashProvider>(context, listen: false)
-                                .configModel
-                                .emailVerification
-                            ? CustomTextField(
-                                hintText: getTranslated('demo_gmail', context),
-                                isShowBorder: true,
-                                inputAction: TextInputAction.done,
-                                inputType: TextInputType.emailAddress,
-                                controller: _emailController,
-                                focusNode: _emailFocus,
-                              )
-                            : Row(children: [
-                                CodePickerWidget(
-                                  onChanged: (CountryCode countryCode) {
-                                    _countryDialCode = countryCode.dialCode;
-                                  },
-                                  initialSelection: _countryDialCode,
-                                  favorite: [_countryDialCode],
-                                  showDropDownButton: true,
-                                  padding: EdgeInsets.zero,
-                                  showFlagMain: true,
-                                  textStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .headline1
-                                          .color),
-                                ),
-                                Expanded(
-                                    child: CustomTextField(
-                                  hintText:
-                                      getTranslated('number_hint', context),
-                                  isShowBorder: true,
-                                  controller: _emailController,
-                                  inputType: TextInputType.phone,
-                                  inputAction: TextInputAction.done,
-                                )),
-                              ]),
-                        SizedBox(height: 6),
-                        SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
-
-                        Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: Dimensions.PADDING_SIZE_LARGE),
-                            child: Divider(height: 1)),
-
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            authProvider.verificationMessage.length > 0
-                                ? CircleAvatar(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    radius: 5)
-                                : SizedBox.shrink(),
-                            SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                authProvider.verificationMessage ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline2
-                                    .copyWith(
-                                      fontSize: Dimensions.FONT_SIZE_SMALL,
-                                      color: Theme.of(context).primaryColor,
+                          SizedBox(height: 20),
+                          Text(
+                            AppConstants.APP_NAME,
+                            style: poppinsBold.copyWith(
+                                fontSize: 20,
+                                color: ColorResources.getPrimaryColor(context)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: Card(
+                            elevation: 6,
+                            shape: RoundedRectangleBorder(
+                              // side: BorderSide(color: Colors.white70, width: 1),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Stack(children: [
+                              Positioned(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.903,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: ColorResources.getPrimaryColor(
+                                          context),
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10)),
                                     ),
-                              ),
-                            )
-                          ],
-                        ),
 
-                        // for continue button
-                        SizedBox(height: 12),
-                        !authProvider.isPhoneNumberVerificationButtonLoading
-                            ? CustomButton(
-                                buttonText: getTranslated('continue', context),
-                                onPressed: () {
-                                  String _email = _emailController.text.trim();
-                                  if (_email.isEmpty) {
-                                    if (Provider.of<SplashProvider>(context,
-                                            listen: false)
-                                        .configModel
-                                        .emailVerification) {
-                                      showCustomSnackBar(
-                                          getTranslated(
-                                              'enter_email_address', context),
-                                          context);
-                                    } else {
-                                      showCustomSnackBar(
-                                          getTranslated(
-                                              'enter_phone_number', context),
-                                          context);
-                                    }
-                                  } else if (Provider.of<SplashProvider>(
-                                              context,
-                                              listen: false)
-                                          .configModel
-                                          .emailVerification &&
-                                      EmailChecker.isNotValid(_email)) {
+                                    padding: EdgeInsets.all(
+                                        Dimensions.PADDING_SIZE_SMALL),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.08,
+                                    //color: ColorResources.getPrimaryColor(context),
+                                    // width: MediaQuery.of(context).size.width * 0.7,
+                                    child: Text(
+                                      "Please enter your phone number to get access\nto Lifesap Doctors and Lifesap pharmacy",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 13),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )),
+                              /* Provider.of<SplashProvider>(context, listen: false)
+                                  .configModel
+                                  .emailVerification
+                              ? Text(
+                                  getTranslated('email', context),
+                                  style: poppinsRegular.copyWith(
+                                      color: ColorResources.getHintColor(context)),
+                                )
+                              : Text(
+                                  getTranslated('mobile_number', context),
+                                  style: poppinsRegular.copyWith(
+                                      color: ColorResources.getHintColor(context)),
+                                ),*/
+                              SizedBox(height: 30),
+                              /*Provider.of<SplashProvider>(context,
+                                        listen: false)
+                                    .configModel
+                                    .emailVerification
+                                ? CustomTextField(
+                                    hintText: getTranslated('demo_gmail', context),
+                                    isShowBorder: true,
+                                    inputAction: TextInputAction.done,
+                                    inputType: TextInputType.emailAddress,
+                                    controller: _emailController,
+                                    focusNode: _emailFocus,
+                                  )
+                                :*/
+                              Positioned(
+                                left: 30,
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.25,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            child: TextField(
+                                              decoration: InputDecoration(
+                                                  prefixIcon: CodePickerWidget(
+                                                    onChanged: (CountryCode
+                                                        countryCode) {
+                                                      _countryDialCode =
+                                                          countryCode.dialCode;
+                                                    },
+                                                    initialSelection:
+                                                        _countryDialCode,
+                                                    favorite: [
+                                                      _countryDialCode
+                                                    ],
+                                                    showDropDownButton: true,
+                                                    padding: EdgeInsets.zero,
+                                                    showFlagMain: false,
+                                                    textStyle: TextStyle(
+                                                      color: ColorResources
+                                                          .getTextColor(
+                                                              context),
+                                                    ),
+                                                  ),
+                                                  focusedBorder:
+                                                      UnderlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: ColorResources
+                                                            .getPrimaryColor(
+                                                                context)),
+                                                  ),
+                                                  enabledBorder:
+                                                      UnderlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .grey))),
+                                              cursorColor: ColorResources
+                                                  .getPrimaryColor(context),
+                                              controller: _emailController,
+                                            )),
+                                        SizedBox(
+                                          width: 30,
+                                        ),
+                                        !authProvider
+                                                .isPhoneNumberVerificationButtonLoading
+                                            ? MaterialButton(
+                                                elevation: 6,
+                                                onPressed: () {
+                                                  String _email =
+                                                      _emailController.text
+                                                          .trim();
+                                                  if (_email.isEmpty) {
+                                                    if (Provider.of<
+                                                                SplashProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .configModel
+                                                        .emailVerification) {
+                                                      showCustomSnackBar(
+                                                          getTranslated(
+                                                              'enter_email_address',
+                                                              context),
+                                                          context);
+                                                    } else {
+                                                      showCustomSnackBar(
+                                                          getTranslated(
+                                                              'enter_phone_number',
+                                                              context),
+                                                          context);
+                                                    }
+                                                  } else if (Provider.of<
+                                                                  SplashProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .configModel
+                                                          .emailVerification &&
+                                                      EmailChecker.isNotValid(
+                                                          _email)) {
+                                                    showCustomSnackBar(
+                                                        getTranslated(
+                                                            'enter_valid_email',
+                                                            context),
+                                                        context);
+                                                  } else {
+                                                    if (Provider.of<
+                                                                SplashProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .configModel
+                                                        .emailVerification) {
+                                                      authProvider
+                                                          .checkEmail(_email)
+                                                          .then((value) async {
+                                                        if (value.isSuccess) {
+                                                          authProvider
+                                                              .updateEmail(
+                                                                  _email);
+                                                          if (value.message ==
+                                                              'active') {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pushNamed(
+                                                              RouteHelper
+                                                                  .getVerifyRoute(
+                                                                      'sign-up',
+                                                                      _email),
+                                                              arguments:
+                                                                  VerificationScreen(
+                                                                      emailAddress:
+                                                                          _email,
+                                                                      fromSignUp:
+                                                                          true),
+                                                            );
+                                                          } else {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pushNamed(
+                                                                    RouteHelper
+                                                                        .createAccount,
+                                                                    arguments:
+                                                                        CreateAccountScreen());
+                                                          }
+                                                        }
+                                                      });
+                                                    } else {
+                                                      authProvider
+                                                          .checkPhone(
+                                                              _countryDialCode +
+                                                                  _email)
+                                                          .then(
+                                                        (value) async {
+                                                          if (value.isSuccess) {
+                                                            authProvider
+                                                                .updateEmail(
+                                                                    _countryDialCode +
+                                                                        _email);
+                                                            if (value.message ==
+                                                                'active') {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pushNamed(
+                                                                RouteHelper.getVerifyRoute(
+                                                                    'sign-up',
+                                                                    _countryDialCode +
+                                                                        _email),
+                                                                arguments: VerificationScreen(
+                                                                    emailAddress:
+                                                                        _countryDialCode +
+                                                                            _email,
+                                                                    fromSignUp:
+                                                                        true),
+                                                              );
+                                                            }
+                                                            // else {
+                                                            //   Navigator.of(context).pushNamed(
+                                                            //       RouteHelper.createAccount,
+                                                            //       arguments:
+                                                            //           CreateAccountScreen());
+                                                            // }
+                                                          }
+                                                        },
+                                                      );
+                                                      phoneVerification(
+                                                          _countryDialCode,
+                                                          _email,
+                                                          context);
+                                                    }
+                                                  }
+                                                },
+                                                color: ColorResources
+                                                    .getPrimaryColor(context),
+                                                textColor: Colors.white,
+                                                child: Icon(
+                                                  Icons.arrow_right_alt,
+                                                  size: 26,
+                                                ),
+                                                padding: EdgeInsets.all(10),
+                                                shape: CircleBorder(),
+                                              )
+                                            : Center(
+                                                child: CircularProgressIndicator(
+                                                    valueColor:
+                                                        new AlwaysStoppedAnimation<
+                                                            Color>(Theme.of(
+                                                                context)
+                                                            .primaryColor))),
+                                      ]),
+                                ),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          Dimensions.PADDING_SIZE_LARGE),
+                                  child: Divider(height: 1)),
+                              Positioned(
+                                  top: 130,
+                                  left: 30,
+                                  child: Text(
+                                    'An otp will be sent to this number',
+                                    style: poppinsSemiBold.copyWith(
+                                        fontSize: 11,
+                                        color: ColorResources.getPrimaryColor(
+                                            context)),
+                                  )),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Positioned(
+                                left: 14,
+                                top: MediaQuery.of(context).size.height * 0.16,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    authProvider.verificationMessage.length > 0
+                                        ? CircleAvatar(
+                                            backgroundColor:
+                                                Theme.of(context).primaryColor,
+                                            radius: 5)
+                                        : SizedBox.shrink(),
+                                    Text(
+                                      authProvider.verificationMessage ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline2
+                                          .copyWith(
+                                            fontSize:
+                                                Dimensions.FONT_SIZE_SMALL,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                left: 14,
+                                top: MediaQuery.of(context).size.height * 0.21,
+                                child: Row(
+                                  children: [
+                                    Checkbox(
+                                        activeColor:
+                                            ColorResources.getPrimaryColor(
+                                                context),
+                                        value: isChecked,
+                                        onChanged: (bool value) {
+                                          setState(() {
+                                            isChecked = value;
+                                          });
+                                        }),
+                                    RichText(
+                                      text: TextSpan(
+                                          style: poppinsSemiBold.copyWith(
+                                              fontSize:
+                                                  Dimensions.FONT_SIZE_SMALL,
+                                              color: ColorResources
+                                                  .getPrimaryColor(context)),
+                                          children: [
+                                            TextSpan(
+                                                text:
+                                                    "By signing up, I agree to "),
+                                            TextSpan(
+                                                text:
+                                                    "The terms and\nconditions",
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  color: Colors.grey,
+                                                ),
+                                                recognizer:
+                                                    TapGestureRecognizer()
+                                                      ..onTap = () {
+                                                        launch('');
+                                                      }),
+                                            TextSpan(text: " and"),
+                                            TextSpan(
+                                                text: " Privacy Policy",
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  color: Colors.grey,
+                                                ),
+                                                recognizer:
+                                                    TapGestureRecognizer()
+                                                      ..onTap = () {
+                                                        launch('');
+                                                      }),
+                                            TextSpan(text: " of Lifesap."),
+                                          ]),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ])),
+                      ),
+                      Column(
+                        children: [
+                          Text("Why choose LifeSap"),
+                          ListTile(
+                            title: Text("Express Medicine Delivery"),
+                            subtitle: Text("5 Lakh happy customers every day"),
+                            leading: Image(
+                              image: AssetImage(Images.delivery_truck),
+                            ),
+                          )
+                        ],
+                      ),
+                      // for continue button
+                      SizedBox(height: 12),
+                      /* !authProvider.isPhoneNumberVerificationButtonLoading
+                          ? CustomButton(
+                              buttonText: getTranslated('continue', context),
+                              onPressed: () {
+                                String _email = _emailController.text.trim();
+                                if (_email.isEmpty) {
+                                  if (Provider.of<SplashProvider>(context,
+                                          listen: false)
+                                      .configModel
+                                      .emailVerification) {
                                     showCustomSnackBar(
                                         getTranslated(
-                                            'enter_valid_email', context),
+                                            'enter_email_address', context),
                                         context);
                                   } else {
-                                    if (Provider.of<SplashProvider>(context,
+                                    showCustomSnackBar(
+                                        getTranslated(
+                                            'enter_phone_number', context),
+                                        context);
+                                  }
+                                } else if (Provider.of<SplashProvider>(context,
                                             listen: false)
                                         .configModel
-                                        .emailVerification) {
-                                      authProvider
-                                          .checkEmail(_email)
-                                          .then((value) async {
+                                        .emailVerification &&
+                                    EmailChecker.isNotValid(_email)) {
+                                  showCustomSnackBar(
+                                      getTranslated('enter_valid_email', context),
+                                      context);
+                                } else {
+                                  if (Provider.of<SplashProvider>(context,
+                                          listen: false)
+                                      .configModel
+                                      .emailVerification) {
+                                    authProvider
+                                        .checkEmail(_email)
+                                        .then((value) async {
+                                      if (value.isSuccess) {
+                                        authProvider.updateEmail(_email);
+                                        if (value.message == 'active') {
+                                          Navigator.of(context).pushNamed(
+                                            RouteHelper.getVerifyRoute(
+                                                'sign-up', _email),
+                                            arguments: VerificationScreen(
+                                                emailAddress: _email,
+                                                fromSignUp: true),
+                                          );
+                                        } else {
+                                          Navigator.of(context).pushNamed(
+                                              RouteHelper.createAccount,
+                                              arguments: CreateAccountScreen());
+                                        }
+                                      }
+                                    });
+                                  } else {
+                                    authProvider
+                                        .checkPhone(_countryDialCode + _email)
+                                        .then(
+                                      (value) async {
                                         if (value.isSuccess) {
-                                          authProvider.updateEmail(_email);
+                                          authProvider.updateEmail(
+                                              _countryDialCode + _email);
                                           if (value.message == 'active') {
                                             Navigator.of(context).pushNamed(
                                               RouteHelper.getVerifyRoute(
-                                                  'sign-up', _email),
+                                                  'sign-up',
+                                                  _countryDialCode + _email),
                                               arguments: VerificationScreen(
-                                                  emailAddress: _email,
+                                                  emailAddress:
+                                                      _countryDialCode + _email,
                                                   fromSignUp: true),
                                             );
-                                          } else {
-                                            Navigator.of(context).pushNamed(
-                                                RouteHelper.createAccount,
-                                                arguments:
-                                                    CreateAccountScreen());
                                           }
+                                          // else {
+                                          //   Navigator.of(context).pushNamed(
+                                          //       RouteHelper.createAccount,
+                                          //       arguments:
+                                          //           CreateAccountScreen());
+                                          // }
                                         }
-                                      });
-                                    } else {
-                                      authProvider
-                                          .checkPhone(_countryDialCode + _email)
-                                          .then(
-                                        (value) async {
-                                          if (value.isSuccess) {
-                                            authProvider.updateEmail(
-                                                _countryDialCode + _email);
-                                            if (value.message == 'active') {
-                                              Navigator.of(context).pushNamed(
-                                                RouteHelper.getVerifyRoute(
-                                                    'sign-up',
-                                                    _countryDialCode + _email),
-                                                arguments: VerificationScreen(
-                                                    emailAddress:
-                                                        _countryDialCode +
-                                                            _email,
-                                                    fromSignUp: true),
-                                              );
-                                            }
-                                            // else {
-                                            //   Navigator.of(context).pushNamed(
-                                            //       RouteHelper.createAccount,
-                                            //       arguments:
-                                            //           CreateAccountScreen());
-                                            // }
-                                          }
-                                        },
-                                      );
-                                      phoneVerification(
-                                          _countryDialCode, _email, context);
-                                    }
+                                      },
+                                    );
+                                    phoneVerification(
+                                        _countryDialCode, _email, context);
                                   }
-                                },
-                              )
-                            : Center(
-                                child: CircularProgressIndicator(
-                                    valueColor:
-                                        new AlwaysStoppedAnimation<Color>(
-                                            Theme.of(context).primaryColor))),
-
-                        // for create an account
-                        SizedBox(height: 10),
-                        InkWell(
-                          onTap: () => Navigator.pop(context),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  getTranslated(
-                                      'already_have_account', context),
-                                  style: poppinsRegular.copyWith(
-                                      fontSize: Dimensions.FONT_SIZE_SMALL,
-                                      color:
-                                          ColorResources.getHintColor(context)),
-                                ),
-                                SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                                Text(
-                                  getTranslated('login', context),
-                                  style: poppinsMedium.copyWith(
-                                      fontSize: Dimensions.FONT_SIZE_SMALL,
-                                      color:
-                                          ColorResources.getTextColor(context)),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                                }
+                              },
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(
+                                  valueColor: new AlwaysStoppedAnimation<Color>(
+                                      Theme.of(context).primaryColor))),
+    */
+                      // for create an account
+                      SizedBox(height: 10),
+                    ],
                   ),
                 ),
               ),

@@ -14,9 +14,11 @@ import 'package:flutter_grocery/view/base/custom_button.dart';
 import 'package:flutter_grocery/view/base/custom_snackbar.dart';
 import 'package:flutter_grocery/view/base/custom_text_field.dart';
 import 'package:flutter_grocery/view/base/main_app_bar.dart';
+import 'package:flutter_grocery/view/screens/auth/otpVerification.dart';
 import 'package:flutter_grocery/view/screens/auth/signup_screen.dart';
 import 'package:flutter_grocery/view/screens/auth/widget/code_picker_widget.dart';
 import 'package:flutter_grocery/view/screens/forgot_password/forgot_password_screen.dart';
+import 'package:flutter_grocery/view/screens/forgot_password/verification_screen.dart';
 import 'package:flutter_grocery/view/screens/home/widget/bottom_navigation.dart';
 import 'package:flutter_grocery/view/screens/menu/menu_screen.dart';
 import 'package:provider/provider.dart';
@@ -382,33 +384,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // for create an account
                         SizedBox(height: 20),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(RouteHelper.signUp,
-                                arguments: SignUpScreen());
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  getTranslated('create_an_account', context),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  String _email = _emailController.text.trim();
+                                  phoneVerification(
+                                      _countryDialCode, _email, context);
+                                },
+                                child: Text(
+                                  'Login with otp',
                                   style: poppinsRegular.copyWith(
                                       fontSize: Dimensions.FONT_SIZE_SMALL,
                                       color:
                                           ColorResources.getHintColor(context)),
                                 ),
-                                SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                                Text(
-                                  getTranslated('signup', context),
-                                  style: poppinsMedium.copyWith(
-                                      fontSize: Dimensions.FONT_SIZE_SMALL,
-                                      color:
-                                          ColorResources.getTextColor(context)),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
 
