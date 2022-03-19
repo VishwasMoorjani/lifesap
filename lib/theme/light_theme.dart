@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 ThemeData light = ThemeData(
+  textSelectionTheme: TextSelectionThemeData(
+    selectionHandleColor: Colors.transparent,
+  ),
   fontFamily: 'Poppins',
   primaryColor: Color(0xFF4c73f4),
   brightness: Brightness.light,

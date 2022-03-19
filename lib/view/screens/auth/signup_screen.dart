@@ -84,7 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Text(
                             AppConstants.APP_NAME,
                             style: poppinsBold.copyWith(
-                                fontSize: 20,
+                                fontSize: 16,
                                 color: ColorResources.getPrimaryColor(context)),
                           ),
                         ],
@@ -100,6 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             child: Stack(children: [
                               Positioned(
+                                  top: 1,
                                   width:
                                       MediaQuery.of(context).size.width * 0.903,
                                   child: Container(
@@ -113,14 +114,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                     padding: EdgeInsets.all(
                                         Dimensions.PADDING_SIZE_SMALL),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.08,
+                                    height: 66,
                                     //color: ColorResources.getPrimaryColor(context),
                                     // width: MediaQuery.of(context).size.width * 0.7,
                                     child: Text(
                                       "Please enter your phone number to get access\nto Lifesap Doctors and Lifesap pharmacy",
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 13),
+                                          color: Colors.white, fontSize: 12),
                                       textAlign: TextAlign.center,
                                     ),
                                   )),
@@ -341,7 +341,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   Icons.arrow_right_alt,
                                                   size: 26,
                                                 ),
-                                                padding: EdgeInsets.all(10),
+                                                padding: EdgeInsets.all(15),
                                                 shape: CircleBorder(),
                                               )
                                             : Center(
@@ -365,7 +365,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   child: Text(
                                     'An otp will be sent to this number',
                                     style: poppinsSemiBold.copyWith(
-                                        fontSize: 11,
+                                        fontSize: 10,
                                         color: ColorResources.getPrimaryColor(
                                             context)),
                                   )),
@@ -417,8 +417,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     RichText(
                                       text: TextSpan(
                                           style: poppinsSemiBold.copyWith(
-                                              fontSize:
-                                                  Dimensions.FONT_SIZE_SMALL,
+                                              fontSize: Dimensions
+                                                  .FONT_SIZE_EXTRA_SMALL,
                                               color: ColorResources
                                                   .getPrimaryColor(context)),
                                           children: [
@@ -459,17 +459,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               )
                             ])),
                       ),
+                      SizedBox(
+                        height: 61,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Why choose Lifesap?",
+                            style: poppinsBold.copyWith(
+                                fontSize: 18,
+                                color: ColorResources.getPrimaryColor(context)),
+                          ),
+                        ],
+                      ),
                       Column(
                         children: [
-                          Text("Why choose LifeSap"),
                           ListTile(
-                            title: Text("Express Medicine Delivery"),
-                            subtitle: Text("5 Lakh happy customers every day"),
-                            leading: Image(
-                              //add right image here
-                              image: AssetImage(Images.app_logo),
+                            title: Text(
+                              "Express Medicine Delivery",
+                              style: poppinsBold.copyWith(
+                                  fontSize: 12,
+                                  color:
+                                      ColorResources.getPrimaryColor(context)),
                             ),
-                          )
+                            subtitle: Text(
+                              "5 Lakh happy customers every day",
+                              style: poppinsBold.copyWith(
+                                  fontSize: 10, color: Colors.grey),
+                            ),
+                            /* leading: Image(
+                              image: AssetImage(Images.delivery_truck),
+                            ),*/
+                          ),
+                          ListTile(
+                            title: Text(
+                              "Consult with Lifesap Doctors",
+                              style: poppinsBold.copyWith(
+                                  fontSize: 12,
+                                  color:
+                                      ColorResources.getPrimaryColor(context)),
+                            ),
+                            subtitle: Text(
+                              "7000+ doctors available online in 15 min",
+                              style: poppinsBold.copyWith(
+                                  fontSize: 10, color: Colors.grey),
+                            ),
+                            /* leading: Image(
+                              image: AssetImage(Images.delivery_truck),
+                            ),*/
+                          ),
                         ],
                       ),
                       // for continue button
@@ -598,14 +639,14 @@ void phoneVerification(String countryCode, String phoneNumber,
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => otpVerification(exception.message,
+                builder: (context) => OtpVerification(exception.message,
                     exception.message, exception.message, isLogin)));
       },
       codeSent: (String verificationID, forceResendingToken) {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => otpVerification(
+                builder: (context) => OtpVerification(
                     verificationID, countryCode, phoneNumber, isLogin)));
       },
       codeAutoRetrievalTimeout: (String s) {});
