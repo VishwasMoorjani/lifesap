@@ -393,10 +393,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onTap: () {
                                   String _email = _emailController.text.trim();
                                   phoneVerification(
-                                      _countryDialCode, _email, context);
+                                      _countryDialCode, _email, context, true);
                                 },
                                 child: Text(
-                                  'Login with otp',
+                                  'Login with OTP',
                                   style: poppinsRegular.copyWith(
                                       fontSize: Dimensions.FONT_SIZE_SMALL,
                                       color:

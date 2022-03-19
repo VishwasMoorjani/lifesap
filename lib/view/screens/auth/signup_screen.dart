@@ -21,6 +21,7 @@ import 'package:flutter_grocery/view/screens/auth/otpVerification.dart';
 import 'package:flutter_grocery/view/screens/auth/widget/code_picker_widget.dart';
 import 'package:flutter_grocery/view/screens/forgot_password/verification_screen.dart';
 import 'package:flutter_grocery/view/screens/home/home_screen.dart';
+import 'package:flutter_grocery/view/screens/home/widget/bottom_navigation.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -328,7 +329,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       phoneVerification(
                                                           _countryDialCode,
                                                           _email,
-                                                          context);
+                                                          context,
+                                                          false);
                                                     }
                                                   }
                                                 },
@@ -464,7 +466,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             title: Text("Express Medicine Delivery"),
                             subtitle: Text("5 Lakh happy customers every day"),
                             leading: Image(
-                              image: AssetImage(Images.delivery_truck),
+                              //add right image here
+                              image: AssetImage(Images.app_logo),
                             ),
                           )
                         ],
@@ -577,15 +580,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 }
 
-Future phoneVerification(
-    String countryCode, String phoneNumber, BuildContext context) {
+void phoneVerification(String countryCode, String phoneNumber,
+    BuildContext context, bool isLogin) {
   FirebaseAuth _auth = FirebaseAuth.instance;
   _auth.verifyPhoneNumber(
       phoneNumber: countryCode + phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) {
         _auth.signInWithCredential(credential).then((result) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => NavigatorScreen()));
         }).catchError((onError) {
           print(onError);
         });
@@ -595,15 +598,15 @@ Future phoneVerification(
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => otpVerification(
-                    exception.message, exception.message, exception.message)));
+                builder: (context) => otpVerification(exception.message,
+                    exception.message, exception.message, isLogin)));
       },
       codeSent: (String verificationID, forceResendingToken) {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    otpVerification(verificationID, countryCode, phoneNumber)));
+                builder: (context) => otpVerification(
+                    verificationID, countryCode, phoneNumber, isLogin)));
       },
       codeAutoRetrievalTimeout: (String s) {});
 }
