@@ -100,9 +100,11 @@ class MenuWidget extends StatelessWidget {
                               Expanded(
                                 child: ListTile(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                        RouteHelper.profile,
-                                        arguments: ProfileScreen());
+                                    Navigator.of(context)
+                                        .pushNamed(RouteHelper.profile,
+                                            arguments: ProfileScreen(
+                                              drawerController: null,
+                                            ));
                                   },
                                   leading: ClipOval(
                                     child: _isLoggedIn

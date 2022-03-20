@@ -476,6 +476,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ListTile(
                             title: Text(
@@ -490,11 +492,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               style: poppinsBold.copyWith(
                                   fontSize: 10, color: Colors.grey),
                             ),
-                            /* leading: Image(
+                            leading: Image(
                               image: AssetImage(Images.delivery_truck),
-                            ),*/
+                            ),
                           ),
                           ListTile(
+                            leading: Image(
+                              image: AssetImage(Images.male_doctor),
+                            ),
                             title: Text(
                               "Consult with Lifesap Doctors",
                               style: poppinsBold.copyWith(

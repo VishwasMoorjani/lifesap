@@ -25,8 +25,8 @@ import 'package:flutter_grocery/view/screens/settings/setting_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
-  final CustomDrawerController drawerController;
-  MainScreen({@required this.drawerController});
+  /* final CustomDrawerController drawerController;
+  MainScreen({@required this.drawerController});*/
 
   @override
   _MainScreenState createState() => _MainScreenState();

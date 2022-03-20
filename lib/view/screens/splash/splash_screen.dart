@@ -102,74 +102,110 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _globalKey,
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  alignment: Alignment.bottomRight,
+                  image: AssetImage(Images.bg_vector),
+                  fit: BoxFit.fitWidth)),
+          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 8),
           child: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      // 10% of the width, so there are ten blinds.
-                      colors: <Color>[
-                        Color(0xff0038f1),
-                        Color(0xff4c73f4),
-                      ],
-                    )),
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            elevation: MaterialStateProperty.all(6),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.transparent),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ))),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUpScreen()));
-                        },
-                        child: Text("Get Started")),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  InkWell(
-                    onTap: () {
+            child: Column(children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 90,
+                      width: 80,
+                      child: Image(
+                        image: AssetImage(Images.app_logo),
+                      ),
+                    ),
+                    Text(AppConstants.APP_NAME,
+                        style: poppinsBold.copyWith(
+                            fontSize: 35,
+                            color: ColorResources.getPrimaryColor(context)))
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: Image(
+                  image: AssetImage(Images.get_started_bg),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: ColorResources.getPrimaryColor(context)),
+                height: 60,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        shadowColor: MaterialStateProperty.all<Color>(
+                            Colors.transparent),
+                        elevation: MaterialStateProperty.all(6),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.transparent),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ))),
+                    onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
+                              builder: (context) => SignUpScreen()));
                     },
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      //mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(width: 90),
                         Text(
-                          getTranslated('already_have_account', context),
-                          style: poppinsRegular.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_SMALL,
-                              color: ColorResources.getHintColor(context)),
+                          "Get Started",
+                          style: poppinsSemiBold.copyWith(fontSize: 18),
                         ),
-                        SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                        Text(
-                          getTranslated('login', context),
-                          style: poppinsMedium.copyWith(
-                              decoration: TextDecoration.underline,
-                              fontSize: 12,
-                              color: ColorResources.getPrimaryColor(context)),
+                        SizedBox(
+                          width: 40,
                         ),
+                        Icon(Icons.login),
                       ],
+                    )),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      getTranslated('already_have_account', context),
+                      style: poppinsMedium.copyWith(
+                          fontSize: Dimensions.FONT_SIZE_SMALL,
+                          color: ColorResources.getHintColor(context)),
                     ),
-                  )
-                ]),
+                    SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                    Text(
+                      getTranslated('login', context),
+                      style: poppinsMedium.copyWith(
+                          decoration: TextDecoration.underline,
+                          fontSize: 12,
+                          color: ColorResources.getPrimaryColor(context)),
+                    ),
+                  ],
+                ),
+              )
+            ]),
           ),
         ));
   }

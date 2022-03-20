@@ -151,7 +151,6 @@ class VerificationScreen extends StatelessWidget {
                                         getTranslated('verify', context),
                                     onPressed: () {
                                       if (fromSignUp) {
-                                        print(fromSignUp);
                                         if (Provider.of<SplashProvider>(context,
                                                 listen: false)
                                             .configModel

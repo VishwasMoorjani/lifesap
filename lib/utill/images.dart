@@ -48,4 +48,6 @@ class Images {
   static const String wallet = 'assets/image/wallet.png';
   static const String delivery_truck = 'assets/image/deliverytruck.png';
   static const String male_doctor = 'assets/image/maledoctor.png';
+  static const String get_started_bg = 'assets/image/get started bg.svg';
+  static const String bg_vector = 'assets/image/bg vector.png';
 }
