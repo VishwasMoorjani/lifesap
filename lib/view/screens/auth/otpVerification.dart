@@ -180,7 +180,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                         'Verify',
                         style: poppinsSemiBold.copyWith(fontSize: 18),
                       )),
-                )
+                ),
               ],
             ),
           ),

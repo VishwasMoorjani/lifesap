@@ -25,6 +25,7 @@ import 'package:flutter_grocery/view/screens/home/widget/bottom_navigation.dart'
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:developer';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -289,48 +290,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                         }
                                                       });
                                                     } else {
-                                                      authProvider
-                                                          .checkPhone(
-                                                              _countryDialCode +
-                                                                  _email)
-                                                          .then(
-                                                        (value) async {
-                                                          if (value.isSuccess) {
-                                                            authProvider
-                                                                .updateEmail(
-                                                                    _countryDialCode +
-                                                                        _email);
-                                                            if (value.message ==
-                                                                'active') {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pushNamed(
-                                                                RouteHelper.getVerifyRoute(
-                                                                    'sign-up',
-                                                                    _countryDialCode +
-                                                                        _email),
-                                                                arguments: VerificationScreen(
-                                                                    emailAddress:
-                                                                        _countryDialCode +
-                                                                            _email,
-                                                                    fromSignUp:
-                                                                        true),
-                                                              );
+                                                      if (isChecked) {
+                                                        authProvider
+                                                            .checkPhone(
+                                                                _countryDialCode +
+                                                                    _email)
+                                                            .then(
+                                                          (value) async {
+                                                            if (value
+                                                                .isSuccess) {
+                                                              authProvider
+                                                                  .updateEmail(
+                                                                      _countryDialCode +
+                                                                          _email);
+                                                              if (value
+                                                                      .message ==
+                                                                  'active') {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pushNamed(
+                                                                  RouteHelper.getVerifyRoute(
+                                                                      'sign-up',
+                                                                      _countryDialCode +
+                                                                          _email),
+                                                                  arguments: VerificationScreen(
+                                                                      emailAddress:
+                                                                          _countryDialCode +
+                                                                              _email,
+                                                                      fromSignUp:
+                                                                          true),
+                                                                );
+                                                              } else {
+                                                                // Navigator.of(context).pushNamed(
+                                                                //     RouteHelper.createAccount,
+                                                                //     arguments:
+                                                                //         CreateAccountScreen());
+                                                                if (isChecked) {
+                                                                  phoneVerification(
+                                                                      _countryDialCode,
+                                                                      _email,
+                                                                      context,
+                                                                      false);
+                                                                }
+                                                              }
                                                             }
-                                                            // else {
-                                                            //   Navigator.of(context).pushNamed(
-                                                            //       RouteHelper.createAccount,
-                                                            //       arguments:
-                                                            //           CreateAccountScreen());
-                                                            // }
-                                                          }
-                                                        },
-                                                      );
-                                                      phoneVerification(
-                                                          _countryDialCode,
-                                                          _email,
-                                                          context,
-                                                          false);
+                                                          },
+                                                        );
+                                                        // phoneVerification(
+                                                        //     _countryDialCode,
+                                                        //     _email,
+                                                        //     context,
+                                                        //     false);
+                                                      }
                                                     }
                                                   }
                                                 },
@@ -631,23 +642,25 @@ void phoneVerification(String countryCode, String phoneNumber,
   FirebaseAuth _auth = FirebaseAuth.instance;
   _auth.verifyPhoneNumber(
       phoneNumber: countryCode + phoneNumber,
+      // forceResendingToken: forceResendToken,
       verificationCompleted: (PhoneAuthCredential credential) {
         _auth.signInWithCredential(credential).then((result) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => NavigatorScreen()));
         }).catchError((onError) {
-          print(onError);
+          log(onError);
         });
       },
       verificationFailed: (FirebaseAuthException exception) {
-        print(exception.message);
+        log(exception.message);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => OtpVerification(exception.message,
                     exception.message, exception.message, isLogin)));
       },
-      codeSent: (String verificationID, forceResendingToken) {
+      codeSent: (String verificationID, var forceResendingToken) {
+        log(forceResendingToken.toString());
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(

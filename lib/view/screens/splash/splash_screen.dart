@@ -130,10 +130,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: MediaQuery.of(context).size.height * 0.8,
+                width: MediaQuery.of(context).size.width * 0.6,
+                height: MediaQuery.of(context).size.height * 0.5,
                 child: Image(
-                  image: AssetImage(Images.get_started_bg),
+                  image: AssetImage(Images.app_logo),
                   fit: BoxFit.contain,
                 ),
               ),
