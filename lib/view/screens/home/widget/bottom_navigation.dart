@@ -29,9 +29,13 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
     return Scaffold(
       body: screens[current_index],
       bottomNavigationBar: BottomNavigationBar(
+        selectedFontSize: 9,
+        unselectedFontSize: 9,
+        type: BottomNavigationBarType.fixed,
         selectedItemColor: Color.fromRGBO(118, 149, 216, 1),
         unselectedItemColor: Colors.black,
         showUnselectedLabels: true,
+        elevation: 5,
         currentIndex: current_index,
         onTap: (index) {
           setState(() {
@@ -49,10 +53,11 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
           ),
           BottomNavigationBarItem(
             icon: Container(
-              height: 30,
-              width: 30,
+              height: 26,
+              width: 32,
               child: Image.asset(
                 'assets/bottomnavicons/pulse-rate.png',
+                fit: BoxFit.cover,
                 color: current_index == 2
                     ? Color.fromRGBO(118, 149, 216, 1)
                     : Colors.black,

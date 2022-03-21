@@ -22,85 +22,133 @@ class AllCategoryScreen extends StatelessWidget {
   int flag = 0;
   @override
   Widget build(BuildContext context) {
-
     if (flag == 0) {
-      Provider.of<CategoryProvider>(context).changeSelectedIndex(0, notify: false);
-      Provider.of<CategoryProvider>(context, listen: false)
-          .getSubCategoryList(context, Provider.of<CategoryProvider>(context, listen: false).categoryList[0].id.toString(),
-        Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode,);
+      Provider.of<CategoryProvider>(context)
+          .changeSelectedIndex(0, notify: false);
+      Provider.of<CategoryProvider>(context, listen: false).getSubCategoryList(
+        context,
+        Provider.of<CategoryProvider>(context, listen: false)
+            .categoryList[0]
+            .id
+            .toString(),
+        Provider.of<LocalizationProvider>(context, listen: false)
+            .locale
+            .languageCode,
+      );
       flag++;
     }
     return Scaffold(
-      appBar: ResponsiveHelper.isMobilePhone()? null: ResponsiveHelper.isDesktop(context)? MainAppBar(): AppBarBase(),
+      appBar: ResponsiveHelper.isMobilePhone()
+          ? null
+          : ResponsiveHelper.isDesktop(context)
+              ? MainAppBar()
+              : AppBarBase(),
       body: Center(
         child: Container(
+          padding: EdgeInsets.only(top: 21),
           width: 1170,
           child: Consumer<CategoryProvider>(
             builder: (context, categoryProvider, child) {
               return categoryProvider.categoryList.length != 0
                   ? Row(children: [
-
                       Container(
                         width: 100,
                         margin: EdgeInsets.only(top: 3),
                         height: double.infinity,
                         decoration: BoxDecoration(
                           //color: ColorResources.WHITE,
-                          boxShadow: [BoxShadow(color: Colors.grey[Provider.of<ThemeProvider>(context).darkTheme ? 600 : 200], spreadRadius: 3, blurRadius: 10)],
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey[
+                                    Provider.of<ThemeProvider>(context)
+                                            .darkTheme
+                                        ? 600
+                                        : 200],
+                                spreadRadius: 3,
+                                blurRadius: 10)
+                          ],
                         ),
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           itemCount: categoryProvider.categoryList.length,
                           padding: EdgeInsets.all(0),
                           itemBuilder: (context, index) {
-                            CategoryModel _category = categoryProvider.categoryList[index];
+                            CategoryModel _category =
+                                categoryProvider.categoryList[index];
                             return InkWell(
                               onTap: () {
                                 categoryProvider.changeSelectedIndex(index);
-                                categoryProvider.getSubCategoryList(context, _category.id.toString(),
-                                  Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode);
+                                categoryProvider.getSubCategoryList(
+                                    context,
+                                    _category.id.toString(),
+                                    Provider.of<LocalizationProvider>(context,
+                                            listen: false)
+                                        .locale
+                                        .languageCode);
                               },
                               child: CategoryItem(
                                 title: _category.name,
                                 icon: _category.image,
-                                isSelected: categoryProvider.categorySelectedIndex == index,
+                                isSelected:
+                                    categoryProvider.categorySelectedIndex ==
+                                        index,
                               ),
                             );
                           },
                         ),
                       ),
-
                       categoryProvider.subCategoryList != null
                           ? Expanded(
                               child: ListView.builder(
-                                padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                                itemCount: categoryProvider.subCategoryList.length + 1,
+                                padding: EdgeInsets.all(
+                                    Dimensions.PADDING_SIZE_SMALL),
+                                itemCount:
+                                    categoryProvider.subCategoryList.length + 1,
                                 itemBuilder: (context, index) {
-                                  if(index == 0) {
+                                  if (index == 0) {
                                     return ListTile(
                                       onTap: () {
                                         Navigator.of(context).pushNamed(
                                           RouteHelper.getCategoryProductsRoute(
-                                            categoryProvider.categoryList[categoryProvider.categorySelectedIndex].id,
+                                            categoryProvider
+                                                .categoryList[categoryProvider
+                                                    .categorySelectedIndex]
+                                                .id,
                                           ),
-                                          arguments: CategoryProductScreen(categoryModel: CategoryModel(
-                                            id: categoryProvider.categoryList[categoryProvider.categorySelectedIndex].id,
-                                            name: categoryProvider.categoryList[categoryProvider.categorySelectedIndex].name,
+                                          arguments: CategoryProductScreen(
+                                              categoryModel: CategoryModel(
+                                            id: categoryProvider
+                                                .categoryList[categoryProvider
+                                                    .categorySelectedIndex]
+                                                .id,
+                                            name: categoryProvider
+                                                .categoryList[categoryProvider
+                                                    .categorySelectedIndex]
+                                                .name,
                                           )),
                                         );
                                       },
-                                      title: Text(getTranslated('all', context)),
-                                      trailing: Icon(Icons.keyboard_arrow_right),
+                                      title:
+                                          Text(getTranslated('all', context)),
+                                      trailing:
+                                          Icon(Icons.keyboard_arrow_right),
                                     );
                                   }
                                   return ListTile(
                                     onTap: () {
                                       Navigator.of(context).pushNamed(
-                                        RouteHelper.getCategoryProductsRoute(categoryProvider.subCategoryList[index-1].id),
+                                        RouteHelper.getCategoryProductsRoute(
+                                            categoryProvider
+                                                .subCategoryList[index - 1].id),
                                       );
                                     },
-                                    title: Text(categoryProvider.subCategoryList[index-1].name,
-                                      style: poppinsMedium.copyWith(fontSize: 13, color: ColorResources.getTextColor(context)),
+                                    title: Text(
+                                      categoryProvider
+                                          .subCategoryList[index - 1].name,
+                                      style: poppinsMedium.copyWith(
+                                          fontSize: 13,
+                                          color: ColorResources.getTextColor(
+                                              context)),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     trailing: Icon(Icons.keyboard_arrow_right),
@@ -124,20 +172,23 @@ class CategoryItem extends StatelessWidget {
   final String icon;
   final bool isSelected;
 
-  CategoryItem({@required this.title, @required this.icon, @required this.isSelected});
+  CategoryItem(
+      {@required this.title, @required this.icon, @required this.isSelected});
 
   Widget build(BuildContext context) {
     return Container(
       width: 100,
       height: 110,
-      margin: EdgeInsets.symmetric(vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL, horizontal: 2),
+      margin: EdgeInsets.symmetric(
+          vertical: Dimensions.PADDING_SIZE_EXTRA_SMALL, horizontal: 2),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
-        color: isSelected ? Theme.of(context).primaryColor
-            : ColorResources.getBackgroundColor(context)
-      ),
+          borderRadius: BorderRadius.circular(7),
+          color: isSelected
+              ? Theme.of(context).primaryColor
+              : ColorResources.getBackgroundColor(context)),
       child: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           Container(
             height: 60,
             width: 60,
@@ -145,29 +196,36 @@ class CategoryItem extends StatelessWidget {
             //padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? ColorResources.getCategoryBgColor(context)
-                    : ColorResources.getGreyLightColor(context).withOpacity(0.05)
-            ),
+                color: isSelected
+                    ? ColorResources.getCategoryBgColor(context)
+                    : ColorResources.getGreyLightColor(context)
+                        .withOpacity(0.05)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
               child: FadeInImage.assetNetwork(
                 placeholder: Images.placeholder,
-                image: '${Provider.of<SplashProvider>(context, listen: false).baseUrls.categoryImageUrl}/$icon',
-                fit: BoxFit.cover, width: 100, height: 100,
-                imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder, height: 100, width: 100, fit: BoxFit.cover),
+                image:
+                    '${Provider.of<SplashProvider>(context, listen: false).baseUrls.categoryImageUrl}/$icon',
+                fit: BoxFit.cover,
+                width: 100,
+                height: 100,
+                imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder,
+                    height: 100, width: 100, fit: BoxFit.cover),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+            padding: EdgeInsets.symmetric(
+                horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
             child: Text(title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: poppinsSemiBold.copyWith(
-                  fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
-                  color: isSelected ? ColorResources.getBackgroundColor(context) : ColorResources.getTextColor(context)
-                )),
+                    fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
+                    color: isSelected
+                        ? ColorResources.getBackgroundColor(context)
+                        : ColorResources.getTextColor(context))),
           ),
         ]),
       ),
@@ -183,7 +241,8 @@ class SubCategoryShimmer extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return Shimmer(
           duration: Duration(seconds: 2),
-          enabled: Provider.of<CategoryProvider>(context).subCategoryList == null,
+          enabled:
+              Provider.of<CategoryProvider>(context).subCategoryList == null,
           child: Container(
             height: 40,
             margin: EdgeInsets.only(left: 15, right: 15, top: 15),

@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/localization/language_constrants.dart';
@@ -131,51 +131,51 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: Image(
-                  image: AssetImage(Images.app_logo),
-                  fit: BoxFit.contain,
+                height: MediaQuery.of(context).size.height * 0.56,
+                child: SvgPicture.asset(
+                  Images.get_started_bg,
+
+                  // matchTextDirection: true,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: ColorResources.getPrimaryColor(context)),
-                height: 60,
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        shadowColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent),
-                        elevation: MaterialStateProperty.all(6),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ))),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpScreen()));
-                    },
-                    child: Row(
-                      //mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(width: 90),
-                        Text(
-                          "Get Started",
-                          style: poppinsSemiBold.copyWith(fontSize: 18),
-                        ),
-                        SizedBox(
-                          width: 40,
-                        ),
-                        Icon(Icons.login),
-                      ],
-                    )),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              Material(
+                borderRadius: BorderRadius.circular(30),
+                color: ColorResources.getPrimaryColor(context),
+                elevation: 7,
+                child: Container(
+                  height: 60,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          shadowColor: MaterialStateProperty.all<Color>(
+                              Colors.transparent),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.transparent),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder())),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUpScreen()));
+                      },
+                      child: Row(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(width: 90),
+                          Text(
+                            "Get Started",
+                            style: poppinsSemiBold.copyWith(fontSize: 18),
+                          ),
+                          SizedBox(
+                            width: 40,
+                          ),
+                          Icon(Icons.login),
+                        ],
+                      )),
+                ),
               ),
               SizedBox(
                 height: 10,
