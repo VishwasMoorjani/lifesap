@@ -26,6 +26,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -330,7 +331,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                       _countryDialCode,
                                                                       _email,
                                                                       context,
-                                                                      false);
+                                                                      false,
+                                                                      true);
                                                                 }
                                                               }
                                                             }
@@ -638,34 +640,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
 }
 
 void phoneVerification(String countryCode, String phoneNumber,
-    BuildContext context, bool isLogin) {
+    BuildContext context, bool isLogin, bool doNavigate) {
   FirebaseAuth _auth = FirebaseAuth.instance;
   _auth.verifyPhoneNumber(
       phoneNumber: countryCode + phoneNumber,
       // forceResendingToken: forceResendToken,
       verificationCompleted: (PhoneAuthCredential credential) {
         _auth.signInWithCredential(credential).then((result) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => NavigatorScreen()));
+          if (doNavigate) {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => NavigatorScreen()));
+          }
         }).catchError((onError) {
           log(onError);
         });
       },
       verificationFailed: (FirebaseAuthException exception) {
         log(exception.message);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => OtpVerification(exception.message,
-                    exception.message, exception.message, isLogin)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(exception.message)));
       },
       codeSent: (String verificationID, var forceResendingToken) {
         log(forceResendingToken.toString());
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => OtpVerification(
-                    verificationID, countryCode, phoneNumber, isLogin)));
+        if (doNavigate) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => OtpVerification(
+                      verificationID, countryCode, phoneNumber, isLogin)));
+        }
       },
-      codeAutoRetrievalTimeout: (String s) {});
+      codeAutoRetrievalTimeout: (String verificationID) {});
 }

@@ -6,6 +6,7 @@ import 'package:flutter_grocery/utill/dimensions.dart';
 import 'package:flutter_grocery/view/base/custom_text_field.dart';
 import 'package:flutter_grocery/view/screens/auth/create_account_screen.dart';
 import 'package:flutter_grocery/utill/styles.dart';
+import 'package:flutter_grocery/view/screens/auth/signup_screen.dart';
 import 'package:flutter_grocery/view/screens/auth/widget/code_picker_widget.dart';
 import 'package:provider/provider.dart';
 import '../../../helper/email_checker.dart';
@@ -107,7 +108,10 @@ class _OtpVerificationState extends State<OtpVerification> {
                             fontSize: 10,
                             color: ColorResources.getPrimaryColor(context)),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        phoneVerification(widget.countryCode,
+                            widget.phoneNumber, context, false, false);
+                      },
                     )
                   ],
                 ),

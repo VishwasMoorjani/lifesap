@@ -49,6 +49,7 @@ dependencies:
   firebase_auth: 
   font_awesome_flutter: ^9.2.0
   flutter_svg: 
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:

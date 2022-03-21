@@ -429,7 +429,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     String _email =
                                         _emailController.text.trim();
                                     phoneVerification(_countryDialCode, _email,
-                                        context, true);
+                                        context, true, false);
                                   },
                                   child: Text(
                                     'Login with OTP',
