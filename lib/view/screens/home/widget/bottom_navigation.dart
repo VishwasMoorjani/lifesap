@@ -14,7 +14,7 @@ class NavigatorScreen extends StatefulWidget {
 }
 
 class _NavigatorScreenState extends State<NavigatorScreen> {
-  int current_index = 0;
+  int current_index = 4;
   final screens = [
     HomeScreen(),
     AllCategoryScreen(),
@@ -31,7 +31,7 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 9,
         unselectedFontSize: 9,
-        type: BottomNavigationBarType.fixed,
+        // type: BottomNavigationBarType.fixed,
         selectedItemColor: Color.fromRGBO(118, 149, 216, 1),
         unselectedItemColor: Colors.black,
         showUnselectedLabels: true,

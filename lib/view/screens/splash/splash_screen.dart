@@ -157,7 +157,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           borderRadius: BorderRadius.circular(50),
                         ))),
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => SignUpScreen()));

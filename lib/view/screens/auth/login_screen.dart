@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/helper/email_checker.dart';
@@ -285,8 +287,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Row(
                                 children: [
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.6001,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
                                   ),
                                   Text(
                                     getTranslated('forgot_password', context),
@@ -392,6 +394,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 .saveUserNumberAndPassword(
                                                     _emailController.text,
                                                     _password);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NavigatorScreen()));
                                           } else {
                                             authProvider
                                                 .clearUserNumberAndPassword();
@@ -401,11 +408,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                           //     RouteHelper.menu,
                                           //     (route) => false,
                                           //     arguments: MenuScreen());
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      NavigatorScreen()));
+                                          // Navigator.pushReplacement(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             NavigatorScreen()));
                                         }
                                       });
                                     }
@@ -428,8 +435,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onTap: () {
                                     String _email =
                                         _emailController.text.trim();
+                                    log(_email);
                                     phoneVerification(_countryDialCode, _email,
-                                        context, true, false);
+                                        context, true, true);
                                   },
                                   child: Text(
                                     'Login with OTP',
