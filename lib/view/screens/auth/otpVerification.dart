@@ -172,9 +172,14 @@ class _OtpVerificationState extends State<OtpVerification> {
                                 MaterialPageRoute(
                                     builder: (contex) => NavigatorScreen()));
                           } else {
-                            Navigator.of(context).pushNamed(
-                                RouteHelper.createAccount,
-                                arguments: CreateAccountScreen());
+                            // Navigator.of(context).pushNamed(
+                            //     RouteHelper.createAccount,
+                            //     arguments: CreateAccountScreen());
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (contex) =>
+                                        CreateAccountScreen()));
                           }
                           // Navigator.pushReplacement(
                           //     context,

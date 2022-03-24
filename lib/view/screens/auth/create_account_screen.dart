@@ -303,11 +303,16 @@ class CreateAccountScreen extends StatelessWidget {
                                         .registration(signUpModel)
                                         .then((status) async {
                                       if (status.isSuccess) {
-                                        Navigator.pushNamedAndRemoveUntil(
+                                        // Navigator.pushNamedAndRemoveUntil(
+                                        //     context,
+                                        //     RouteHelper.menu,
+                                        //     (route) => false,
+                                        //     arguments: MenuScreen());
+                                        Navigator.pushReplacement(
                                             context,
-                                            RouteHelper.menu,
-                                            (route) => false,
-                                            arguments: MenuScreen());
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavigatorScreen()));
                                       }
                                     });
                                   }

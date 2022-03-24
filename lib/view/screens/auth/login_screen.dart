@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -283,6 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ],
                                   ),*/
 
+<<<<<<< HEAD
                       InkWell(
                         onTap: () {
                           Navigator.of(context).pushNamed(
@@ -293,6 +296,35 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.5,
+=======
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  RouteHelper.forgetPassword,
+                                  arguments: ForgotPasswordScreen());
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                  ),
+                                  Text(
+                                    getTranslated('forgot_password', context),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline2
+                                        .copyWith(
+                                            fontSize:
+                                                Dimensions.FONT_SIZE_SMALL,
+                                            color: ColorResources.getYellow(
+                                                context)),
+                                  ),
+                                ],
+                              ),
+>>>>>>> 3b57e1712f6f667858a8cf26aa2ec38753618586
                             ),
                             Text(
                               getTranslated('forgot_password', context),
@@ -395,6 +427,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         authProvider
                                             .clearUserNumberAndPassword();
                                       }
+<<<<<<< HEAD
                                       // Navigator.pushNamedAndRemoveUntil(
                                       //     context,
                                       //     RouteHelper.menu,
@@ -405,6 +438,59 @@ class _LoginScreenState extends State<LoginScreen> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   NavigatorScreen()));
+=======
+                                    } else if (Provider.of<SplashProvider>(
+                                                context,
+                                                listen: false)
+                                            .configModel
+                                            .emailVerification &&
+                                        EmailChecker.isNotValid(_email)) {
+                                      showCustomSnackBar(
+                                          getTranslated(
+                                              'enter_valid_email', context),
+                                          context);
+                                    } else if (_password.isEmpty) {
+                                      showCustomSnackBar(
+                                          getTranslated(
+                                              'enter_password', context),
+                                          context);
+                                    } else if (_password.length < 6) {
+                                      showCustomSnackBar(
+                                          getTranslated(
+                                              'password_should_be', context),
+                                          context);
+                                    } else {
+                                      authProvider
+                                          .login(_email, _password)
+                                          .then((status) async {
+                                        if (status.isSuccess) {
+                                          if (authProvider.isActiveRememberMe) {
+                                            authProvider
+                                                .saveUserNumberAndPassword(
+                                                    _emailController.text,
+                                                    _password);
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NavigatorScreen()));
+                                          } else {
+                                            authProvider
+                                                .clearUserNumberAndPassword();
+                                          }
+                                          // Navigator.pushNamedAndRemoveUntil(
+                                          //     context,
+                                          //     RouteHelper.menu,
+                                          //     (route) => false,
+                                          //     arguments: MenuScreen());
+                                          // Navigator.pushReplacement(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             NavigatorScreen()));
+                                        }
+                                      });
+>>>>>>> 3b57e1712f6f667858a8cf26aa2ec38753618586
                                     }
                                   });
                                 }
@@ -416,8 +502,37 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Theme.of(context).primaryColor),
                             )),
 
+<<<<<<< HEAD
                       // for create an account
                       // SizedBox(height: 20),
+=======
+                          // for create an account
+                          SizedBox(height: 20),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    String _email =
+                                        _emailController.text.trim();
+                                    log(_email);
+                                    phoneVerification(_countryDialCode, _email,
+                                        context, true, true);
+                                  },
+                                  child: Text(
+                                    'Login with OTP',
+                                    style: poppinsRegular.copyWith(
+                                        fontSize: Dimensions.FONT_SIZE_SMALL,
+                                        color: ColorResources.getHintColor(
+                                            context)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+>>>>>>> 3b57e1712f6f667858a8cf26aa2ec38753618586
 
                       InkWell(
                         onTap: () {

@@ -669,8 +669,9 @@ void phoneVerification(String countryCode, String phoneNumber,
       },
       verificationFailed: (FirebaseAuthException exception) {
         log(exception.message);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(exception.message)));
+        // ScaffoldMessenger.of(context)
+        //     .showSnackBar(SnackBar(content: Text(exception.message)));
+        showCustomSnackBar(exception.message, context);
       },
       codeSent: (String verificationID, var forceResendingToken) {
         log(forceResendingToken.toString());

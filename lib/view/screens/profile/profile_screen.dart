@@ -11,6 +11,8 @@ import 'package:flutter_grocery/utill/images.dart';
 import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/base/main_app_bar.dart';
 import 'package:flutter_grocery/view/base/not_login_screen.dart';
+import 'package:flutter_grocery/view/screens/auth/login_screen.dart';
+import 'package:flutter_grocery/view/screens/home/widget/bottom_navigation.dart';
 import 'package:flutter_grocery/view/screens/menu/menu_screen.dart';
 import 'package:flutter_grocery/view/screens/menu/widget/custom_drawer.dart';
 import 'package:flutter_grocery/view/screens/profile/profile_edit_screen.dart';
@@ -200,6 +202,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   Dimensions.FONT_SIZE_DEFAULT),
                                         ),
                                         Divider(),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          NavigatorScreen())));
+                                            },
+                                            child: Text('push')),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          LoginScreen())));
+                                            },
+                                            child: Text('push2'))
                                       ],
                                     ),
                                   ),
