@@ -101,114 +101,115 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         key: _globalKey,
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  alignment: Alignment.bottomRight,
-                  image: AssetImage(Images.bg_vector),
-                  fit: BoxFit.fitWidth)),
-          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 8),
-          child: Center(
-            child: Column(children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 90,
-                      width: 80,
-                      child: Image(
-                        image: AssetImage(Images.app_logo),
-                      ),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 80,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.9,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage(Images.get_started_bg),
+                fit: BoxFit.fill,
+              )),
+              child: Center(
+                child: Column(children: [
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 80,
+                          child: Image(
+                            image: AssetImage(Images.app_logo),
+                          ),
+                        ),
+                        Text(AppConstants.APP_NAME,
+                            style: poppinsBold.copyWith(
+                                fontSize: 40, color: Color(0xFF7187A8)))
+                      ],
                     ),
-                    Text(AppConstants.APP_NAME,
-                        style: poppinsBold.copyWith(
-                            fontSize: 35,
-                            color: ColorResources.getPrimaryColor(context)))
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: Image(
-                  image: AssetImage(Images.app_logo),
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: ColorResources.getPrimaryColor(context)),
-                height: 60,
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        shadowColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent),
-                        elevation: MaterialStateProperty.all(6),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ))),
-                    onPressed: () {
-                      Navigator.push(
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.58),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: ColorResources.getPrimaryColor(context)),
+                    height: 65,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            shadowColor: MaterialStateProperty.all<Color>(
+                                Colors.transparent),
+                            elevation: MaterialStateProperty.all(6),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.transparent),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ))),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpScreen()));
+                        },
+                        child: Row(
+                          //mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(width: 60),
+                            Text(
+                              "Get Started",
+                              style: poppinsSemiBold.copyWith(fontSize: 22),
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Icon(Icons.login),
+                          ],
+                        )),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => LoginScreen()));
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignUpScreen()));
+                              builder: ((context) => LoginScreen())));
                     },
                     child: Row(
-                      //mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(width: 90),
                         Text(
-                          "Get Started",
-                          style: poppinsSemiBold.copyWith(fontSize: 18),
+                          getTranslated('already_have_account', context),
+                          style: poppinsMedium.copyWith(
+                              fontSize: Dimensions.FONT_SIZE_SMALL,
+                              color: ColorResources.getHintColor(context)),
                         ),
-                        SizedBox(
-                          width: 40,
+                        SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                        Text(
+                          getTranslated('login', context),
+                          style: poppinsMedium.copyWith(
+                              decoration: TextDecoration.underline,
+                              fontSize: 12,
+                              color: ColorResources.getPrimaryColor(context)),
                         ),
-                        Icon(Icons.login),
                       ],
-                    )),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                onTap: () {
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => LoginScreen()));
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: ((context) => LoginScreen())));
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      getTranslated('already_have_account', context),
-                      style: poppinsMedium.copyWith(
-                          fontSize: Dimensions.FONT_SIZE_SMALL,
-                          color: ColorResources.getHintColor(context)),
                     ),
-                    SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                    Text(
-                      getTranslated('login', context),
-                      style: poppinsMedium.copyWith(
-                          decoration: TextDecoration.underline,
-                          fontSize: 12,
-                          color: ColorResources.getPrimaryColor(context)),
-                    ),
-                  ],
-                ),
-              )
-            ]),
-          ),
+                  )
+                ]),
+              ),
+            ),
+          ],
         ));
   }
 }

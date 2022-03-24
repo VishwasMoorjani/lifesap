@@ -48,6 +48,10 @@ class Images {
   static const String wallet = 'assets/image/wallet.png';
   static const String delivery_truck = 'assets/image/deliverytruck.png';
   static const String male_doctor = 'assets/image/maledoctor.png';
-  static const String get_started_bg = 'assets/image/get started bg.svg';
-  static const String bg_vector = 'assets/image/bg vector.png';
+  static const String get_started_bg = 'assets/image/get_started_bg.jpg';
+  static const String otp_verification_bg =
+      'assets/image/otp_verification_bg.jpg';
+  static const String login_page_bg = 'assets/image/login_page_bg.jpg';
+  static const String register_page_bg = 'assets/image/register_page_bg.jpg';
+  static const String password = 'assets/image/password.png';
 }

@@ -57,7 +57,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     double _width = MediaQuery.of(context).size.width;
 
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       child: Scaffold(
         appBar: ResponsiveHelper.isDesktop(context) ? MainAppBar() : null,
         body: SafeArea(
@@ -82,18 +84,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               fit: BoxFit.scaleDown,
                             ),
                           ),
-                          SizedBox(height: 20),
+                          SizedBox(height: 40),
                           Text(
                             AppConstants.APP_NAME,
                             style: poppinsBold.copyWith(
-                                fontSize: 16,
+                                fontSize: 20,
                                 color: ColorResources.getPrimaryColor(context)),
                           ),
                         ],
                       ),
                       SizedBox(height: 30),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.35,
                         child: Card(
                             elevation: 6,
                             shape: RoundedRectangleBorder(
@@ -139,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   style: poppinsRegular.copyWith(
                                       color: ColorResources.getHintColor(context)),
                                 ),*/
-                              SizedBox(height: 30),
+                              SizedBox(height: 40),
                               /*Provider.of<SplashProvider>(context,
                                         listen: false)
                                     .configModel
@@ -168,6 +170,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     .width *
                                                 0.5,
                                             child: TextField(
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  //authProvider = null;
+                                                });
+                                              },
                                               decoration: InputDecoration(
                                                   prefixIcon: CodePickerWidget(
                                                     onChanged: (CountryCode
@@ -332,7 +339,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                       _email,
                                                                       context,
                                                                       false,
-                                                                      true);
+                                                                      true,
+                                                                      false);
                                                                 }
                                                               }
                                                             }
@@ -393,8 +401,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   children: [
                                     authProvider.verificationMessage.length > 0
                                         ? CircleAvatar(
-                                            backgroundColor:
-                                                Theme.of(context).primaryColor,
+                                            backgroundColor: Colors.transparent,
                                             radius: 5)
                                         : SizedBox.shrink(),
                                     Text(
@@ -405,8 +412,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           .copyWith(
                                             fontSize:
                                                 Dimensions.FONT_SIZE_SMALL,
-                                            color:
-                                                Theme.of(context).primaryColor,
+                                            color: Colors.red,
                                           ),
                                     ),
                                   ],
@@ -414,7 +420,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               Positioned(
                                 left: 14,
-                                top: MediaQuery.of(context).size.height * 0.21,
+                                top: MediaQuery.of(context).size.height * 0.22,
                                 child: Row(
                                   children: [
                                     Checkbox(
@@ -427,6 +433,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             isChecked = value;
                                           });
                                         }),
+                                    !isChecked &&
+                                            (authProvider
+                                                .isPhoneNumberVerificationButtonLoading)
+                                        ? Text("Please agree to tnc")
+                                        : Text(""),
                                     RichText(
                                       text: TextSpan(
                                           style: poppinsSemiBold.copyWith(
@@ -626,7 +637,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       Theme.of(context).primaryColor))),
     */
                       // for create an account
-                      SizedBox(height: 10),
+                      // SizedBox(height: 10),
                     ],
                   ),
                 ),
@@ -640,8 +651,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 }
 
 void phoneVerification(String countryCode, String phoneNumber,
-    BuildContext context, bool isLogin, bool doNavigate) {
+    BuildContext context, bool isLogin, bool doNavigate, bool enableresend) {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  enableresend = false;
   _auth.verifyPhoneNumber(
       phoneNumber: countryCode + phoneNumber,
       // forceResendingToken: forceResendToken,

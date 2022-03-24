@@ -16,7 +16,7 @@ class CustomDrawer extends StatefulWidget {
   CustomDrawer({
     this.controller,
     @required this.menuScreen,
-    @required this.profileScreen,
+    @required this.mainScreen,
     this.slideWidth = 275.0,
     this.borderRadius = 16.0,
     this.angle = -12.0,
@@ -28,7 +28,7 @@ class CustomDrawer extends StatefulWidget {
 
   final CustomDrawerController controller;
   final Widget menuScreen;
-  final Widget profileScreen;
+  final Widget mainScreen;
   final double slideWidth;
   final double borderRadius;
   final double angle;
@@ -231,7 +231,7 @@ class _CustomDrawerState extends State<CustomDrawer>
         AnimatedBuilder(
           animation: _animationController,
           builder: (_, w) => _zoomAndSlideContent(w, context),
-          child: widget.profileScreen,
+          child: widget.mainScreen,
         ),
       ],
     );

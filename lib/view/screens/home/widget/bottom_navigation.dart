@@ -20,9 +20,7 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
     AllCategoryScreen(),
     AllCategoryScreen(),
     NotificationScreen(),
-    ProfileScreen(
-      drawerController: null,
-    )
+    ProfileScreen()
   ];
   @override
   Widget build(BuildContext context) {

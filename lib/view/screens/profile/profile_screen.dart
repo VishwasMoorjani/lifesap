@@ -18,8 +18,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_grocery/provider/splash_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final CustomDrawerController drawerController;
-  ProfileScreen({@required this.drawerController});
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }

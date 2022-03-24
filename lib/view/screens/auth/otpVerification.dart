@@ -22,6 +22,7 @@ import '../forgot_password/verification_screen.dart';
 import '../home/widget/bottom_navigation.dart';
 // import 'package:universal_html/html.dart';
 import 'package:flutter_grocery/utill/color_resources.dart';
+import 'dart:async';
 
 class OtpVerification extends StatefulWidget {
   var verificationID;
@@ -30,12 +31,32 @@ class OtpVerification extends StatefulWidget {
   var islogin;
   OtpVerification(
       this.verificationID, this.countryCode, this.phoneNumber, this.islogin);
-  @override
+
   @override
   State<OtpVerification> createState() => _OtpVerificationState();
 }
 
 class _OtpVerificationState extends State<OtpVerification> {
+  int secondsRemaining = 30;
+  bool enableResend = false;
+  Timer timer;
+
+  @override
+  initState() {
+    super.initState();
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
+      if (secondsRemaining != 0) {
+        setState(() {
+          secondsRemaining--;
+        });
+      } else {
+        setState(() {
+          enableResend = true;
+        });
+      }
+    });
+  }
+
   TextEditingController otpController = TextEditingController();
   final TextEditingController _fieldOne = TextEditingController();
   final TextEditingController _fieldTwo = TextEditingController();
@@ -109,8 +130,10 @@ class _OtpVerificationState extends State<OtpVerification> {
                             color: ColorResources.getPrimaryColor(context)),
                       ),
                       onTap: () {
-                        phoneVerification(widget.countryCode,
-                            widget.phoneNumber, context, false, false);
+                        enableResend
+                            ? phoneVerification(widget.countryCode,
+                                widget.phoneNumber, context, false, false, true)
+                            : null;
                       },
                     )
                   ],

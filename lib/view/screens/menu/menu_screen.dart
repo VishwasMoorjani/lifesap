@@ -32,7 +32,7 @@ class _MenuScreenState extends State<MenuScreen> {
     return CustomDrawer(
       controller: _drawerController,
       menuScreen: MenuWidget(drawerController: _drawerController),
-      profileScreen: ProfileScreen(drawerController: _drawerController),
+      mainScreen: MainScreen(),
       showShadow: false,
       angle: 0.0,
       borderRadius: 30,
@@ -100,11 +100,9 @@ class MenuWidget extends StatelessWidget {
                               Expanded(
                                 child: ListTile(
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed(RouteHelper.profile,
-                                            arguments: ProfileScreen(
-                                              drawerController: null,
-                                            ));
+                                    Navigator.of(context).pushNamed(
+                                        RouteHelper.profile,
+                                        arguments: ProfileScreen());
                                   },
                                   leading: ClipOval(
                                     child: _isLoggedIn

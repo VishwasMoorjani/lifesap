@@ -24,7 +24,7 @@ class CustomTextField extends StatefulWidget {
   final Function onTap;
   final Function onSuffixTap;
   final IconData suffixIconUrl;
-  final IconData prefixIconUrl;
+  final String prefixIconUrl;
   final bool isSearch;
   final Function onSubmit;
   final bool isEnabled;
@@ -73,25 +73,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: widget.isElevation
-                ? Colors.grey[
-                    Provider.of<ThemeProvider>(context).darkTheme ? 700 : 200]
-                : Colors.transparent,
-            spreadRadius: 0.5,
-            blurRadius: 0.5,
-            // changes position of shadow
-          ),
-        ],
       ),
       child: TextField(
         maxLines: widget.maxLines,
         controller: widget.controller,
         focusNode: widget.focusNode,
         style: Theme.of(context).textTheme.headline2.copyWith(
-            color: Theme.of(context).textTheme.bodyText1.color,
-            fontSize: Dimensions.FONT_SIZE_LARGE),
+            color: Colors.black, fontSize: Dimensions.FONT_SIZE_LARGE),
         textInputAction: widget.inputAction,
         keyboardType: widget.inputType,
         cursorColor: Theme.of(context).primaryColor,
@@ -106,37 +94,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ]
             : null,
         decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: ColorResources.getPrimaryColor(context), width: 2.0),
-            borderRadius: BorderRadius.circular(7.0),
-          ),
           contentPadding: EdgeInsets.symmetric(
               vertical: 10, horizontal: widget.isPadding ? 22 : 0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(7.0),
-            borderSide: BorderSide(
-                style: BorderStyle.none, width: widget.isShowBorder ? 1 : 0),
-          ),
           isDense: true,
           hintText: widget.hintText,
-          fillColor: widget.fillColor != null
-              ? widget.fillColor
-              : ColorResources.getCardBgColor(context),
+          fillColor: null,
           hintStyle: poppinsLight.copyWith(
               fontSize: Dimensions.FONT_SIZE_LARGE,
               color: ColorResources.getHintColor(context)),
-          filled: true,
-          prefixIcon: widget.isShowPrefixIcon
-              ? IconButton(
-                  padding: EdgeInsets.all(0),
-                  icon: Icon(
-                    widget.prefixIconUrl,
-                    color: ColorResources.getTextColor(context),
-                  ),
-                  onPressed: () {},
-                )
-              : SizedBox.shrink(),
+          filled: false,
+          prefixIcon: IconButton(
+            padding: EdgeInsets.all(0),
+            icon: Image.asset(
+              '${widget.prefixIconUrl}',
+            ),
+            onPressed: () {},
+          ),
           prefixIconConstraints: BoxConstraints(minWidth: 23, maxHeight: 20),
           suffixIcon: widget.isShowSuffixIcon
               ? widget.isPassword
