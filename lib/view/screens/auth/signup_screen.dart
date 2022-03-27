@@ -420,7 +420,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               Positioned(
                                 left: 14,
-                                top: MediaQuery.of(context).size.height * 0.22,
+                                top: MediaQuery.of(context).size.height * 0.24,
                                 child: Row(
                                   children: [
                                     Checkbox(
@@ -503,21 +503,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ListTile(
-                            title: Text(
-                              "Express Medicine Delivery",
-                              style: poppinsBold.copyWith(
-                                  fontSize: 12,
-                                  color:
-                                      ColorResources.getPrimaryColor(context)),
-                            ),
-                            subtitle: Text(
-                              "5 Lakh happy customers every day",
-                              style: poppinsBold.copyWith(
-                                  fontSize: 10, color: Colors.grey),
-                            ),
-                            leading: Image(
-                              image: AssetImage(Images.delivery_truck),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              title: Text(
+                                "Express Medicine Delivery",
+                                style: poppinsBold.copyWith(
+                                    fontSize: 12,
+                                    color: ColorResources.getPrimaryColor(
+                                        context)),
+                              ),
+                              subtitle: Text(
+                                "5 Lakh happy customers every day",
+                                style: poppinsBold.copyWith(
+                                    fontSize: 10, color: Colors.grey),
+                              ),
+                              leading: Image(
+                                image: AssetImage(Images.delivery_truck),
+                              ),
                             ),
                           ),
                           ListTile(

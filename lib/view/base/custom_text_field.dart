@@ -79,10 +79,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
         controller: widget.controller,
         focusNode: widget.focusNode,
         style: Theme.of(context).textTheme.headline2.copyWith(
-            color: Colors.black, fontSize: Dimensions.FONT_SIZE_LARGE),
+            color: Colors.white, fontSize: Dimensions.FONT_SIZE_LARGE),
         textInputAction: widget.inputAction,
         keyboardType: widget.inputType,
-        cursorColor: Theme.of(context).primaryColor,
+        cursorColor: Colors.white,
         textCapitalization: widget.capitalization,
         enabled: widget.isEnabled,
         autofocus: false,
@@ -97,11 +97,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
           contentPadding: EdgeInsets.symmetric(
               vertical: 10, horizontal: widget.isPadding ? 22 : 0),
           isDense: true,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 2),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
           hintText: widget.hintText,
           fillColor: null,
-          hintStyle: poppinsLight.copyWith(
+          hintStyle: poppinsMedium.copyWith(
               fontSize: Dimensions.FONT_SIZE_LARGE,
-              color: ColorResources.getHintColor(context)),
+              color: Colors.white.withOpacity(0.45)),
           filled: false,
           prefixIcon: IconButton(
             padding: EdgeInsets.all(0),

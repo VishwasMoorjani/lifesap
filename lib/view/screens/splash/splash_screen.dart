@@ -134,7 +134,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                 fontSize: 40, color: Color(0xFF7187A8)))
                       ],
                     ),
-<<<<<<< HEAD
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.58),
                   Container(
@@ -182,43 +181,6 @@ class _SplashScreenState extends State<SplashScreen> {
                     onTap: () {
                       // Navigator.push(context,
                       //     MaterialPageRoute(builder: (context) => LoginScreen()));
-=======
-                    Text(AppConstants.APP_NAME,
-                        style: poppinsBold.copyWith(
-                            fontSize: 35,
-                            color: ColorResources.getPrimaryColor(context)))
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.5,
-                child: Image(
-                  image: AssetImage(Images.app_logo),
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: ColorResources.getPrimaryColor(context)),
-                height: 60,
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        shadowColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent),
-                        elevation: MaterialStateProperty.all(6),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ))),
-                    onPressed: () {
->>>>>>> 3b57e1712f6f667858a8cf26aa2ec38753618586
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

@@ -54,4 +54,6 @@ class Images {
   static const String login_page_bg = 'assets/image/login_page_bg.jpg';
   static const String register_page_bg = 'assets/image/register_page_bg.jpg';
   static const String password = 'assets/image/password.png';
+  static const String mail = 'assets/image/mail.png';
+  static const String user = 'assets/image/user.png';
 }
