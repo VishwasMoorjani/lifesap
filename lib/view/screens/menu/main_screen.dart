@@ -18,11 +18,13 @@ import 'package:flutter_grocery/view/screens/category/all_category_screen.dart';
 import 'package:flutter_grocery/view/screens/chat/chat_screen.dart';
 import 'package:flutter_grocery/view/screens/coupon/coupon_screen.dart';
 import 'package:flutter_grocery/view/screens/home/home_screen.dart';
+import 'package:flutter_grocery/view/screens/home/widget/bottom_navigation.dart';
 import 'package:flutter_grocery/view/screens/html/html_viewer_screen.dart';
 import 'package:flutter_grocery/view/screens/menu/widget/custom_drawer.dart';
 import 'package:flutter_grocery/view/screens/order/my_order_screen.dart';
 import 'package:flutter_grocery/view/screens/settings/setting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:universal_html/js_util.dart';
 
 class MainScreen extends StatefulWidget {
   /* final CustomDrawerController drawerController;
@@ -79,14 +81,15 @@ class _MainScreenState extends State<MainScreen> {
     ];
   }
 
+  NavigatorScreen nav = newObject();
   @override
   Widget build(BuildContext context) {
     return Consumer<SplashProvider>(
       builder: (context, splash, child) {
         return WillPopScope(
           onWillPop: () async {
-            if (splash.pageIndex != 0) {
-              splash.setPageIndex(0);
+            if (nav.current_index != 0) {
+              nav.current_index = 0;
               return false;
             } else {
               return true;
@@ -184,7 +187,9 @@ class _MainScreenState extends State<MainScreen> {
                                 ]
                               : null,
                     ),*/
-              body: _screens[splash.pageIndex],
+              body: NavigatorScreen(
+                current_index: 0,
+              ),
             ),
           ),
         );

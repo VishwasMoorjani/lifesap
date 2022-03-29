@@ -202,24 +202,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   Dimensions.FONT_SIZE_DEFAULT),
                                         ),
                                         Divider(),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: ((context) =>
-                                                          NavigatorScreen())));
-                                            },
-                                            child: Text('push')),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: ((context) =>
-                                                          LoginScreen())));
-                                            },
-                                            child: Text('push2'))
                                       ],
                                     ),
                                   ),

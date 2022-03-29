@@ -70,12 +70,21 @@ class _OtpVerificationState extends State<OtpVerification> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         // body: Text('yay!!' + widget.verificationID),
-        body: Padding(
+        body: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(Images.otp_verification_bg),
+                  fit: BoxFit.fitHeight)),
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: 200,
+                ),
                 Text(("OTP Verification"),
                     style: poppinsBold.copyWith(
                         fontSize: 18,
@@ -101,6 +110,9 @@ class _OtpVerificationState extends State<OtpVerification> {
                 /*  CustomTextField(
                   controller: otpController,
                 ),*/
+                SizedBox(
+                  height: 30,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -138,8 +150,12 @@ class _OtpVerificationState extends State<OtpVerification> {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: 120,
+                ),
                 Container(
-                  height: 50,
+                  height: 60,
+                  padding: EdgeInsets.symmetric(horizontal: 50),
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                       style: ButtonStyle(
@@ -170,7 +186,9 @@ class _OtpVerificationState extends State<OtpVerification> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (contex) => NavigatorScreen()));
+                                    builder: (contex) => NavigatorScreen(
+                                          current_index: 0,
+                                        )));
                           } else {
                             // Navigator.of(context).pushNamed(
                             //     RouteHelper.createAccount,

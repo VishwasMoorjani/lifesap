@@ -663,8 +663,12 @@ void phoneVerification(String countryCode, String phoneNumber,
       verificationCompleted: (PhoneAuthCredential credential) {
         _auth.signInWithCredential(credential).then((result) {
           if (doNavigate) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => NavigatorScreen()));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => NavigatorScreen(
+                          current_index: 0,
+                        )));
           }
         }).catchError((onError) {
           log(onError);

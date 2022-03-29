@@ -300,7 +300,9 @@ class CreateAccountScreen extends StatelessWidget {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          NavigatorScreen()));
+                                                          NavigatorScreen(
+                                                              current_index:
+                                                                  0)));
                                             }
                                           });
                                         }
@@ -367,7 +369,9 @@ class CreateAccountScreen extends StatelessWidget {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          NavigatorScreen()));
+                                                          NavigatorScreen(
+                                                            current_index: 0,
+                                                          )));
                                             }
                                           });
                                         }

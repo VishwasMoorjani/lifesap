@@ -406,7 +406,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  NavigatorScreen()));
+                                                  NavigatorScreen(
+                                                    current_index: 0,
+                                                  )));
                                     }
                                   });
                                 }
@@ -445,7 +447,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => NavigatorScreen()));
+                                    builder: (context) => NavigatorScreen(
+                                          current_index: 0,
+                                        )));
                             // Navigator.pushReplacementNamed(context, RouteHelper.menu, arguments: MenuScreen());
                           },
                           child: Text(
