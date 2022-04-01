@@ -49,7 +49,7 @@
   "previous": "Previous",
   "already_added": "Already Added",
   "add_to_card": "Add to Cart",
-  "welcome": "Welcome",
+  "welcome": "Welcome Back !",
   "login": "Login",
   "signup": "Register",
   "email": "Email",
@@ -61,7 +61,7 @@
   "password_hint": "••••••••••",
   "remember_me": "Remember me",
   "create_an_account": "Create an Account ?",
-  "already_have_account": "Already a member?",
+  "already_a_member": "Already a member?",
   "continue": "Continue",
   "forgot_password": "Forgot password?",
   "confirm_password": "Confirm Password",
@@ -259,5 +259,23 @@
   "delivery_fee_not_set_yet": "Delivery fee not set yet",
   "continue_checkout": "Continue Checkout",
   "failed_to_fetch_distance": "Failed to fetch distance",
-  "delivery_fee_from_your_selected_address_to_branch": "Delivery fee from your selected address to branch"
+  "delivery_fee_from_your_selected_address_to_branch": "Delivery fee from your selected address to branch",
+  "get_started":"Get Started",
+  "message":"Please enter your phone number to get access\nto Lifesap Doctors and Lifesap pharmacy",
+  "otp_sent":"An OTP will be sent to this number",
+  "why_choose": "Why choose ",
+  "express_medicine_delivery":"Express Medicine Delivery",
+  "5_lakh_happy_customer":"5 lakh happy customers every day",
+  "consult_with_Lifesap_doctors":"Consult with Lifesap Doctors",
+  "7000+_doctors_available_online_in_15_min":"7000+ doctors available online in 15 minutes",
+"login_to_your_account":"Login to your account",
+"login_with_otp":"Login with OTP",
+"login_as_a_guest":"Login as a Guest",
+"otp_verification":"OTP Verification",
+"enter_the_otp_sent_to":"Enter the OTP sent to",
+"didnt_receive_otp":"Didn't receive OTP,",
+"resend_otp":"Resend OTP",
+"checkbox":"Please agree to TnC before proceeding"
+
+  
 }

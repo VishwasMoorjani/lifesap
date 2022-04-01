@@ -9,6 +9,12 @@ class ColorResources {
         : Color(0xFFE4EAEF);
   }
 
+  static Color getTitleColor(BuildContext context) {
+    return Provider.of<ThemeProvider>(context).darkTheme
+        ? Color(0xFFb2b8bd)
+        : Color(0xFF7187A8);
+  }
+
   static Color getPrimaryColor(BuildContext context) {
     return Provider.of<ThemeProvider>(context).darkTheme
         ? Color(0xFF7594D8)

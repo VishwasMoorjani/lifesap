@@ -106,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Column(
           children: [
             SizedBox(
-              height: 80,
+              height: MediaQuery.of(context).size.height * 0.1,
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.9,
@@ -114,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
               decoration: BoxDecoration(
                   image: DecorationImage(
                 image: AssetImage(Images.get_started_bg),
-                fit: BoxFit.fill,
+                fit: BoxFit.fitHeight,
               )),
               child: Center(
                 child: Column(children: [
@@ -131,7 +131,8 @@ class _SplashScreenState extends State<SplashScreen> {
                         ),
                         Text(AppConstants.APP_NAME,
                             style: poppinsBold.copyWith(
-                                fontSize: 40, color: Color(0xFF7187A8)))
+                                fontSize: 40,
+                                color: ColorResources.getTitleColor(context)))
                       ],
                     ),
                   ),
@@ -140,7 +141,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: ColorResources.getPrimaryColor(context)),
-                    height: 65,
+                    height: MediaQuery.of(context).size.height * 0.08,
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: ElevatedButton(
                         style: ButtonStyle(
@@ -160,16 +161,18 @@ class _SplashScreenState extends State<SplashScreen> {
                                   builder: (context) => SignUpScreen()));
                         },
                         child: Row(
-                          //mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(width: 60),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.15),
                             Text(
-                              "Get Started",
+                              getTranslated('get_started', context),
                               style: poppinsSemiBold.copyWith(fontSize: 22),
                             ),
                             SizedBox(
-                              width: 30,
-                            ),
+                                width:
+                                    MediaQuery.of(context).size.width * 0.08),
                             Icon(Icons.login),
                           ],
                         )),
@@ -190,7 +193,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          getTranslated('already_have_account', context),
+                          getTranslated('already_a_member', context),
                           style: poppinsMedium.copyWith(
                               fontSize: Dimensions.FONT_SIZE_SMALL,
                               color: ColorResources.getHintColor(context)),

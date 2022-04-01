@@ -81,19 +81,13 @@ class _MainScreenState extends State<MainScreen> {
     ];
   }
 
-  NavigatorScreen nav = newObject();
   @override
   Widget build(BuildContext context) {
     return Consumer<SplashProvider>(
       builder: (context, splash, child) {
         return WillPopScope(
           onWillPop: () async {
-            if (nav.current_index != 0) {
-              nav.current_index = 0;
-              return false;
-            } else {
-              return true;
-            }
+            return false;
           },
           child: Consumer<LocationProvider>(
             builder: (context, locationProvider, child) => Scaffold(
@@ -187,9 +181,7 @@ class _MainScreenState extends State<MainScreen> {
                                 ]
                               : null,
                     ),*/
-              body: NavigatorScreen(
-                current_index: 0,
-              ),
+              body: NavigatorScreen(),
             ),
           ),
         );

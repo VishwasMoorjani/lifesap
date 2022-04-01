@@ -39,6 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _emailFocus = FocusNode();
   bool email = true;
   bool phone = false;
+  int counter = 0;
   String _countryDialCode = '+880';
   @override
   void initState() {
@@ -61,7 +62,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       child: Scaffold(
-        appBar: ResponsiveHelper.isDesktop(context) ? MainAppBar() : null,
         body: SafeArea(
           child: Scrollbar(
             child: SingleChildScrollView(
@@ -76,24 +76,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Row(
                         children: [
                           Container(
-                            width: 60,
-                            height: 60,
+                            width: 70,
+                            height: 70,
                             child: Image.asset(
                               Images.app_logo,
                               height: MediaQuery.of(context).size.height / 9,
                               fit: BoxFit.scaleDown,
                             ),
                           ),
-                          SizedBox(height: 40),
-                          Text(
-                            AppConstants.APP_NAME,
-                            style: poppinsBold.copyWith(
-                                fontSize: 20,
-                                color: ColorResources.getPrimaryColor(context)),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.01,
                           ),
+                          Text(AppConstants.APP_NAME,
+                              style: poppinsBold.copyWith(
+                                  fontSize: 22,
+                                  color:
+                                      ColorResources.getTitleColor(context))),
                         ],
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.35,
                         child: Card(
@@ -118,11 +120,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                     padding: EdgeInsets.all(
                                         Dimensions.PADDING_SIZE_SMALL),
-                                    height: 66,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.085,
                                     //color: ColorResources.getPrimaryColor(context),
                                     // width: MediaQuery.of(context).size.width * 0.7,
                                     child: Text(
-                                      "Please enter your phone number to get access\nto Lifesap Doctors and Lifesap pharmacy",
+                                      getTranslated('message', context),
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 12),
                                       textAlign: TextAlign.center,
@@ -141,7 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   style: poppinsRegular.copyWith(
                                       color: ColorResources.getHintColor(context)),
                                 ),*/
-                              SizedBox(height: 40),
+
                               /*Provider.of<SplashProvider>(context,
                                         listen: false)
                                     .configModel
@@ -156,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )
                                 :*/
                               Positioned(
-                                left: 30,
+                                left: MediaQuery.of(context).size.width * 0.08,
                                 child: Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.25,
@@ -221,6 +224,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             ? MaterialButton(
                                                 elevation: 6,
                                                 onPressed: () {
+                                                  setState(() {
+                                                    counter = 1;
+                                                  });
+
                                                   String _email =
                                                       _emailController.text
                                                           .trim();
@@ -335,12 +342,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                 //         CreateAccountScreen());
                                                                 if (isChecked) {
                                                                   phoneVerification(
-                                                                      _countryDialCode,
-                                                                      _email,
-                                                                      context,
-                                                                      false,
-                                                                      true,
-                                                                      false);
+                                                                    _countryDialCode,
+                                                                    _email,
+                                                                    context,
+                                                                    false,
+                                                                    true,
+                                                                  );
                                                                 }
                                                               }
                                                             }
@@ -375,26 +382,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ]),
                                 ),
                               ),
-                              Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          Dimensions.PADDING_SIZE_LARGE),
-                                  child: Divider(height: 1)),
                               Positioned(
-                                  top: 130,
-                                  left: 30,
+                                  top:
+                                      MediaQuery.of(context).size.height * 0.16,
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.08,
                                   child: Text(
-                                    'An otp will be sent to this number',
+                                    getTranslated('otp_sent', context),
                                     style: poppinsSemiBold.copyWith(
                                         fontSize: 10,
                                         color: ColorResources.getPrimaryColor(
                                             context)),
                                   )),
-                              SizedBox(
-                                height: 20,
-                              ),
                               Positioned(
-                                left: 14,
+                                left: MediaQuery.of(context).size.width * 0.05,
                                 top: MediaQuery.of(context).size.height * 0.19,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -405,21 +406,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             radius: 5)
                                         : SizedBox.shrink(),
                                     Text(
-                                      authProvider.verificationMessage ?? "",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline2
-                                          .copyWith(
-                                            fontSize:
-                                                Dimensions.FONT_SIZE_SMALL,
-                                            color: Colors.red,
-                                          ),
+                                      authProvider.verificationMessage,
+                                      style: poppinsMedium.copyWith(
+                                        fontSize: Dimensions.FONT_SIZE_SMALL,
+                                        color: Colors.red,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                               Positioned(
-                                left: 14,
+                                left: MediaQuery.of(context).size.width * 0.08,
+                                top: MediaQuery.of(context).size.height * 0.3,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    !isChecked && (counter == 1)
+                                        ? Text(
+                                            getTranslated('checkbox', context),
+                                            style: poppinsMedium.copyWith(
+                                              fontSize:
+                                                  Dimensions.FONT_SIZE_SMALL,
+                                              color: Colors.red,
+                                            ),
+                                          )
+                                        : SizedBox.shrink(),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                left: MediaQuery.of(context).size.width * 0.04,
                                 top: MediaQuery.of(context).size.height * 0.24,
                                 child: Row(
                                   children: [
@@ -433,11 +449,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             isChecked = value;
                                           });
                                         }),
-                                    !isChecked &&
-                                            (authProvider
-                                                .isPhoneNumberVerificationButtonLoading)
-                                        ? Text("Please agree to tnc")
-                                        : Text(""),
                                     RichText(
                                       text: TextSpan(
                                           style: poppinsSemiBold.copyWith(
@@ -484,7 +495,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ])),
                       ),
                       SizedBox(
-                        height: 61,
+                        height: MediaQuery.of(context).size.height * 0.1,
                       ),
                       Row(
                         children: [
@@ -492,7 +503,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: 10,
                           ),
                           Text(
-                            "Why choose Lifesap?",
+                            getTranslated('why_choose', context) +
+                                AppConstants.APP_NAME +
+                                " ?",
                             style: poppinsBold.copyWith(
                                 fontSize: 18,
                                 color: ColorResources.getPrimaryColor(context)),
@@ -507,14 +520,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
                               title: Text(
-                                "Express Medicine Delivery",
+                                getTranslated(
+                                    'express_medicine_delivery', context),
                                 style: poppinsBold.copyWith(
                                     fontSize: 12,
                                     color: ColorResources.getPrimaryColor(
                                         context)),
                               ),
                               subtitle: Text(
-                                "5 Lakh happy customers every day",
+                                getTranslated('5_lakh_happy_customer', context),
                                 style: poppinsBold.copyWith(
                                     fontSize: 10, color: Colors.grey),
                               ),
@@ -528,14 +542,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               image: AssetImage(Images.male_doctor),
                             ),
                             title: Text(
-                              "Consult with Lifesap Doctors",
+                              getTranslated(
+                                  'consult_with_Lifesap_doctors', context),
                               style: poppinsBold.copyWith(
                                   fontSize: 12,
                                   color:
                                       ColorResources.getPrimaryColor(context)),
                             ),
                             subtitle: Text(
-                              "7000+ doctors available online in 15 min",
+                              getTranslated(
+                                  '7000+_doctors_available_online_in_15_min',
+                                  context),
                               style: poppinsBold.copyWith(
                                   fontSize: 10, color: Colors.grey),
                             ),
@@ -546,7 +563,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                       // for continue button
-                      SizedBox(height: 12),
+
                       /* !authProvider.isPhoneNumberVerificationButtonLoading
                           ? CustomButton(
                               buttonText: getTranslated('continue', context),
@@ -653,22 +670,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 }
 
-void phoneVerification(String countryCode, String phoneNumber,
-    BuildContext context, bool isLogin, bool doNavigate, bool enableresend) {
+void phoneVerification(
+  String countryCode,
+  String phoneNumber,
+  BuildContext context,
+  bool isLogin,
+  bool doNavigate,
+) {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  enableresend = false;
+
   _auth.verifyPhoneNumber(
       phoneNumber: countryCode + phoneNumber,
       // forceResendingToken: forceResendToken,
       verificationCompleted: (PhoneAuthCredential credential) {
         _auth.signInWithCredential(credential).then((result) {
           if (doNavigate) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NavigatorScreen(
-                          current_index: 0,
-                        )));
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => NavigatorScreen()));
           }
         }).catchError((onError) {
           log(onError);

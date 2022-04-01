@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        return true;
+        return false;
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).cardColor,

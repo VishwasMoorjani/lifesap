@@ -121,7 +121,7 @@ class HomeScreen extends StatelessWidget {
                               AppConstants.APP_NAME,
                               style: poppinsBold.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-                                color: ColorResources.getPrimaryColor(context),
+                                color: ColorResources.getTitleColor(context),
                               ),
                             )
                           ],
@@ -167,6 +167,7 @@ class HomeScreen extends StatelessWidget {
                                               MediaQuery.of(context).size.width,
                                           child: CustomTextField(
                                             isElevation: true,
+                                            fillColor: Colors.white,
                                             hintText: getTranslated(
                                                 'search_item_here', context),
                                             isShowBorder: true,
