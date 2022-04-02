@@ -15,7 +15,9 @@ import 'package:flutter_grocery/view/screens/auth/login_screen.dart';
 import 'package:flutter_grocery/view/screens/home/widget/bottom_navigation.dart';
 import 'package:flutter_grocery/view/screens/menu/menu_screen.dart';
 import 'package:flutter_grocery/view/screens/menu/widget/custom_drawer.dart';
+import 'package:flutter_grocery/view/screens/menu/widget/sign_out_confirmation_dialog.dart';
 import 'package:flutter_grocery/view/screens/profile/profile_edit_screen.dart';
+import 'package:flutter_grocery/view/screens/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_grocery/provider/splash_provider.dart';
 
@@ -202,6 +204,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   Dimensions.FONT_SIZE_DEFAULT),
                                         ),
                                         Divider(),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          NavigatorScreen())));
+                                            },
+                                            child: Text('Navigator')),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              if (_isLoggedIn) {
+                                                showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (context) =>
+                                                        SignOutConfirmationDialog());
+                                              }
+                                            },
+                                            child: Text('Splash')),
                                       ],
                                     ),
                                   ),

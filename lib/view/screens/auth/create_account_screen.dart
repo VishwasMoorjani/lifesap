@@ -96,7 +96,7 @@ class CreateAccountScreen extends StatelessWidget {
                           CustomTextField(
                             hintText: 'First Name',
                             isShowBorder: true,
-                            // prefixIconUrl: Images.user,
+                            prefixIconUrl: Images.user,
                             controller: _firstNameController,
                             focusNode: _firstNameFocus,
                             nextFocus: _lastNameFocus,
@@ -110,7 +110,7 @@ class CreateAccountScreen extends StatelessWidget {
                           // SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
                           CustomTextField(
                             hintText: 'Last Name',
-                            // prefixIconUrl: Images.user,
+                            prefixIconUrl: Images.user,
                             isShowBorder: true,
                             controller: _lastNameController,
                             focusNode: _lastNameFocus,
@@ -154,7 +154,7 @@ class CreateAccountScreen extends StatelessWidget {
                                   ),
                                 ])
                               : CustomTextField(
-                                  //prefixIconUrl: Images.mail,
+                                  prefixIconUrl: Images.mail,
                                   hintText:
                                       getTranslated('demo_gmail', context),
                                   isShowBorder: true,
@@ -170,7 +170,7 @@ class CreateAccountScreen extends StatelessWidget {
 
                           CustomTextField(
                             hintText: "Password",
-                            // prefixIconUrl: Images.password,
+                            prefixIconUrl: Images.password,
                             isPassword: true,
                             controller: _passwordController,
                             focusNode: _passwordFocus,
@@ -181,7 +181,7 @@ class CreateAccountScreen extends StatelessWidget {
 
                           CustomTextField(
                             hintText: "Confirm Password",
-                            // prefixIconUrl: Images.password,
+                            prefixIconUrl: Images.password,
                             isPassword: true,
                             controller: _confirmPasswordController,
                             focusNode: _confirmPasswordFocus,

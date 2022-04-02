@@ -50,6 +50,9 @@ dependencies:
   font_awesome_flutter: ^9.2.0
   flutter_svg: 
   fluttertoast: ^8.0.9
+  firebase_storage: ^10.2.10
+  google_sign_in: ^5.2.4
+  mailer: ^5.1.0
 
 dev_dependencies:
   flutter_test:

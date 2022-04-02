@@ -8,6 +8,8 @@ import 'package:flutter_grocery/view/screens/auth/create_account_screen.dart';
 import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/screens/auth/signup_screen.dart';
 import 'package:flutter_grocery/view/screens/auth/widget/code_picker_widget.dart';
+import 'package:flutter_grocery/view/screens/auth/widget/loading.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 import '../../../helper/email_checker.dart';
 import '../../../helper/responsive_helper.dart';
@@ -159,7 +161,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                           RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30),
                                       ))),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     setState(() {
                                       _otp = _fieldOne.text +
                                           _fieldTwo.text +
@@ -174,9 +176,12 @@ class _OtpVerificationState extends State<OtpVerification> {
                                             verificationId:
                                                 widget.verificationID,
                                             smsCode: _otp);
-                                    auth
+                                    LoadingIndicatorDialog()
+                                        .show(context, 'Verifying OTP');
+                                    await auth
                                         .signInWithCredential(credential)
                                         .then((value) {
+                                      LoadingIndicatorDialog().dismiss();
                                       if (widget.islogin) {
                                         Navigator.pushReplacement(
                                             context,
@@ -216,7 +221,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                                     });
                                   },
                                   child: Text(
-                                    getTranslated('Verify', context),
+                                    getTranslated('verify', context),
                                     style:
                                         poppinsSemiBold.copyWith(fontSize: 18),
                                   )),
@@ -546,8 +551,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  getTranslated(
-                                      'already_have_account', context),
+                                  getTranslated('already_a_member', context),
                                   style: poppinsRegular.copyWith(
                                       fontSize: Dimensions.FONT_SIZE_SMALL,
                                       color:

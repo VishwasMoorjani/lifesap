@@ -24,6 +24,7 @@ import 'package:flutter_grocery/view/screens/home/widget/banners_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/category_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/daily_item_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/product_view.dart';
+import 'package:flutter_grocery/view/screens/home/widget/upload_prescription.dart';
 import 'package:flutter_grocery/view/screens/search/search_result_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -218,7 +219,11 @@ class HomeScreen extends StatelessWidget {
                                 ? SizedBox()
                                 : BannersView();
                       }),
-
+                      ElevatedButton(
+                          onPressed: () async {
+                            await UploadPhoto().pickImage(context);
+                          },
+                          child: Text('Upload Presciption')),
                       Consumer<CategoryProvider>(
                           builder: (context, category, child) {
                         return category.categoryList == null
