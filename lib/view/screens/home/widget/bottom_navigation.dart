@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/provider/notification_provider.dart';
 import 'package:flutter_grocery/view/screens/category/all_category_screen.dart';
+import 'package:flutter_grocery/view/screens/healthcare/doc_consult.dart';
 import 'package:flutter_grocery/view/screens/home/home_screen.dart';
 import 'package:flutter_grocery/view/screens/notification/notification_screen.dart';
 import 'package:flutter_grocery/view/screens/profile/profile_screen.dart';
@@ -24,7 +25,7 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
   final screens = [
     HomeScreen(),
     AllCategoryScreen(),
-    AllCategoryScreen(),
+    DoctorConsult(),
     NotificationScreen(),
     ProfileScreen()
   ];

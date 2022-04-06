@@ -24,136 +24,117 @@ class CategoryView extends StatelessWidget {
             ? Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child:
-                        TitleWidget(title: getTranslated('category', context)),
-                  ),
-                  GridView.builder(
-                    itemCount: category.categoryList.length > 5
-                        ? 6
-                        : category.categoryList.length,
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: ResponsiveHelper.isDesktop(context)
-                          ? (1 / 1.1)
-                          : (1 / 1.2),
-                      crossAxisCount: ResponsiveHelper.isDesktop(context)
-                          ? 6
-                          : ResponsiveHelper.isMobilePhone()
-                              ? 3
-                              : ResponsiveHelper.isTab(context)
-                                  ? 4
-                                  : 3,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                    ),
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          if (index == 5) {
-                            log('Category');
-                            ResponsiveHelper.isMobilePhone()
-                                ? Provider.of<SplashProvider>(context,
-                                        listen: false)
-                                    .setPageIndex(1)
-                                : SizedBox();
-                            !ResponsiveHelper.isWeb()
-                                ? Navigator.pushNamed(
-                                    context, RouteHelper.categorys)
-                                : SizedBox();
-                          } else {
-                            Navigator.of(context).pushNamed(
-                              RouteHelper.getCategoryProductsRoute(
-                                  category.categoryList[index].id),
-                            );
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white.withOpacity(
-                                Provider.of<ThemeProvider>(context).darkTheme
-                                    ? 0.05
-                                    : 1),
-                            boxShadow:
-                                Provider.of<ThemeProvider>(context).darkTheme
-                                    ? null
-                                    : [
-                                        BoxShadow(
-                                            color: Colors.grey[200],
-                                            spreadRadius: 1,
-                                            blurRadius: 5)
-                                      ],
+                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            getTranslated('category', context),
+                            style: poppinsBold.copyWith(fontSize: 18),
                           ),
-                          child: Column(children: [
-                            Expanded(
-                              flex: ResponsiveHelper.isDesktop(context) ? 7 : 6,
+                          InkWell(
+                            child: Text(
+                              getTranslated('view_all', context),
+                              style: poppinsMedium.copyWith(
+                                  fontSize: 12,
+                                  color:
+                                      ColorResources.getPrimaryColor(context)),
+                            ),
+                            onTap: () {
+                              ResponsiveHelper.isMobilePhone()
+                                  ? Provider.of<SplashProvider>(context,
+                                          listen: false)
+                                      .setPageIndex(1)
+                                  : SizedBox();
+                              !ResponsiveHelper.isWeb()
+                                  ? Navigator.pushNamed(
+                                      context, RouteHelper.categorys)
+                                  : SizedBox();
+                            },
+                          )
+                        ]),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.32,
+                    child: GridView.builder(
+                      itemCount: category.categoryList.length > 5
+                          ? 8
+                          : category.categoryList.length,
+                      padding: EdgeInsets.all(2),
+                      physics: NeverScrollableScrollPhysics(),
+                      // shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: ResponsiveHelper.isDesktop(context)
+                            ? 6
+                            : ResponsiveHelper.isMobilePhone()
+                                ? 4
+                                : ResponsiveHelper.isTab(context)
+                                    ? 5
+                                    : 3,
+                        mainAxisSpacing: 50,
+                        crossAxisSpacing: 10,
+                      ),
+                      itemBuilder: (context, index) {
+                        return Stack(children: [
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  RouteHelper.getCategoryProductsRoute(
+                                      category.categoryList[index].id),
+                                );
+                              },
                               child: Container(
-                                margin: EdgeInsets.all(
-                                    Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        Dimensions.PADDING_SIZE_DEFAULT),
-                                alignment: Alignment.center,
+                                height: 60,
+                                width: 60,
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: ColorResources.getCardBgColor(context),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color:
+                                        ColorResources.getPrimaryColor(context),
+                                  ),
+                                  color: Colors.white.withOpacity(
+                                      Provider.of<ThemeProvider>(context)
+                                              .darkTheme
+                                          ? 0.05
+                                          : 1),
                                 ),
-                                child: index != 5
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: FadeInImage.assetNetwork(
-                                          placeholder: Images.placeholder,
-                                          image:
-                                              '${Provider.of<SplashProvider>(context, listen: false).baseUrls.categoryImageUrl}/${category.categoryList[index].image}',
-                                          fit: BoxFit.cover,
-                                          height: 100,
-                                          width: 100,
-                                          imageErrorBuilder: (c, o, s) =>
-                                              Image.asset(Images.placeholder,
-                                                  height: 100,
-                                                  width: 100,
-                                                  fit: BoxFit.cover),
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 100,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                            '${category.categoryList.length - 5}+',
-                                            style: poppinsRegular.copyWith(
-                                                color: Theme.of(context)
-                                                    .cardColor)),
-                                      ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: ResponsiveHelper.isDesktop(context) ? 3 : 4,
-                              child: Padding(
-                                padding: EdgeInsets.all(
-                                    Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                child: Text(
-                                  index != 5
-                                      ? category.categoryList[index].name
-                                      : getTranslated('view_all', context),
-                                  style: poppinsRegular,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: FadeInImage.assetNetwork(
+                                    placeholder: Images.placeholder,
+                                    image:
+                                        '${Provider.of<SplashProvider>(context, listen: false).baseUrls.categoryImageUrl}/${category.categoryList[index].image}',
+                                    fit: BoxFit.cover,
+                                    imageErrorBuilder: (c, o, s) => Image.asset(
+                                        Images.placeholder,
+                                        fit: BoxFit.fill),
+                                  ),
                                 ),
                               ),
                             ),
-                          ]),
-                        ),
-                      );
-                    },
+                          ),
+                          Positioned(
+                            top: 60,
+                            left: 6,
+
+                            // left: 5,
+                            // alignment: Alignment.bottomCenter,
+                            child: Container(
+                              width: 80,
+                              child: Text(
+                                category.categoryList[index].name,
+                                style: poppinsMedium.copyWith(fontSize: 10),
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ]);
+                      },
+                    ),
                   ),
                 ],
               )

@@ -60,6 +60,22 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  List<String> images = [
+    Images.diabetic,
+    Images.health,
+    Images.suppliments,
+    Images.medical,
+    Images.pet,
+    Images.surgical,
+  ];
+  List<String> text = [
+    "Diabetic Care",
+    "Health Condition",
+    "Suppliments",
+    "Medical Supplies",
+    "Pet Care",
+    "Surgical Supplies",
+  ];
   TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -112,8 +128,8 @@ class HomeScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             Container(
-                              height: 60,
-                              width: 60,
+                              height: 70,
+                              width: 70,
                               child: Image(
                                 image: AssetImage(Images.app_logo),
                               ),
@@ -209,8 +225,55 @@ class HomeScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ])),
-                      // Category
-
+                      Material(
+                        elevation: 3,
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      Container(
+                          height: MediaQuery.of(context).size.height * 0.32,
+                          padding: EdgeInsets.all(10.0),
+                          child: GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 6,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 10.0,
+                                      mainAxisSpacing: 0.0),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Stack(children: [
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      height: 85,
+                                      child: Image(
+                                          image: AssetImage(
+                                            images[index],
+                                          ),
+                                          fit: BoxFit.contain),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 65,
+                                    left: 8,
+                                    child: Container(
+                                      width: 100,
+                                      child: Text(
+                                        text[index],
+                                        textAlign: TextAlign.center,
+                                        style: poppinsSemiBold.copyWith(
+                                            fontSize: 10),
+                                      ),
+                                    ),
+                                  ),
+                                ]);
+                              })),
+                      Divider(
+                          color: ColorResources.getDividerColor(context),
+                          thickness: 10),
                       Consumer<BannerProvider>(
                           builder: (context, banner, child) {
                         return banner.bannerList == null
@@ -219,11 +282,101 @@ class HomeScreen extends StatelessWidget {
                                 ? SizedBox()
                                 : BannersView();
                       }),
-                      ElevatedButton(
-                          onPressed: () async {
-                            await UploadPhoto().pickImage(context);
-                          },
-                          child: Text('Upload Presciption')),
+                      Divider(
+                          color: ColorResources.getDividerColor(context),
+                          thickness: 10),
+                      Padding(
+                        padding:
+                            EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                        child: Column(children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Upload Prescription",
+                              style: poppinsMedium.copyWith(
+                                color: ColorResources.getPrimaryColor(context),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          Text(
+                              "Upload prescription and tell us what you need. We do the rest!"),
+                          InkWell(
+                            onTap: () async {
+                              await UploadPhoto().pickImage(context);
+                            },
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Upload Now",
+                                    textAlign: TextAlign.left,
+                                    style: poppinsSemiBold.copyWith(
+                                      color: ColorResources.getPrimaryColor(
+                                          context),
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    size: 15,
+                                    color:
+                                        ColorResources.getPrimaryColor(context),
+                                  )
+                                ]),
+                          )
+                        ]),
+                      ),
+                      Divider(
+                          color: ColorResources.getDividerColor(context),
+                          thickness: 10),
+                      Container(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          padding:
+                              EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                          child: GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 6,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 0.0,
+                                      mainAxisSpacing: 20.0),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Stack(children: [
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: Container(
+                                        height: 150,
+                                        width: 70,
+                                        child: Image(
+                                            image: AssetImage(
+                                              Images.vitd,
+                                            ),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ),
+                                  /*  Positioned(
+                                    top: 65,
+                                    left: 8,
+                                    child: Container(
+                                      width: 100,
+                                      child: Text(
+                                        text[index],
+                                        textAlign: TextAlign.center,
+                                        style: poppinsSemiBold.copyWith(
+                                            fontSize: 10),
+                                      ),
+                                    ),
+                                  ),*/
+                                ]);
+                              })),
+                      Divider(
+                          color: ColorResources.getDividerColor(context),
+                          thickness: 10),
                       Consumer<CategoryProvider>(
                           builder: (context, category, child) {
                         return category.categoryList == null
@@ -232,24 +385,28 @@ class HomeScreen extends StatelessWidget {
                                 ? SizedBox()
                                 : CategoryView();
                       }),
-                      Consumer<ProductProvider>(
+                      Divider(
+                          color: ColorResources.getDividerColor(context),
+                          thickness: 10),
+
+                      /*     Consumer<ProductProvider>(
                           builder: (context, product, child) {
                         return product.dailyItemList == null
                             ? DailyItemView()
                             : product.dailyItemList.length == 0
                                 ? SizedBox()
                                 : DailyItemView();
-                      }),
+                      }),*/
 
                       // Popular Item
-                      Padding(
+                      /*  Padding(
                         padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
                         child: TitleWidget(
                             title: getTranslated('popular_item', context)),
                       ),
                       ProductView(
                           productType: ProductType.POPULAR_PRODUCT,
-                          scrollController: _scrollController),
+                          scrollController: _scrollController),*/
                     ]),
               ),
             ),

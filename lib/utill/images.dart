@@ -56,4 +56,11 @@ class Images {
   static const String password = 'assets/image/password.png';
   static const String mail = 'assets/image/mail.png';
   static const String user = 'assets/image/user.png';
+  static const String diabetic = 'assets/image/diabetic.png';
+  static const String health = 'assets/image/health.png';
+  static const String suppliments = 'assets/image/suppliment.png';
+  static const String medical = 'assets/image/medical.png';
+  static const String pet = 'assets/image/pet.png';
+  static const String surgical = 'assets/image/surgical.png';
+  static const String vitd = 'assets/image/vitd.png';
 }
