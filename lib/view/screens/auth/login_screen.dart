@@ -30,6 +30,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../menu/main_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -495,11 +497,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     //     RouteHelper.menu,
                                                     //     (route) => false,
                                                     //     arguments: MenuScreen());
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                NavigatorScreen()));
+                                                    Navigator
+                                                        .pushReplacementNamed(
+                                                            context,
+                                                            RouteHelper.menu,
+                                                            arguments:
+                                                                MenuScreen());
                                                   }
                                                 });
                                               }
@@ -547,12 +550,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                   InkWell(
                                       onTap: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    NavigatorScreen()));
-                                        // Navigator.pushReplacementNamed(context, RouteHelper.menu, arguments: MenuScreen());
+                                        Navigator.pushReplacementNamed(
+                                            context, RouteHelper.menu,
+                                            arguments: MenuScreen());
                                       },
                                       child: Text(
                                         getTranslated(
@@ -636,8 +636,9 @@ class _LoginScreenState extends State<LoginScreen> {
           await _auth.signInWithCredential(credential).then((result) {
             LoadingIndicatorDialog().dismiss();
             if (doNavigate) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => NavigatorScreen()));
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RouteHelper.menu, (route) => false,
+                  arguments: MenuScreen());
             }
           }).catchError((onError) {
             log(onError);

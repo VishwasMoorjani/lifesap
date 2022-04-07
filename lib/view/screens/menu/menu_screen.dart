@@ -32,7 +32,7 @@ class _MenuScreenState extends State<MenuScreen> {
     return CustomDrawer(
       controller: _drawerController,
       menuScreen: MenuWidget(drawerController: _drawerController),
-      mainScreen: ProfileScreen(),
+      mainScreen: MainScreen(drawerController: _drawerController),
       showShadow: false,
       angle: 0.0,
       borderRadius: 30,
@@ -94,7 +94,7 @@ class MenuWidget extends StatelessWidget {
                                 ),
                               )
                             : SizedBox(),
-                        /*  Consumer<ProfileProvider>(
+                        Consumer<ProfileProvider>(
                           builder: (context, profileProvider, child) => Row(
                             children: [
                               Expanded(
@@ -259,7 +259,7 @@ class MenuWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                        ),*/
+                        ),
                         SizedBox(height: 50),
                         ResponsiveHelper.isDesktop(context)
                             ? SizedBox()

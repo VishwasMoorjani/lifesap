@@ -23,6 +23,8 @@ import 'package:flutter_grocery/view/screens/menu/menu_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../menu/main_screen.dart';
+
 class CreateAccountScreen extends StatelessWidget {
   final FocusNode _firstNameFocus = FocusNode();
   final FocusNode _lastNameFocus = FocusNode();
@@ -296,11 +298,9 @@ class CreateAccountScreen extends StatelessWidget {
                                               //     RouteHelper.menu,
                                               //     (route) => false,
                                               //     arguments: MenuScreen());
-                                              Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NavigatorScreen()));
+                                              Navigator.pushReplacementNamed(
+                                                  context, RouteHelper.menu,
+                                                  arguments: MenuScreen());
                                             }
                                           });
                                         }
@@ -363,11 +363,9 @@ class CreateAccountScreen extends StatelessWidget {
                                               .registration(signUpModel)
                                               .then((status) async {
                                             if (status.isSuccess) {
-                                              Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NavigatorScreen()));
+                                              Navigator.pushReplacementNamed(
+                                                  context, RouteHelper.menu,
+                                                  arguments: MenuScreen());
                                             }
                                           });
                                         }

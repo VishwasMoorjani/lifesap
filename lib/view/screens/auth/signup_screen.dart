@@ -29,6 +29,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../menu/main_screen.dart';
+import '../menu/menu_screen.dart';
+
 class SignUpScreen extends StatefulWidget {
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -735,8 +738,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           await _auth.signInWithCredential(credential).then((result) {
             LoadingIndicatorDialog().dismiss();
             if (doNavigate) {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => NavigatorScreen()));
+              Navigator.pushNamedAndRemoveUntil(
+                  context, RouteHelper.menu, (route) => false,
+                  arguments: MenuScreen());
             }
           }).catchError((onError) {
             log(onError);

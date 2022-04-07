@@ -9,13 +9,22 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_html/js_util.dart';
 
+import '../../../../helper/route_helper.dart';
 import '../../../../provider/auth_provider.dart';
 import '../../../../provider/cart_provider.dart';
 import '../../../../provider/location_provider.dart';
 import '../../../../provider/profile_provider.dart';
+import '../../../../utill/app_constants.dart';
+import '../../../../utill/color_resources.dart';
+import '../../../../utill/dimensions.dart';
+import '../../../../utill/images.dart';
+import '../../../../utill/styles.dart';
 import '../../menu/widget/custom_drawer.dart';
 
 class NavigatorScreen extends StatefulWidget {
+  final CustomDrawerController drawerController;
+  NavigatorScreen({@required this.drawerController});
+  @override
   State<NavigatorScreen> createState() => _NavigatorScreenState();
 }
 
@@ -33,7 +42,65 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
   var current_index = 0;
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[current_index],
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, RouteHelper.cart);
+          },
+          backgroundColor: ColorResources.getPrimaryColor(context),
+          child: Stack(children: [
+            Center(
+              child: Icon(Icons.shopping_cart),
+            ),
+            Positioned(
+              top: -3.5,
+              right: -0.24,
+              child: Container(
+                padding: EdgeInsets.all(3),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                child: Text(
+                    '${Provider.of<CartProvider>(context).cartList.length}',
+                    style: TextStyle(
+                        color: Theme.of(context).cardColor, fontSize: 10)),
+              ),
+            ),
+          ])),
+      body: Stack(children: [
+        current_index == 0
+            ? Container(
+                height: 300,
+                child: Row(
+                  children: [
+                    Container(
+                      height: 70,
+                      width: 70,
+                      child: Image(
+                        image: AssetImage(Images.app_logo),
+                      ),
+                    ),
+                    Text(
+                      AppConstants.APP_NAME,
+                      style: poppinsBold.copyWith(
+                        fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                        color: ColorResources.getTitleColor(context),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          widget.drawerController.toggle();
+                        },
+                        icon: Icon(Icons.arrow_back))
+                  ],
+                ),
+              )
+            : SizedBox.shrink(),
+        Positioned(
+          top: 150,
+          bottom: 0,
+          // alignment: Alignment.center,
+          child: screens[current_index],
+        )
+      ]),
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 9,
         unselectedFontSize: 9,

@@ -26,6 +26,9 @@ import '../home/widget/bottom_navigation.dart';
 import 'package:flutter_grocery/utill/color_resources.dart';
 import 'dart:async';
 
+import '../menu/main_screen.dart';
+import '../menu/menu_screen.dart';
+
 class OtpVerification extends StatefulWidget {
   var verificationID;
   var countryCode;
@@ -50,190 +53,182 @@ class _OtpVerificationState extends State<OtpVerification> {
   String _otp;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              resizeToAvoidBottomInset: false,
-              body: SafeArea(
-                // body: Text('yay!!' + widget.verificationID),
-                child: Scrollbar(
-                  child: SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(Images.otp_verification_bg),
-                              fit: BoxFit.contain)),
-                      // padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 200,
-                            ),
-                            Text((getTranslated('otp_verification', context)),
-                                style: poppinsBold.copyWith(
-                                    fontSize: 18,
-                                    color: ColorResources.getPrimaryColor(
-                                        context))),
-                            RichText(
-                              text: TextSpan(
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: ColorResources.getPrimaryColor(
-                                          context)),
-                                  children: [
-                                    TextSpan(
-                                        style: poppinsMedium,
-                                        text: getTranslated(
-                                            'enter_the_otp_sent_to', context)),
-                                    TextSpan(
-                                      style: poppinsBold,
-                                      text: ((widget.phoneNumber).toString())
-                                              .substring(0, 5) +
-                                          "XXXXX",
-                                    ),
-                                  ]),
-                            ),
-                            // Text('yay!!' + widget.verificationID),
-                            /*  CustomTextField(
+    return GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          resizeToAvoidBottomInset: false,
+          body: SafeArea(
+            // body: Text('yay!!' + widget.verificationID),
+            child: Scrollbar(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(Images.otp_verification_bg),
+                          fit: BoxFit.contain)),
+                  // padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 200,
+                        ),
+                        Text((getTranslated('otp_verification', context)),
+                            style: poppinsBold.copyWith(
+                                fontSize: 18,
+                                color:
+                                    ColorResources.getPrimaryColor(context))),
+                        RichText(
+                          text: TextSpan(
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color:
+                                      ColorResources.getPrimaryColor(context)),
+                              children: [
+                                TextSpan(
+                                    style: poppinsMedium,
+                                    text: getTranslated(
+                                        'enter_the_otp_sent_to', context)),
+                                TextSpan(
+                                  style: poppinsBold,
+                                  text: ((widget.phoneNumber).toString())
+                                          .substring(0, 5) +
+                                      "XXXXX",
+                                ),
+                              ]),
+                        ),
+                        // Text('yay!!' + widget.verificationID),
+                        /*  CustomTextField(
                       controller: otpController,
                     ),*/
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                OtpInput(_fieldOne, true),
-                                OtpInput(_fieldTwo, false),
-                                OtpInput(_fieldThree, false),
-                                OtpInput(_fieldFour, false),
-                                OtpInput(_fieldFive, false),
-                                OtpInput(_fieldSix, false),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  getTranslated('didnt_receive_otp', context),
-                                  style: poppinsSemiBold.copyWith(fontSize: 10),
-                                ),
-                                InkWell(
-                                  child: Text(
-                                    getTranslated('resend_otp', context),
-                                    style: poppinsBold.copyWith(
-                                        fontSize: 10,
-                                        color: ColorResources.getPrimaryColor(
-                                            context)),
-                                  ),
-                                  onTap: () {},
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 120,
-                            ),
-                            Container(
-                              height: 60,
-                              padding: EdgeInsets.symmetric(horizontal: 50),
-                              width: MediaQuery.of(context).size.width,
-                              child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(6),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              ColorResources.getPrimaryColor(
-                                                  context)),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ))),
-                                  onPressed: () async {
-                                    setState(() {
-                                      _otp = _fieldOne.text +
-                                          _fieldTwo.text +
-                                          _fieldThree.text +
-                                          _fieldFour.text +
-                                          _fieldFive.text +
-                                          _fieldSix.text;
-                                    });
-                                    FirebaseAuth auth = FirebaseAuth.instance;
-                                    PhoneAuthCredential credential =
-                                        PhoneAuthProvider.credential(
-                                            verificationId:
-                                                widget.verificationID,
-                                            smsCode: _otp);
-                                    LoadingIndicatorDialog()
-                                        .show(context, 'Verifying OTP');
-                                    await auth
-                                        .signInWithCredential(credential)
-                                        .then((value) {
-                                      LoadingIndicatorDialog().dismiss();
-                                      if (widget.islogin) {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (contex) =>
-                                                    NavigatorScreen()));
-                                      } else {
-                                        Navigator.of(context).pushNamed(
-                                            RouteHelper.createAccount,
-                                            arguments: CreateAccountScreen());
-                                      }
-                                      // Navigator.pushReplacement(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (contex) => NavigatorScreen()));
-                                      // accountScreen(widget.countryCode, widget.phoneNumber);
-                                      // authProvider.checkPhone(widget.countryCode + widget.phoneNumber).then(
-                                      //   (value) async {
-                                      //     if (value.isSuccess) {
-                                      //       authProvider.updateEmail(widget.countryCode + widget.phoneNumber);
-                                      //       if (value.message == 'active') {
-                                      //         Navigator.of(context).pushNamed(
-                                      //           RouteHelper.getVerifyRoute(
-                                      //               'sign-up', widget.countryCode + widget.phoneNumber),
-                                      //           arguments: VerificationScreen(
-                                      //               emailAddress: widget.countryCode + widget.phoneNumber,
-                                      //               fromSignUp: true),
-                                      //         );
-                                      //       } else {
-                                      //         Navigator.of(context).pushNamed(
-                                      //             RouteHelper.createAccount,
-                                      //             arguments: CreateAccountScreen());
-                                      //       }
-                                      //     }
-                                      //   },
-                                      // );
-                                    });
-                                  },
-                                  child: Text(
-                                    getTranslated('verify', context),
-                                    style:
-                                        poppinsSemiBold.copyWith(fontSize: 18),
-                                  )),
-                            ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            OtpInput(_fieldOne, true),
+                            OtpInput(_fieldTwo, false),
+                            OtpInput(_fieldThree, false),
+                            OtpInput(_fieldFour, false),
+                            OtpInput(_fieldFive, false),
+                            OtpInput(_fieldSix, false),
                           ],
                         ),
-                      ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              getTranslated('didnt_receive_otp', context),
+                              style: poppinsSemiBold.copyWith(fontSize: 10),
+                            ),
+                            InkWell(
+                              child: Text(
+                                getTranslated('resend_otp', context),
+                                style: poppinsBold.copyWith(
+                                    fontSize: 10,
+                                    color: ColorResources.getPrimaryColor(
+                                        context)),
+                              ),
+                              onTap: () {},
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 120,
+                        ),
+                        Container(
+                          height: 60,
+                          padding: EdgeInsets.symmetric(horizontal: 50),
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all(6),
+                                  backgroundColor: MaterialStateProperty.all<
+                                          Color>(
+                                      ColorResources.getPrimaryColor(context)),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ))),
+                              onPressed: () async {
+                                setState(() {
+                                  _otp = _fieldOne.text +
+                                      _fieldTwo.text +
+                                      _fieldThree.text +
+                                      _fieldFour.text +
+                                      _fieldFive.text +
+                                      _fieldSix.text;
+                                });
+                                FirebaseAuth auth = FirebaseAuth.instance;
+                                PhoneAuthCredential credential =
+                                    PhoneAuthProvider.credential(
+                                        verificationId: widget.verificationID,
+                                        smsCode: _otp);
+                                LoadingIndicatorDialog()
+                                    .show(context, 'Verifying OTP');
+                                await auth
+                                    .signInWithCredential(credential)
+                                    .then((value) {
+                                  LoadingIndicatorDialog().dismiss();
+                                  if (widget.islogin) {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (contex) => MenuScreen()));
+                                  } else {
+                                    Navigator.of(context).pushNamed(
+                                        RouteHelper.createAccount,
+                                        arguments: CreateAccountScreen());
+                                  }
+                                  // Navigator.pushReplacement(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (contex) => NavigatorScreen()));
+                                  // accountScreen(widget.countryCode, widget.phoneNumber);
+                                  // authProvider.checkPhone(widget.countryCode + widget.phoneNumber).then(
+                                  //   (value) async {
+                                  //     if (value.isSuccess) {
+                                  //       authProvider.updateEmail(widget.countryCode + widget.phoneNumber);
+                                  //       if (value.message == 'active') {
+                                  //         Navigator.of(context).pushNamed(
+                                  //           RouteHelper.getVerifyRoute(
+                                  //               'sign-up', widget.countryCode + widget.phoneNumber),
+                                  //           arguments: VerificationScreen(
+                                  //               emailAddress: widget.countryCode + widget.phoneNumber,
+                                  //               fromSignUp: true),
+                                  //         );
+                                  //       } else {
+                                  //         Navigator.of(context).pushNamed(
+                                  //             RouteHelper.createAccount,
+                                  //             arguments: CreateAccountScreen());
+                                  //       }
+                                  //     }
+                                  //   },
+                                  // );
+                                });
+                              },
+                              child: Text(
+                                getTranslated('verify', context),
+                                style: poppinsSemiBold.copyWith(fontSize: 18),
+                              )),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            )));
+            ),
+          ),
+        ));
   }
 }
 

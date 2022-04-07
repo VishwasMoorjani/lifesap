@@ -23,19 +23,31 @@ import 'package:flutter_grocery/view/screens/html/html_viewer_screen.dart';
 import 'package:flutter_grocery/view/screens/menu/widget/custom_drawer.dart';
 import 'package:flutter_grocery/view/screens/order/my_order_screen.dart';
 import 'package:flutter_grocery/view/screens/settings/setting_screen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_html/js_util.dart';
 
+import '../../../utill/color_resources.dart';
+import '../healthcare/doc_consult.dart';
+import '../notification/notification_screen.dart';
+import '../profile/profile_screen.dart';
+
 class MainScreen extends StatefulWidget {
-  /* final CustomDrawerController drawerController;
-  MainScreen({@required this.drawerController});*/
+  final CustomDrawerController drawerController;
+  MainScreen({@required this.drawerController});
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Widget> _screens = [];
+  final screens = [
+    HomeScreen(),
+    AllCategoryScreen(),
+    DoctorConsult(),
+    NotificationScreen(),
+    ProfileScreen()
+  ];
   List<String> _keys = [];
 
   @override
@@ -53,7 +65,7 @@ class _MainScreenState extends State<MainScreen> {
     }
     //ResponsiveHelper.isWeb() ? SizedBox() : NetworkInfo.checkConnectivity(context);
 
-    _screens = [
+    /*  _screens = [
       HomeScreen(),
       AllCategoryScreen(),
       CartScreen(),
@@ -65,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
       HtmlViewerScreen(htmlType: HtmlType.TERMS_AND_CONDITION),
       HtmlViewerScreen(htmlType: HtmlType.PRIVACY_POLICY),
       HtmlViewerScreen(htmlType: HtmlType.ABOUT_US),
-    ];
+    ];*/
     _keys = [
       'home',
       'all_categories',
@@ -81,111 +93,112 @@ class _MainScreenState extends State<MainScreen> {
     ];
   }
 
+  var current_index = 0;
   @override
   Widget build(BuildContext context) {
-    return Consumer<SplashProvider>(
-      builder: (context, splash, child) {
-        return WillPopScope(
-          onWillPop: () async {
+    return WillPopScope(
+        onWillPop: () async {
+          if (current_index != 0) {
+            setState(() {
+              current_index = 0;
+            });
+
             return false;
-          },
-          child: Consumer<LocationProvider>(
-            builder: (context, locationProvider, child) => Scaffold(
-              /*  appBar: ResponsiveHelper.isDesktop(context)
-                  ? null
-                  : AppBar(
-                      backgroundColor: Theme.of(context).cardColor,
-                      leading: IconButton(
-                          icon: Image.asset(Images.more_icon,
-                              color: Theme.of(context).primaryColor,
-                              height: 30,
-                              width: 30),
+          } else {
+            return true;
+          }
+        },
+        child: Scaffold(
+          bottomNavigationBar: BottomNavigationBar(
+            selectedFontSize: 9,
+            unselectedFontSize: 9,
+            // type: BottomNavigationBarType.fixed,
+            selectedItemColor: Color.fromRGBO(118, 149, 216, 1),
+            unselectedItemColor: Colors.black,
+            showUnselectedLabels: true,
+            elevation: 5,
+            currentIndex: current_index,
+            onTap: (index) {
+              setState(() {
+                current_index = index;
+              });
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.home),
+                label: "Home",
+              ),
+              BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.flask),
+                label: "Lab Tests",
+              ),
+              BottomNavigationBarItem(
+                icon: Container(
+                  height: 26,
+                  width: 32,
+                  child: Image.asset(
+                    'assets/bottomnavicons/pulse-rate.png',
+                    fit: BoxFit.cover,
+                    color: current_index == 2
+                        ? Color.fromRGBO(118, 149, 216, 1)
+                        : Colors.black,
+                  ),
+                ),
+                label: "Healthcare",
+              ),
+              BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.bell),
+                label: "Notifications",
+              ),
+              BottomNavigationBarItem(
+                icon: FaIcon(FontAwesomeIcons.user),
+                label: "Profile",
+              ),
+            ],
+          ),
+          body: Stack(children: [
+            current_index == 0
+                ? Container(
+                    margin: EdgeInsets.only(top: 30),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 70,
+                          width: 70,
+                          child: Image(
+                            image: AssetImage(Images.app_logo),
+                          ),
+                        ),
+                        Text(
+                          AppConstants.APP_NAME,
+                          style: poppinsBold.copyWith(
+                            fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                            color: ColorResources.getTitleColor(context),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 170,
+                        ),
+                        IconButton(
                           onPressed: () {
                             widget.drawerController.toggle();
-                          }),
-                      title: splash.pageIndex == 0
-                          ? Row(children: [
-                              Image.asset(Images.app_logo, width: 25),
-                              SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
-                              Expanded(
-                                  child: Text(
-                                AppConstants.APP_NAME,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: poppinsMedium.copyWith(
-                                    color: Theme.of(context).primaryColor),
-                              )),
-                            ])
-                          : Text(
-                              getTranslated(_keys[splash.pageIndex], context),
-                              style: poppinsMedium.copyWith(
-                                  fontSize: Dimensions.FONT_SIZE_LARGE,
-                                  color: Theme.of(context).primaryColor),
-                            ),
-                      actions: splash.pageIndex == 0
-                          ? [
-                              IconButton(
-                                  icon:
-                                      Stack(clipBehavior: Clip.none, children: [
-                                    Image.asset(Images.cart_icon,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            .color,
-                                        width: 25),
-                                    Positioned(
-                                      top: -7,
-                                      right: -2,
-                                      child: Container(
-                                        padding: EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                        child: Text(
-                                            '${Provider.of<CartProvider>(context).cartList.length}',
-                                            style: TextStyle(
-                                                color:
-                                                    Theme.of(context).cardColor,
-                                                fontSize: 10)),
-                                      ),
-                                    ),
-                                  ]),
-                                  onPressed: () {
-                                    ResponsiveHelper.isMobilePhone()
-                                        ? splash.setPageIndex(2)
-                                        : Navigator.pushNamed(
-                                            context, RouteHelper.cart);
-                                  }),
-                              IconButton(
-                                  icon: Icon(Icons.search,
-                                      size: 30,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1
-                                          .color),
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, RouteHelper.searchProduct);
-                                  }),
-                            ]
-                          : splash.pageIndex == 2
-                              ? [
-                                  Center(
-                                      child: Text(
-                                          '${Provider.of<CartProvider>(context, listen: false).cartList.length} ${getTranslated('items', context)}',
-                                          style: poppinsMedium.copyWith(
-                                              color: Theme.of(context)
-                                                  .primaryColor))),
-                                  SizedBox(width: 20)
-                                ]
-                              : null,
-                    ),*/
-              body: NavigatorScreen(),
-            ),
-          ),
-        );
-      },
-    );
+                          },
+                          icon: Image.asset(Images.more_icon,
+                              color: Theme.of(context).primaryColor),
+                        )
+                      ],
+                    ),
+                  )
+                : SizedBox.shrink(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                  height: current_index == 0
+                      ? MediaQuery.of(context).size.height * 0.8
+                      : MediaQuery.of(context).size.height,
+                  child: screens[current_index]),
+            )
+          ]),
+        ));
   }
 }

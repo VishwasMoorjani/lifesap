@@ -90,7 +90,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Provider.of<AuthProvider>(context, listen: false).updateToken();
               Navigator.of(context).pushNamedAndRemoveUntil(
                   RouteHelper.menu, (route) => false,
-                  arguments: MainScreen());
+                  arguments: MenuScreen());
             } else {}
           });
         }
