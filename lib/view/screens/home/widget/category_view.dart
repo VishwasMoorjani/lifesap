@@ -26,12 +26,12 @@ class CategoryView extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
+                          /* Text(
                             getTranslated('category', context),
                             style: poppinsBold.copyWith(fontSize: 18),
-                          ),
+                          ),*/
                           InkWell(
                             child: Text(
                               getTranslated('view_all', context),
