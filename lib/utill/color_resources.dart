@@ -11,7 +11,7 @@ class ColorResources {
 
   static Color getDividerColor(BuildContext context) {
     return Provider.of<ThemeProvider>(context).darkTheme
-        ? Color(0xFFF2F1F6)
+        ? Color(0xFFFFFFFF).withOpacity(0.1)
         : Color(0xFFF2F1F6);
   }
 

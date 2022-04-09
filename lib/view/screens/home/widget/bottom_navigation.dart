@@ -42,29 +42,6 @@ class _NavigatorScreenState extends State<NavigatorScreen> {
   var current_index = 0;
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, RouteHelper.cart);
-          },
-          backgroundColor: ColorResources.getPrimaryColor(context),
-          child: Stack(children: [
-            Center(
-              child: Icon(Icons.shopping_cart),
-            ),
-            Positioned(
-              top: -3.5,
-              right: -0.24,
-              child: Container(
-                padding: EdgeInsets.all(3),
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-                child: Text(
-                    '${Provider.of<CartProvider>(context).cartList.length}',
-                    style: TextStyle(
-                        color: Theme.of(context).cardColor, fontSize: 10)),
-              ),
-            ),
-          ])),
       body: Stack(children: [
         current_index == 0
             ? Container(

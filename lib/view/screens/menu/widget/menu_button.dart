@@ -9,12 +9,23 @@ import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/screens/menu/widget/custom_drawer.dart';
 import 'package:provider/provider.dart';
 
-class MenuButton extends StatelessWidget {
+class MenuButton extends StatefulWidget {
   final CustomDrawerController drawerController;
   final int index;
   final String icon;
   final String title;
-  MenuButton({@required this.drawerController, @required this.index, @required this.icon, @required this.title});
+  MenuButton(
+      {@required this.drawerController,
+      @required this.index,
+      @required this.icon,
+      @required this.title});
+
+  @override
+  State<MenuButton> createState() => _MenuButtonState();
+}
+
+class _MenuButtonState extends State<MenuButton> {
+  int i;
 
   @override
   Widget build(BuildContext context) {
@@ -22,46 +33,56 @@ class MenuButton extends StatelessWidget {
       builder: (context, splash, child) {
         return ListTile(
           onTap: () {
-           ResponsiveHelper.isMobilePhone() ? splash.setPageIndex(index) : SizedBox();
-           if(ResponsiveHelper.isWeb() && index == 0){
-             Navigator.pushNamed(context, RouteHelper.menu);
-           } else if(ResponsiveHelper.isWeb() && index == 1){
+            /*ResponsiveHelper.isMobilePhone()
+                ? splash.setPageIndex(index)
+                : SizedBox();*/
+
+            if (widget.index == 0) {
+              Navigator.pushNamed(context, RouteHelper.menu);
+            } else if (widget.index == 1) {
               Navigator.pushNamed(context, RouteHelper.categorys);
-            } else if(ResponsiveHelper.isWeb() && index == 2){
+            } else if (widget.index == 2) {
               Navigator.pushNamed(context, RouteHelper.cart);
-            } else if(ResponsiveHelper.isWeb() && index == 3){
-             Navigator.pushNamed(context, RouteHelper.myOrder);
-           } else if(ResponsiveHelper.isWeb() && index == 4){
-             Navigator.pushNamed(context, RouteHelper.address);
-           } else if(ResponsiveHelper.isWeb() && index == 5){
-             Navigator.pushNamed(context, RouteHelper.coupon);
-           } else if(ResponsiveHelper.isWeb() && index == 6){
-             Navigator.pushNamed(context, RouteHelper.chat);
-           } else if(ResponsiveHelper.isWeb() && index == 7){
-             Navigator.pushNamed(context, RouteHelper.settings);
-           }else if(ResponsiveHelper.isWeb() && index == 8){
-             Navigator.pushNamed(context, RouteHelper.getTermsRoute());
-           }else if(ResponsiveHelper.isWeb() && index == 9){
-             Navigator.pushNamed(context, RouteHelper.getPolicyRoute());
-           }else if(ResponsiveHelper.isWeb() && index == 10){
-             Navigator.pushNamed(context, RouteHelper.getAboutUsRoute());
-           }
-            drawerController.toggle();
+            } else if (widget.index == 3) {
+              Navigator.pushNamed(context, RouteHelper.myOrder);
+            } else if (widget.index == 4) {
+              Navigator.pushNamed(context, RouteHelper.address);
+            } else if (widget.index == 5) {
+              Navigator.pushNamed(context, RouteHelper.coupon);
+            } else if (widget.index == 6) {
+              Navigator.pushNamed(context, RouteHelper.chat);
+            } else if (/*ResponsiveHelper.isWeb() &&*/ widget.index == 7) {
+              Navigator.pushNamed(context, RouteHelper.settings);
+            } else if (widget.index == 8) {
+              Navigator.pushNamed(context, RouteHelper.getTermsRoute());
+            } else if (widget.index == 9) {
+              Navigator.pushNamed(context, RouteHelper.getPolicyRoute());
+            } else if (widget.index == 10) {
+              Navigator.pushNamed(context, RouteHelper.getAboutUsRoute());
+            }
+            widget.drawerController.toggle();
           },
-          selected: splash.pageIndex == index,
+          selected: i == widget.index,
           selectedTileColor: Colors.black.withAlpha(30),
           leading: Image.asset(
-            icon, color: Provider.of<ThemeProvider>(context).darkTheme
-              ? ColorResources.getTextColor(context)
-              : ResponsiveHelper.isDesktop(context)? ColorResources.getDarkColor(context): ColorResources.getBackgroundColor(context),
-            width: 25, height: 25,
-          ),
-          title: Text(title, style: poppinsRegular.copyWith(
-            fontSize: Dimensions.FONT_SIZE_LARGE,
+            widget.icon,
             color: Provider.of<ThemeProvider>(context).darkTheme
                 ? ColorResources.getTextColor(context)
-                : ResponsiveHelper.isDesktop(context)? ColorResources.getDarkColor(context): ColorResources.getBackgroundColor(context),
-          )),
+                : ResponsiveHelper.isDesktop(context)
+                    ? ColorResources.getDarkColor(context)
+                    : ColorResources.getBackgroundColor(context),
+            width: 25,
+            height: 25,
+          ),
+          title: Text(widget.title,
+              style: poppinsRegular.copyWith(
+                fontSize: Dimensions.FONT_SIZE_LARGE,
+                color: Provider.of<ThemeProvider>(context).darkTheme
+                    ? ColorResources.getTextColor(context)
+                    : ResponsiveHelper.isDesktop(context)
+                        ? ColorResources.getDarkColor(context)
+                        : ColorResources.getBackgroundColor(context),
+              )),
         );
       },
     );

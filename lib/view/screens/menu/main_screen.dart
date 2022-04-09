@@ -20,6 +20,7 @@ import 'package:flutter_grocery/view/screens/coupon/coupon_screen.dart';
 import 'package:flutter_grocery/view/screens/home/home_screen.dart';
 import 'package:flutter_grocery/view/screens/home/widget/bottom_navigation.dart';
 import 'package:flutter_grocery/view/screens/html/html_viewer_screen.dart';
+import 'package:flutter_grocery/view/screens/lab%20tests/lab_test.dart';
 import 'package:flutter_grocery/view/screens/menu/widget/custom_drawer.dart';
 import 'package:flutter_grocery/view/screens/order/my_order_screen.dart';
 import 'package:flutter_grocery/view/screens/settings/setting_screen.dart';
@@ -43,7 +44,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final screens = [
     HomeScreen(),
-    AllCategoryScreen(),
+    LabTest(),
     DoctorConsult(),
     NotificationScreen(),
     ProfileScreen()
@@ -108,97 +109,125 @@ class _MainScreenState extends State<MainScreen> {
             return true;
           }
         },
-        child: Scaffold(
-          bottomNavigationBar: BottomNavigationBar(
-            selectedFontSize: 9,
-            unselectedFontSize: 9,
-            // type: BottomNavigationBarType.fixed,
-            selectedItemColor: Color.fromRGBO(118, 149, 216, 1),
-            unselectedItemColor: Colors.black,
-            showUnselectedLabels: true,
-            elevation: 5,
-            currentIndex: current_index,
-            onTap: (index) {
-              setState(() {
-                current_index = index;
-              });
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.home),
-                label: "Home",
-              ),
-              BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.flask),
-                label: "Lab Tests",
-              ),
-              BottomNavigationBarItem(
-                icon: Container(
-                  height: 26,
-                  width: 32,
-                  child: Image.asset(
-                    'assets/bottomnavicons/pulse-rate.png',
-                    fit: BoxFit.cover,
-                    color: current_index == 2
-                        ? Color.fromRGBO(118, 149, 216, 1)
-                        : Colors.black,
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, RouteHelper.cart);
+                },
+                backgroundColor: ColorResources.getPrimaryColor(context),
+                child: Stack(children: [
+                  Center(
+                    child: Icon(Icons.shopping_cart),
                   ),
-                ),
-                label: "Healthcare",
-              ),
-              BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.bell),
-                label: "Notifications",
-              ),
-              BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.user),
-                label: "Profile",
-              ),
-            ],
-          ),
-          body: Stack(children: [
-            current_index == 0
-                ? Container(
-                    margin: EdgeInsets.only(top: 30),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 70,
-                          width: 70,
-                          child: Image(
-                            image: AssetImage(Images.app_logo),
-                          ),
-                        ),
-                        Text(
-                          AppConstants.APP_NAME,
-                          style: poppinsBold.copyWith(
-                            fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-                            color: ColorResources.getTitleColor(context),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 170,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            widget.drawerController.toggle();
-                          },
-                          icon: Image.asset(Images.more_icon,
-                              color: Theme.of(context).primaryColor),
-                        )
-                      ],
+                  Positioned(
+                    top: -3.5,
+                    right: -0.24,
+                    child: Container(
+                      padding: EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.red),
+                      child: Text(
+                          '${Provider.of<CartProvider>(context).cartList.length}',
+                          style: TextStyle(
+                              color: Theme.of(context).cardColor,
+                              fontSize: 10)),
                     ),
-                  )
-                : SizedBox.shrink(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                  height: current_index == 0
-                      ? MediaQuery.of(context).size.height * 0.8
-                      : MediaQuery.of(context).size.height,
-                  child: screens[current_index]),
-            )
-          ]),
+                  ),
+                ])),
+            bottomNavigationBar: BottomNavigationBar(
+              selectedFontSize: 9,
+              unselectedFontSize: 9,
+              // type: BottomNavigationBarType.fixed,
+              selectedItemColor: Color.fromRGBO(118, 149, 216, 1),
+              unselectedItemColor: Colors.black,
+              showUnselectedLabels: true,
+              elevation: 5,
+              currentIndex: current_index,
+              onTap: (index) {
+                setState(() {
+                  current_index = index;
+                });
+              },
+              items: [
+                BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.home),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.flask),
+                  label: "Lab Tests",
+                ),
+                BottomNavigationBarItem(
+                  icon: Container(
+                    height: 26,
+                    width: 32,
+                    child: Image.asset(
+                      'assets/bottomnavicons/pulse-rate.png',
+                      fit: BoxFit.cover,
+                      color: current_index == 2
+                          ? Color.fromRGBO(118, 149, 216, 1)
+                          : Colors.black,
+                    ),
+                  ),
+                  label: "Healthcare",
+                ),
+                BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.bell),
+                  label: "Notifications",
+                ),
+                BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.user),
+                  label: "Profile",
+                ),
+              ],
+            ),
+            body: Stack(children: [
+              current_index == 0
+                  ? Container(
+                      margin: EdgeInsets.only(top: 30),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 70,
+                            width: 70,
+                            child: Image(
+                              image: AssetImage(Images.app_logo),
+                            ),
+                          ),
+                          Text(
+                            AppConstants.APP_NAME,
+                            style: poppinsBold.copyWith(
+                              fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                              color: ColorResources.getTitleColor(context),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              widget.drawerController.toggle();
+                            },
+                            icon: Image.asset(Images.more_icon,
+                                color: Theme.of(context).primaryColor),
+                          )
+                        ],
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                    height: current_index == 0
+                        ? MediaQuery.of(context).size.height * 0.8
+                        : MediaQuery.of(context).size.height,
+                    child: screens[current_index]),
+              )
+            ]),
+          ),
         ));
   }
 }

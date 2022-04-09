@@ -63,4 +63,5 @@ class Images {
   static const String pet = 'assets/image/pet.png';
   static const String surgical = 'assets/image/surgical.png';
   static const String vitd = 'assets/image/vitd.png';
+  static const String doc = 'assets/image/doc.png';
 }

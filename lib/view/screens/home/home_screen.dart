@@ -97,100 +97,105 @@ class _HomeScreenState extends State<HomeScreen> {
         await _loadData(context, true);
       },
       backgroundColor: Theme.of(context).primaryColor,
-      child: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Scrollbar(
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: SizedBox(
-              width: 1170,
-              child: Column(
-                  // controller: _scrollController,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: Dimensions.PADDING_SIZE_DEFAULT,
-                        ),
-                        Text(
-                          "Sample pickup from",
-                          style: TextStyle(
-                              color: ColorResources.getTextColor(context)),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, RouteHelper.address);
-                            },
-                            child: Text(
-                              "address",
-                              style: TextStyle(
-                                  color: ColorResources.getTextColor(context),
-                                  fontWeight: FontWeight.bold),
-                            ))
-                      ],
-                    ),
-                    SizedBox(
-                      height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                    ),
-                    Consumer<SearchProvider>(
-                        builder: (context, searchProvider, child) => Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: Dimensions
-                                                .PADDING_SIZE_DEFAULT),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        child: CustomTextField(
-                                          isElevation: true,
-                                          fillColor: Colors.white,
-                                          hintText: getTranslated(
-                                              'search_item_here', context),
-                                          isShowBorder: true,
-                                          isShowSuffixIcon: true,
-                                          suffixIconUrl: Icons.search,
-                                          controller: _searchController,
-                                          inputAction: TextInputAction.search,
-                                          isIcon: true,
-                                          onSubmit: (text) {
-                                            if (_searchController.text.length >
-                                                0) {
-                                              List<int> _encoded = utf8.encode(
-                                                  _searchController.text);
-                                              String _data =
-                                                  base64Encode(_encoded);
-                                              searchProvider.saveSearchAddress(
-                                                  _searchController.text);
-                                              searchProvider.searchProduct(
-                                                  _searchController.text,
-                                                  context);
-                                              Navigator.pushNamed(
-                                                  context,
-                                                  RouteHelper.searchResult +
-                                                      '?text=$_data',
-                                                  arguments: SearchResultScreen(
-                                                      searchString:
-                                                          _searchController
-                                                              .text));
-                                              //Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchResultScreen(searchString: _searchController.text)));
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ])),
-                    Material(
-                      elevation: 3,
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.transparent,
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: SizedBox(
+            width: 1170,
+            child: Column(
+                // controller: _scrollController,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: Dimensions.PADDING_SIZE_DEFAULT,
                       ),
+                      Text(
+                        "Sample pickup from",
+                        style: TextStyle(
+                            color: ColorResources.getTextColor(context)),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, RouteHelper.address);
+                          },
+                          child: Text(
+                            "address",
+                            style: TextStyle(
+                                color: ColorResources.getTextColor(context),
+                                fontWeight: FontWeight.bold),
+                          ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
+                  ),
+                  Consumer<SearchProvider>(
+                      builder: (context, searchProvider, child) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              Dimensions.PADDING_SIZE_DEFAULT),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: CustomTextField(
+                                        isElevation: true,
+                                        fillColor: Colors.white,
+                                        hintText: getTranslated(
+                                            'search_item_here', context),
+                                        isShowBorder: true,
+                                        isShowSuffixIcon: true,
+                                        suffixIconUrl: Icons.search,
+                                        controller: _searchController,
+                                        inputAction: TextInputAction.search,
+                                        isIcon: true,
+                                        onSubmit: (text) {
+                                          if (_searchController.text.length >
+                                              0) {
+                                            List<int> _encoded = utf8
+                                                .encode(_searchController.text);
+                                            String _data =
+                                                base64Encode(_encoded);
+                                            searchProvider.saveSearchAddress(
+                                                _searchController.text);
+                                            searchProvider.searchProduct(
+                                                _searchController.text,
+                                                context);
+                                            Navigator.pushNamed(
+                                                context,
+                                                RouteHelper.searchResult +
+                                                    '?text=$_data',
+                                                arguments: SearchResultScreen(
+                                                    searchString:
+                                                        _searchController
+                                                            .text));
+                                            //Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchResultScreen(searchString: _searchController.text)));
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ])),
+                  Material(
+                    elevation: 3,
+                    child: Divider(
+                      thickness: 1,
+                      color: Colors.transparent,
                     ),
-                    Container(
+                  ),
+                  Consumer<CategoryProvider>(
+                      builder: (context, category, child) {
+                    return category.categoryList == null
+                        ? CategoryView()
+                        : category.categoryList.length == 0
+                            ? SizedBox()
+                            : CategoryView();
+                  }),
+                  /*    Container(
                         height: MediaQuery.of(context).size.height * 0.32,
                         padding: EdgeInsets.all(10.0),
                         child: GridView.builder(
@@ -228,124 +233,66 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ]);
-                            })),
-                    Divider(
-                        color: ColorResources.getDividerColor(context),
-                        thickness: 10),
-                    Consumer<BannerProvider>(builder: (context, banner, child) {
-                      return banner.bannerList == null
-                          ? BannersView()
-                          : banner.bannerList.length == 0
-                              ? SizedBox()
-                              : BannersView();
-                    }),
-                    Divider(
-                        color: ColorResources.getDividerColor(context),
-                        thickness: 10),
-                    Padding(
-                      padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Upload Prescription",
-                            style: poppinsMedium.copyWith(
-                              color: ColorResources.getPrimaryColor(context),
-                              fontSize: 18,
-                            ),
+                            })),*/
+                  Divider(
+                      color: ColorResources.getDividerColor(context),
+                      thickness: 10),
+                  Consumer<BannerProvider>(builder: (context, banner, child) {
+                    return banner.bannerList == null
+                        ? BannersView()
+                        : banner.bannerList.length == 0
+                            ? SizedBox()
+                            : BannersView();
+                  }),
+                  Divider(
+                      color: ColorResources.getDividerColor(context),
+                      thickness: 10),
+                  Padding(
+                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                    child: Column(children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "Upload Prescription",
+                          style: poppinsMedium.copyWith(
+                            color: ColorResources.getPrimaryColor(context),
+                            fontSize: 18,
                           ),
                         ),
-                        Text(
-                            "Upload prescription and tell us what you need. We do the rest!"),
-                        InkWell(
-                          onTap: () async {
-                            await UploadPhoto().pickImage(context);
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Upload Now",
-                                  textAlign: TextAlign.left,
-                                  style: poppinsSemiBold.copyWith(
-                                    color:
-                                        ColorResources.getPrimaryColor(context),
-                                    fontSize: 15,
-                                  ),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  size: 15,
+                      ),
+                      Text(
+                          "Upload prescription and tell us what you need. We do the rest!"),
+                      InkWell(
+                        onTap: () async {
+                          await UploadPhoto().pickImage(context);
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Upload Now",
+                                textAlign: TextAlign.left,
+                                style: poppinsSemiBold.copyWith(
                                   color:
                                       ColorResources.getPrimaryColor(context),
-                                )
-                              ]),
-                        )
-                      ]),
-                    ),
-                    Divider(
-                        color: ColorResources.getDividerColor(context),
-                        thickness: 10),
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.5,
-                        padding:
-                            EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                        child: GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 6,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 0.0,
-                                    mainAxisSpacing: 20.0),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Stack(children: [
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 150,
-                                      width: 70,
-                                      child: Image(
-                                          image: AssetImage(
-                                            Images.vitd,
-                                          ),
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
+                                  fontSize: 15,
                                 ),
-                                /*  Positioned(
-                                    top: 65,
-                                    left: 8,
-                                    child: Container(
-                                      width: 100,
-                                      child: Text(
-                                        text[index],
-                                        textAlign: TextAlign.center,
-                                        style: poppinsSemiBold.copyWith(
-                                            fontSize: 10),
-                                      ),
-                                    ),
-                                  ),*/
-                              ]);
-                            })),
-                    Divider(
-                        color: ColorResources.getDividerColor(context),
-                        thickness: 10),
-                    Consumer<CategoryProvider>(
-                        builder: (context, category, child) {
-                      return category.categoryList == null
-                          ? CategoryView()
-                          : category.categoryList.length == 0
-                              ? SizedBox()
-                              : CategoryView();
-                    }),
-                    Divider(
-                        color: ColorResources.getDividerColor(context),
-                        thickness: 10),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                size: 15,
+                                color: ColorResources.getPrimaryColor(context),
+                              )
+                            ]),
+                      )
+                    ]),
+                  ),
 
-                    /*     Consumer<ProductProvider>(
+                  Divider(
+                      color: ColorResources.getDividerColor(context),
+                      thickness: 10),
+
+                  /*     Consumer<ProductProvider>(
                           builder: (context, product, child) {
                         return product.dailyItemList == null
                             ? DailyItemView()
@@ -354,8 +301,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 : DailyItemView();
                       }),*/
 
-                    // Popular Item
-                    /*  Padding(
+                  // Popular Item
+                  /*  Padding(
                         padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
                         child: TitleWidget(
                             title: getTranslated('popular_item', context)),
@@ -363,8 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ProductView(
                           productType: ProductType.POPULAR_PRODUCT,
                           scrollController: _scrollController),*/
-                  ]),
-            ),
+                ]),
           ),
         ),
       ),

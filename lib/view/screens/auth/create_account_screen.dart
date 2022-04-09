@@ -97,7 +97,11 @@ class CreateAccountScreen extends StatelessWidget {
 
                           CustomTextField(
                             hintText: 'First Name',
-                            isShowBorder: true,
+                            fillColor: Colors.transparent,
+                            isShowBorder: false,
+                            isElevation: false,
+                            isSearch: false,
+                            isShowPrefixIcon: true,
                             prefixIconUrl: Images.user,
                             controller: _firstNameController,
                             focusNode: _firstNameFocus,
@@ -113,7 +117,11 @@ class CreateAccountScreen extends StatelessWidget {
                           CustomTextField(
                             hintText: 'Last Name',
                             prefixIconUrl: Images.user,
-                            isShowBorder: true,
+                            fillColor: Colors.transparent,
+                            isShowBorder: false,
+                            isElevation: false,
+                            isSearch: false,
+                            isShowPrefixIcon: true,
                             controller: _lastNameController,
                             focusNode: _lastNameFocus,
                             nextFocus: _emailFocus,
@@ -145,9 +153,13 @@ class CreateAccountScreen extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: CustomTextField(
+                                      fillColor: Colors.transparent,
+                                      isShowBorder: false,
+                                      isElevation: false,
+                                      isSearch: false,
+                                      isShowPrefixIcon: true,
                                       hintText:
                                           getTranslated('number_hint', context),
-                                      isShowBorder: true,
                                       controller: _numberController,
                                       focusNode: _numberFocus,
                                       nextFocus: _passwordFocus,
@@ -157,9 +169,13 @@ class CreateAccountScreen extends StatelessWidget {
                                 ])
                               : CustomTextField(
                                   prefixIconUrl: Images.mail,
+                                  fillColor: Colors.transparent,
+                                  isShowBorder: false,
+                                  isElevation: false,
+                                  isSearch: false,
+                                  isShowPrefixIcon: true,
                                   hintText:
                                       getTranslated('demo_gmail', context),
-                                  isShowBorder: true,
                                   controller: _emailController,
                                   focusNode: _emailFocus,
                                   nextFocus: _passwordFocus,
@@ -172,6 +188,11 @@ class CreateAccountScreen extends StatelessWidget {
 
                           CustomTextField(
                             hintText: "Password",
+                            fillColor: Colors.transparent,
+                            isShowBorder: false,
+                            isElevation: false,
+                            isSearch: false,
+                            isShowPrefixIcon: true,
                             prefixIconUrl: Images.password,
                             isPassword: true,
                             controller: _passwordController,
@@ -182,6 +203,11 @@ class CreateAccountScreen extends StatelessWidget {
                           SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
 
                           CustomTextField(
+                            fillColor: Colors.transparent,
+                            isShowBorder: false,
+                            isElevation: false,
+                            isSearch: false,
+                            isShowPrefixIcon: true,
                             hintText: "Confirm Password",
                             prefixIconUrl: Images.password,
                             isPassword: true,

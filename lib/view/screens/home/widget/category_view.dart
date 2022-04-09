@@ -55,30 +55,27 @@ class CategoryView extends StatelessWidget {
                         ]),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.32,
+                    height: MediaQuery.of(context).size.height * 0.25,
                     child: GridView.builder(
-                      itemCount: category.categoryList.length > 5
-                          ? 8
-                          : category.categoryList.length,
+                      scrollDirection: Axis.horizontal,
+
+                      itemCount: category.categoryList.length,
                       padding: EdgeInsets.all(2),
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: ScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
                       // shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: ResponsiveHelper.isDesktop(context)
-                            ? 6
-                            : ResponsiveHelper.isMobilePhone()
-                                ? 4
-                                : ResponsiveHelper.isTab(context)
-                                    ? 5
-                                    : 3,
-                        mainAxisSpacing: 50,
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 150,
+                        childAspectRatio: 2 / 2,
+                        mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                       ),
                       itemBuilder: (context, index) {
-                        return Stack(children: [
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: InkWell(
+                        return Container(
+                          width: 50,
+                          height: 100,
+                          child: Column(children: [
+                            InkWell(
                               onTap: () {
                                 Navigator.of(context).pushNamed(
                                   RouteHelper.getCategoryProductsRoute(
@@ -87,8 +84,8 @@ class CategoryView extends StatelessWidget {
                               },
                               child: Container(
                                 height: 60,
-                                width: 60,
-                                decoration: BoxDecoration(
+                                width: 80,
+                                /* decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                     color:
@@ -99,7 +96,7 @@ class CategoryView extends StatelessWidget {
                                               .darkTheme
                                           ? 0.05
                                           : 1),
-                                ),
+                                ),*/
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: FadeInImage.assetNetwork(
@@ -114,15 +111,11 @@ class CategoryView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 60,
-                            left: 6,
 
                             // left: 5,
                             // alignment: Alignment.bottomCenter,
-                            child: Container(
-                              width: 80,
+                            Container(
+                              width: 70,
                               child: Text(
                                 category.categoryList[index].name,
                                 style: poppinsMedium.copyWith(fontSize: 10),
@@ -131,8 +124,8 @@ class CategoryView extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                          ),
-                        ]);
+                          ]),
+                        );
                       },
                     ),
                   ),

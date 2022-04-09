@@ -90,9 +90,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         maxLines: widget.maxLines,
         controller: widget.controller,
         focusNode: widget.focusNode,
-        style: Theme.of(context).textTheme.headline2.copyWith(
-            color: Theme.of(context).textTheme.bodyText1.color,
-            fontSize: Dimensions.FONT_SIZE_LARGE),
+        style: poppinsMedium.copyWith(fontSize: 16),
         textInputAction: widget.inputAction,
         keyboardType: widget.inputType,
         cursorColor: widget.isSearch
@@ -138,8 +136,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ? widget.fillColor
               : ColorResources.getCardBgColor(context),
           hintStyle: poppinsLight.copyWith(
-              fontSize: Dimensions.FONT_SIZE_LARGE,
-              color: ColorResources.getHintColor(context)),
+            fontSize: Dimensions.FONT_SIZE_LARGE,
+            color: ColorResources.getHintColor(context),
+          ),
           filled: true,
           prefixIcon: widget.isShowPrefixIcon
               ? Padding(

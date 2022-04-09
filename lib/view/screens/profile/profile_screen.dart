@@ -44,29 +44,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
-      appBar: ResponsiveHelper.isDesktop(context)
-          ? MainAppBar()
-          : AppBar(
-              backgroundColor: Theme.of(context).cardColor,
-              leading: IconButton(
-                  icon: Image.asset(Images.more_icon,
-                      color: Theme.of(context).primaryColor),
-                  onPressed: () {}),
-              title: Text(getTranslated('profile', context),
-                  style: poppinsMedium.copyWith(
-                    fontSize: Dimensions.FONT_SIZE_SMALL,
-                    color: Theme.of(context).textTheme.bodyText1.color,
-                  )),
-            ),
       body: SafeArea(
           child: _isLoggedIn
               ? Consumer<ProfileProvider>(
-                  builder: (context, profileProvider, child) => Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                    child: Scrollbar(
-                      child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
+                  builder: (context, profileProvider, child) => Scrollbar(
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height,
                         child: Center(
                           child: SizedBox(
                             width: 1170,
