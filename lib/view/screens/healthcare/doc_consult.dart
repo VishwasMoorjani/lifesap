@@ -12,7 +12,10 @@ class DoctorConsult extends StatefulWidget {
 class _DoctorConsultState extends State<DoctorConsult> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Center(
+      child: Text("Coming Soon !"),
+    );
+    /*Scaffold(
       body: Container(
           margin: EdgeInsets.fromLTRB(8, 25, 8, 0),
           child: Column(
@@ -95,6 +98,6 @@ class _DoctorConsultState extends State<DoctorConsult> {
                       })),
             ],
           )),
-    );
+    );*/
   }
 }

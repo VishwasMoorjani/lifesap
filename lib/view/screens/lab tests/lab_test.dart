@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_grocery/view/base/no_data_screen.dart';
 
 import '../../../utill/dimensions.dart';
 import '../../../utill/images.dart';
@@ -11,7 +12,10 @@ class LabTest extends StatefulWidget {
 class _LabTestState extends State<LabTest> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Center(
+      child: Text("Coming Soon !"),
+    );
+    /*Scaffold(
       body: Container(
           height: MediaQuery.of(context).size.height * 0.5,
           padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
@@ -52,8 +56,8 @@ class _LabTestState extends State<LabTest> {
                                       ),
                                     ),
                                   ),*/
-                ]);
+                ]);*
               })),
-    );
+    );*/
   }
 }

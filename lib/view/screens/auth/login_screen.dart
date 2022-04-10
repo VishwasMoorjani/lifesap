@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
+    //double _width = MediaQuery.of(context).size.width;
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -179,7 +179,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       )
                                     : TextField(
                                         style: poppinsMedium.copyWith(
-                                            fontSize: 16),
+                                            fontSize:
+                                                Dimensions.FONT_SIZE_LARGE),
                                         decoration: InputDecoration(
                                             hintText: "Phone Number",
                                             hintStyle: poppinsMedium.copyWith(
@@ -521,7 +522,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 Text(getTranslated('OR', context),
                                     style: poppinsMedium.copyWith(
-                                        fontSize: 15,
+                                        fontSize: Dimensions.FONT_SIZE_DEFAULT,
                                         color:
                                             ColorResources.getYellow(context))),
 

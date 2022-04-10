@@ -75,24 +75,25 @@ class _OtpVerificationState extends State<OtpVerification> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: 200,
+                          height: MediaQuery.of(context).size.height * 0.25,
                         ),
                         Text((getTranslated('otp_verification', context)),
                             style: poppinsBold.copyWith(
-                                fontSize: 18,
+                                fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
                                 color:
                                     ColorResources.getPrimaryColor(context))),
                         RichText(
                           text: TextSpan(
                               style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: Dimensions.FONT_SIZE_DEFAULT,
                                   color:
                                       ColorResources.getPrimaryColor(context)),
                               children: [
                                 TextSpan(
                                     style: poppinsMedium,
                                     text: getTranslated(
-                                        'enter_the_otp_sent_to', context)),
+                                            'enter_the_otp_sent_to', context) +
+                                        " "),
                                 TextSpan(
                                   style: poppinsBold,
                                   text: ((widget.phoneNumber).toString())
@@ -106,7 +107,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                       controller: otpController,
                     ),*/
                         SizedBox(
-                          height: 30,
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -119,8 +120,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                             OtpInput(_fieldSix, false),
                           ],
                         ),
-                        const SizedBox(
-                          height: 30,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +134,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                               child: Text(
                                 getTranslated('resend_otp', context),
                                 style: poppinsBold.copyWith(
-                                    fontSize: 10,
+                                    fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL,
                                     color: ColorResources.getPrimaryColor(
                                         context)),
                               ),
@@ -142,10 +143,10 @@ class _OtpVerificationState extends State<OtpVerification> {
                           ],
                         ),
                         SizedBox(
-                          height: 120,
+                          height: MediaQuery.of(context).size.height * 0.15,
                         ),
                         Container(
-                          height: 60,
+                          height: MediaQuery.of(context).size.height * 0.08,
                           padding: EdgeInsets.symmetric(horizontal: 50),
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
@@ -218,7 +219,8 @@ class _OtpVerificationState extends State<OtpVerification> {
                               },
                               child: Text(
                                 getTranslated('verify', context),
-                                style: poppinsSemiBold.copyWith(fontSize: 18),
+                                style: poppinsSemiBold.copyWith(
+                                    fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE),
                               )),
                         ),
                       ],

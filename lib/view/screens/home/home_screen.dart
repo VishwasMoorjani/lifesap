@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           controller: _scrollController,
           child: SizedBox(
-            width: 1170,
+            width: MediaQuery.of(context).size.width,
             child: Column(
                 // controller: _scrollController,
                 children: [
@@ -110,21 +110,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         width: Dimensions.PADDING_SIZE_DEFAULT,
                       ),
-                      Text(
-                        "Sample pickup from",
-                        style: TextStyle(
-                            color: ColorResources.getTextColor(context)),
-                      ),
+                      Text("Sample pickup from",
+                          style: poppinsMedium.copyWith(
+                              fontSize: Dimensions.FONT_SIZE_SMALL)),
                       TextButton(
                           onPressed: () {
                             Navigator.pushNamed(context, RouteHelper.address);
                           },
-                          child: Text(
-                            "address",
-                            style: TextStyle(
-                                color: ColorResources.getTextColor(context),
-                                fontWeight: FontWeight.bold),
-                          ))
+                          child: Text("address",
+                              style: poppinsSemiBold.copyWith(
+                                  color: ColorResources.getTextColor(context),
+                                  fontSize: Dimensions.FONT_SIZE_SMALL)))
                     ],
                   ),
                   SizedBox(
@@ -256,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           "Upload Prescription",
                           style: poppinsMedium.copyWith(
                             color: ColorResources.getPrimaryColor(context),
-                            fontSize: 18,
+                            fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
                           ),
                         ),
                       ),
@@ -275,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: poppinsSemiBold.copyWith(
                                   color:
                                       ColorResources.getPrimaryColor(context),
-                                  fontSize: 15,
+                                  fontSize: Dimensions.FONT_SIZE_LARGE,
                                 ),
                               ),
                               Icon(

@@ -178,7 +178,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         )),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: MediaQuery.of(context).size.height * 0.008,
                   ),
                   InkWell(
                     onTap: () {
@@ -203,7 +203,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           getTranslated('login', context),
                           style: poppinsMedium.copyWith(
                               decoration: TextDecoration.underline,
-                              fontSize: 12,
+                              fontSize: Dimensions.FONT_SIZE_SMALL,
                               color: ColorResources.getPrimaryColor(context)),
                         ),
                       ],

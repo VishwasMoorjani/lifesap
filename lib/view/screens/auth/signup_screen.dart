@@ -104,7 +104,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 Text(AppConstants.APP_NAME,
                                     style: poppinsBold.copyWith(
-                                        fontSize: 22,
+                                        fontSize:
+                                            Dimensions.FONT_SIZE_OVER_LARGE,
                                         color: ColorResources.getTitleColor(
                                             context))),
                               ],
@@ -147,8 +148,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           child: Text(
                                             getTranslated('message', context),
                                             style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12),
+                                              color: Colors.white,
+                                              fontSize:
+                                                  Dimensions.FONT_SIZE_SMALL,
+                                            ),
                                             textAlign: TextAlign.center,
                                           ),
                                         )),
@@ -246,7 +249,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                         _emailController,
                                                   )),
                                               SizedBox(
-                                                width: 30,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.07,
                                               ),
                                               !authProvider
                                                       .isPhoneNumberVerificationButtonLoading
@@ -424,7 +430,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         child: Text(
                                           getTranslated('otp_sent', context),
                                           style: poppinsSemiBold.copyWith(
-                                              fontSize: 10,
+                                              fontSize: Dimensions
+                                                  .FONT_SIZE_EXTRA_SMALL,
                                               color: ColorResources
                                                   .getPrimaryColor(context)),
                                         )),
@@ -550,14 +557,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width: 10,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.02,
                                 ),
                                 Text(
                                   getTranslated('why_choose', context) +
                                       AppConstants.APP_NAME +
                                       " ?",
                                   style: poppinsBold.copyWith(
-                                      fontSize: 18,
+                                      fontSize:
+                                          Dimensions.FONT_SIZE_EXTRA_LARGE,
                                       color: ColorResources.getPrimaryColor(
                                           context)),
                                 ),
@@ -574,7 +583,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       getTranslated(
                                           'express_medicine_delivery', context),
                                       style: poppinsBold.copyWith(
-                                          fontSize: 12,
+                                          fontSize: Dimensions.FONT_SIZE_SMALL,
                                           color: ColorResources.getPrimaryColor(
                                               context)),
                                     ),
@@ -582,7 +591,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       getTranslated(
                                           '5_lakh_happy_customer', context),
                                       style: poppinsBold.copyWith(
-                                          fontSize: 10, color: Colors.grey),
+                                          fontSize:
+                                              Dimensions.FONT_SIZE_EXTRA_SMALL,
+                                          color: Colors.grey),
                                     ),
                                     leading: Image(
                                       image: AssetImage(Images.delivery_truck),
@@ -598,7 +609,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         'consult_with_Lifesap_doctors',
                                         context),
                                     style: poppinsBold.copyWith(
-                                        fontSize: 12,
+                                        fontSize: Dimensions.FONT_SIZE_SMALL,
                                         color: ColorResources.getPrimaryColor(
                                             context)),
                                   ),
@@ -607,7 +618,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         '7000+_doctors_available_online_in_15_min',
                                         context),
                                     style: poppinsBold.copyWith(
-                                        fontSize: 10, color: Colors.grey),
+                                        fontSize:
+                                            Dimensions.FONT_SIZE_EXTRA_SMALL,
+                                        color: Colors.grey),
                                   ),
                                   /* leading: Image(
                               image: AssetImage(Images.delivery_truck),
