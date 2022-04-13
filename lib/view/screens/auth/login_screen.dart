@@ -499,7 +499,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 // for create an account
                                 SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-                                InkWell(
+                                /*  InkWell(
                                   onTap: () {
                                     String _email =
                                         _emailController.text.trim();
@@ -524,7 +524,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: poppinsMedium.copyWith(
                                         fontSize: Dimensions.FONT_SIZE_DEFAULT,
                                         color:
-                                            ColorResources.getYellow(context))),
+                                            ColorResources.getYellow(context))),*/
 
                                 InkWell(
                                     onTap: () {

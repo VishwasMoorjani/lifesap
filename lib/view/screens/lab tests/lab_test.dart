@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_grocery/utill/color_resources.dart';
 import 'package:flutter_grocery/view/base/no_data_screen.dart';
 
 import '../../../utill/dimensions.dart';
 import '../../../utill/images.dart';
+import '../../base/custom_app_bar.dart';
 
 class LabTest extends StatefulWidget {
   @override
@@ -12,8 +14,25 @@ class LabTest extends StatefulWidget {
 class _LabTestState extends State<LabTest> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Coming Soon !"),
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: "Lab Tests",
+        isElevation: true,
+        isBackButtonExist: false,
+      ),
+      backgroundColor: ColorResources.getCardBgColor(context),
+      body: Center(
+          child: Column(
+        children: [
+          Image(
+            image: AssetImage(Images.lab_1),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.06,
+          ),
+          Image(image: AssetImage(Images.lab_2)),
+        ],
+      )),
     );
     /*Scaffold(
       body: Container(

@@ -65,4 +65,7 @@ class Images {
   static const String vitd = 'assets/image/vitd.png';
   static const String doc = 'assets/image/doc.png';
   static const String profile_bg = 'assets/image/profile_bg.jpg';
+  static const String blog = 'assets/image/blog.png';
+  static const String lab_1 = 'assets/image/labtest1.png';
+  static const String lab_2 = 'assets/image/labtest2.png';
 }

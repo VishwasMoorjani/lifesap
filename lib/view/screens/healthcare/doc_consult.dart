@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/utill/styles.dart';
+import 'package:flutter_grocery/view/base/custom_app_bar.dart';
+import 'package:flutter_grocery/view/screens/healthcare/appointment.dart';
 
 import '../../../utill/color_resources.dart';
 import '../../../utill/images.dart';
@@ -12,28 +14,20 @@ class DoctorConsult extends StatefulWidget {
 class _DoctorConsultState extends State<DoctorConsult> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Coming Soon !"),
-    );
-    /*Scaffold(
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: "Doctor's Consultation",
+        isElevation: true,
+        isBackButtonExist: false,
+      ),
       body: Container(
           margin: EdgeInsets.fromLTRB(8, 25, 8, 0),
           child: Column(
             children: [
               SizedBox(
-                height: 20,
+                height: MediaQuery.of(context).size.height * 0.02,
               ),
               // IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-              Center(
-                child: Text(
-                  "Doctor's Consultation",
-                  style: poppinsSemiBold.copyWith(fontSize: 20),
-                ),
-              ),
-              Divider(
-                thickness: 1,
-                color: Colors.grey,
-              ),
 
               Container(
                   height: MediaQuery.of(context).size.height * 0.5,
@@ -47,11 +41,14 @@ class _DoctorConsultState extends State<DoctorConsult> {
                           mainAxisSpacing: 20.0),
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Appointment()));
+                          },
                           child: Stack(children: [
                             Container(
                               // padding: EdgeInsets.all(10),
-                              height: 160,
+                              height: MediaQuery.of(context).size.height * 0.2,
                               //width: 150,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -65,7 +62,8 @@ class _DoctorConsultState extends State<DoctorConsult> {
                               ),
                             ),
                             Positioned(
-                                bottom: 4,
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.005,
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color:
@@ -77,14 +75,17 @@ class _DoctorConsultState extends State<DoctorConsult> {
                                     ),
                                   ),
                                   // color: ColorResources.getPrimaryColor(context),
-                                  height: 40,
-                                  width: 163,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.05,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.415,
                                 )),
                             Positioned(
-                              bottom: 18,
+                              bottom: MediaQuery.of(context).size.height * 0.02,
                               // left: 8,
                               child: Container(
-                                width: 163,
+                                width:
+                                    MediaQuery.of(context).size.width * 0.415,
                                 child: Text(
                                   "Dr. Sky",
                                   textAlign: TextAlign.center,
@@ -98,6 +99,6 @@ class _DoctorConsultState extends State<DoctorConsult> {
                       })),
             ],
           )),
-    );*/
+    );
   }
 }

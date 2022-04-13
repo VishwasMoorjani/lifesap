@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_grocery/view/base/custom_app_bar.dart';
 
 class BlogShow extends StatefulWidget {
   final topic;
@@ -14,6 +15,10 @@ class _BlogShowState extends State<BlogShow> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: CustomAppBar(
+          title: widget.topic,
+          isBackButtonExist: true,
+        ),
         body: SingleChildScrollView(
             child: Column(
           children: [

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_grocery/blogs/blogs.dart';
+import 'package:flutter_grocery/view/screens/blogs/blogs.dart';
 import 'package:flutter_grocery/helper/html_type.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
 import 'package:flutter_grocery/helper/route_helper.dart';
@@ -142,7 +142,7 @@ class _MainScreenState extends State<MainScreen> {
             bottomNavigationBar: BottomNavigationBar(
               selectedFontSize: 9,
               unselectedFontSize: 9,
-              // type: BottomNavigationBarType.fixed,
+              type: BottomNavigationBarType.fixed,
               selectedItemColor: Color.fromRGBO(118, 149, 216, 1),
               unselectedItemColor: Colors.black,
               showUnselectedLabels: true,
@@ -174,11 +174,21 @@ class _MainScreenState extends State<MainScreen> {
                           : Colors.black,
                     ),
                   ),
-                  label: "Healthcare",
+                  label: "Doc-On",
                 ),
                 BottomNavigationBarItem(
                   // icon: FaIcon(FontAwesomeIcons.bell),
-                  icon: Icon(Icons.library_books),
+                  icon: Container(
+                    height: 26,
+                    width: 32,
+                    child: Image.asset(
+                      Images.blog,
+                      fit: BoxFit.contain,
+                      color: current_index == 3
+                          ? Color.fromRGBO(118, 149, 216, 1)
+                          : Colors.black,
+                    ),
+                  ),
                   label: "Blogs",
                 ),
                 BottomNavigationBarItem(
