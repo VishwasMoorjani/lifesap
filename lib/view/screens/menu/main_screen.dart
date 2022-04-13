@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_grocery/blogs/blogs.dart';
 import 'package:flutter_grocery/helper/html_type.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
 import 'package:flutter_grocery/helper/route_helper.dart';
@@ -46,7 +47,8 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     LabTest(),
     DoctorConsult(),
-    NotificationScreen(),
+    // NotificationScreen(),
+    Blogs(),
     ProfileScreen()
   ];
   List<String> _keys = [];
@@ -175,8 +177,9 @@ class _MainScreenState extends State<MainScreen> {
                   label: "Healthcare",
                 ),
                 BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.bell),
-                  label: "Notifications",
+                  // icon: FaIcon(FontAwesomeIcons.bell),
+                  icon: Icon(Icons.library_books),
+                  label: "Blogs",
                 ),
                 BottomNavigationBarItem(
                   icon: FaIcon(FontAwesomeIcons.user),

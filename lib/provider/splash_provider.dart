@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_grocery/data/model/response/base/api_response.dart';
 import 'package:flutter_grocery/data/model/response/config_model.dart';
 import 'package:flutter_grocery/data/repository/splash_repo.dart';
+import 'package:flutter_grocery/view/screens/auth/widget/loading.dart';
 
 class SplashProvider extends ChangeNotifier {
   final SplashRepo splashRepo;
@@ -22,7 +23,8 @@ class SplashProvider extends ChangeNotifier {
   Future<bool> initConfig(BuildContext context) async {
     ApiResponse apiResponse = await splashRepo.getConfig();
     bool isSuccess;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _configModel = ConfigModel.fromJson(apiResponse.response.data);
       _baseUrls = ConfigModel.fromJson(apiResponse.response.data).baseUrls;
       isSuccess = true;
@@ -30,11 +32,12 @@ class SplashProvider extends ChangeNotifier {
     } else {
       isSuccess = false;
       print(apiResponse.error);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(apiResponse.error.toString()), backgroundColor: Colors.red));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(apiResponse.error.toString()),
+          backgroundColor: Colors.red));
     }
     return isSuccess;
   }
-
 
   void setFirstTimeConnectionCheck(bool isChecked) {
     _firstTimeConnectionCheck = isChecked;
@@ -56,5 +59,4 @@ class SplashProvider extends ChangeNotifier {
   void setFromSetting(bool isSetting) {
     _fromSetting = isSetting;
   }
-
 }

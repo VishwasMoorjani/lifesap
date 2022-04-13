@@ -34,14 +34,18 @@ import 'di_container.dart' as di;
 import 'localization/app_localization.dart';
 import 'helper/notification_helper.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = (Platform.isAndroid || Platform.isIOS) ? FlutterLocalNotificationsPlugin() : null;
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    (Platform.isAndroid || Platform.isIOS)
+        ? FlutterLocalNotificationsPlugin()
+        : null;
 
 /// Global Certificate Handler
-class MyHttpOverrides extends HttpOverrides{
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context){
+  HttpClient createHttpClient(SecurityContext context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -53,22 +57,24 @@ Future<void> main() async {
   await di.init();
   int _orderID;
   try {
-    if(!kIsWeb) {
-      final RemoteMessage remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (!kIsWeb) {
+      final RemoteMessage remoteMessage =
+          await FirebaseMessaging.instance.getInitialMessage();
       if (remoteMessage != null) {
-        _orderID = remoteMessage.notification.titleLocKey != null ? int.parse(remoteMessage.notification.titleLocKey) : null;
+        _orderID = remoteMessage.notification.titleLocKey != null
+            ? int.parse(remoteMessage.notification.titleLocKey)
+            : null;
       }
       await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
-  }catch (e) {
-
-  }
+  } catch (e) {}
 
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<LocalizationProvider>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<LocalizationProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<OnBoardingProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<CategoryProvider>()),
@@ -82,7 +88,8 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => di.sl<ProfileProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<OrderProvider>()),
       ChangeNotifierProvider(create: (context) => di.sl<BannerProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<NotificationProvider>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<NotificationProvider>()),
     ],
     child: MyApp(orderID: _orderID, isWeb: !kIsWeb),
   ));
@@ -91,7 +98,7 @@ Future<void> main() async {
 class MyApp extends StatefulWidget {
   final int orderID;
   final bool isWeb;
-  MyApp({@required this.orderID,@required this.isWeb});
+  MyApp({@required this.orderID, @required this.isWeb});
 
   static final navigatorKey = new GlobalKey<NavigatorState>();
 
@@ -105,27 +112,31 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     RouteHelper.setupRouter();
 
-    if(kIsWeb){
+    if (kIsWeb) {
       Provider.of<SplashProvider>(context, listen: false).initSharedData();
       Provider.of<CartProvider>(context, listen: false).getCartData();
       _route();
     }
   }
+
   void _route() {
-    Provider.of<SplashProvider>(context, listen: false).initConfig(context).then((bool isSuccess) {
+    Provider.of<SplashProvider>(context, listen: false)
+        .initConfig(context)
+        .then((bool isSuccess) {
       if (isSuccess) {
         Timer(Duration(seconds: 1), () async {
           if (Provider.of<AuthProvider>(context, listen: false).isLoggedIn()) {
             Provider.of<AuthProvider>(context, listen: false).updateToken();
-           // Navigator.of(context).pushReplacementNamed(RouteHelper.menu, arguments: MenuScreen());
+            // Navigator.of(context).pushReplacementNamed(RouteHelper.menu, arguments: MenuScreen());
             //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => DashboardScreen()));
           } else {
-           // Navigator.of(context).pushReplacementNamed(RouteHelper.onBoarding, arguments: OnBoardingScreen());
+            // Navigator.of(context).pushReplacementNamed(RouteHelper.onBoarding, arguments: OnBoardingScreen());
           }
         });
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     List<Locale> _locals = [];
@@ -133,29 +144,39 @@ class _MyAppState extends State<MyApp> {
       _locals.add(Locale(language.languageCode, language.countryCode));
     });
     return Consumer<SplashProvider>(
-      builder: (context, splashProvider,child){
-        return (kIsWeb && splashProvider.configModel == null)? SizedBox():
-        MaterialApp(
-          title: splashProvider.configModel != null ? splashProvider.configModel.ecommerceName ?? '' : AppConstants.APP_NAME,
-          initialRoute: ResponsiveHelper.isMobilePhone() ? widget.orderID == null ? RouteHelper.splash :
-          RouteHelper.getOrderDetailsRoute(widget.orderID): Provider.of<SplashProvider>(context, listen: false).configModel.maintenanceMode
-              ? RouteHelper.getMaintenanceRoute() : RouteHelper.menu,
-          onGenerateRoute: RouteHelper.router.generator,
-          debugShowCheckedModeBanner: false,
-          navigatorKey: MyApp.navigatorKey,
-          theme: Provider.of<ThemeProvider>(context).darkTheme ? dark : light,
-          locale: Provider.of<LocalizationProvider>(context).locale,
-          localizationsDelegates: [
-            AppLocalization.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: _locals,
-          //home: orderID == null ? SplashScreen() : OrderDetailsScreen(orderModel: null, orderId: orderID),
-        );
+      builder: (context, splashProvider, child) {
+        return (kIsWeb && splashProvider.configModel == null)
+            ? SizedBox()
+            : MaterialApp(
+                title: splashProvider.configModel != null
+                    ? splashProvider.configModel.ecommerceName ?? ''
+                    : AppConstants.APP_NAME,
+                initialRoute: ResponsiveHelper.isMobilePhone()
+                    ? widget.orderID == null
+                        ? RouteHelper.splash
+                        : RouteHelper.getOrderDetailsRoute(widget.orderID)
+                    : Provider.of<SplashProvider>(context, listen: false)
+                            .configModel
+                            .maintenanceMode
+                        ? RouteHelper.getMaintenanceRoute()
+                        : RouteHelper.menu,
+                onGenerateRoute: RouteHelper.router.generator,
+                debugShowCheckedModeBanner: false,
+                navigatorKey: MyApp.navigatorKey,
+                theme: Provider.of<ThemeProvider>(context).darkTheme
+                    ? dark
+                    : light,
+                locale: Provider.of<LocalizationProvider>(context).locale,
+                localizationsDelegates: [
+                  AppLocalization.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: _locals,
+                //home: orderID == null ? SplashScreen() : OrderDetailsScreen(orderModel: null, orderId: orderID),
+              );
       },
-
     );
   }
 }
