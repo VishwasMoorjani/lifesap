@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/helper/email_checker.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
@@ -32,6 +33,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../menu/menu_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
+  String countryDialCode;
+
+  SignUpScreen(this.countryDialCode, {Key key}) : super(key: key);
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -43,17 +47,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool email = true;
   bool phone = false;
   int counter = 0;
-  String _countryDialCode = '+880';
+  //String _countryDialCode = '+880';
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     _emailController = TextEditingController();
     // Provider.of<AuthProvider>(context, listen: false).clearVerificationMessage();
-    _countryDialCode = CountryCode.fromCountryCode(
+    /* _countryDialCode = CountryCode.fromCountryCode(
             Provider.of<SplashProvider>(context, listen: false)
                 .configModel
                 .country)
-        .dialCode;
+        .dialCode;*/
   }
 
   @override
@@ -100,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.03),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.35,
+                        height: MediaQuery.of(context).size.height * 0.33,
                         child: Card(
                             elevation: 6,
                             shape: RoundedRectangleBorder(
@@ -187,13 +191,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   prefixIcon: CodePickerWidget(
                                                     onChanged: (CountryCode
                                                         countryCode) {
-                                                      _countryDialCode =
+                                                      widget.countryDialCode =
                                                           countryCode.dialCode;
                                                     },
                                                     initialSelection:
-                                                        _countryDialCode,
+                                                        widget.countryDialCode,
                                                     favorite: [
-                                                      _countryDialCode
+                                                      widget.countryDialCode
                                                     ],
                                                     showDropDownButton: true,
                                                     padding: EdgeInsets.zero,
@@ -315,16 +319,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     } else {
                                                       if (isChecked) {
                                                         authProvider
-                                                            .checkPhone(
-                                                                _countryDialCode +
-                                                                    _email)
+                                                            .checkPhone(widget
+                                                                    .countryDialCode +
+                                                                _email)
                                                             .then(
                                                           (value) async {
                                                             if (value
                                                                 .isSuccess) {
                                                               authProvider
                                                                   .updateEmail(
-                                                                      _countryDialCode +
+                                                                      widget.countryDialCode +
                                                                           _email);
                                                               if (value
                                                                       .message ==
@@ -334,11 +338,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                     .pushNamed(
                                                                   RouteHelper.getVerifyRoute(
                                                                       'sign-up',
-                                                                      _countryDialCode +
+                                                                      widget.countryDialCode +
                                                                           _email),
                                                                   arguments: VerificationScreen(
                                                                       emailAddress:
-                                                                          _countryDialCode +
+                                                                          widget.countryDialCode +
                                                                               _email,
                                                                       fromSignUp:
                                                                           true),
@@ -350,7 +354,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                                 //         CreateAccountScreen());
                                                                 if (isChecked) {
                                                                   phoneVerificationSingUp(
-                                                                    _countryDialCode,
+                                                                    widget
+                                                                        .countryDialCode,
                                                                     _email,
                                                                     context,
                                                                     false,
@@ -400,7 +405,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   )),
                               Positioned(
                                 left: MediaQuery.of(context).size.width * 0.05,
-                                top: MediaQuery.of(context).size.height * 0.19,
+                                top: MediaQuery.of(context).size.height * 0.18,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -421,7 +426,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               Positioned(
                                 left: MediaQuery.of(context).size.width * 0.08,
-                                top: MediaQuery.of(context).size.height * 0.3,
+                                top: MediaQuery.of(context).size.height * 0.2,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -440,7 +445,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               Positioned(
                                 left: MediaQuery.of(context).size.width * 0.04,
-                                top: MediaQuery.of(context).size.height * 0.24,
+                                top: MediaQuery.of(context).size.height * 0.23,
                                 child: Row(
                                   children: [
                                     Checkbox(
@@ -538,13 +543,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.grey),
                               ),
                               leading: Image(
-                                image: AssetImage(Images.delivery_truck),
+                                image: Svg(Images.delivery_truck),
                               ),
                             ),
                           ),
                           ListTile(
                             leading: Image(
-                              image: AssetImage(Images.male_doctor),
+                              image: Svg(Images.male_doctor),
                             ),
                             title: Text(
                               getTranslated(

@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/data/model/response/signup_model.dart';
 import 'package:flutter_grocery/helper/email_checker.dart';
@@ -65,14 +66,14 @@ class CreateAccountScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.97,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(Images.register_page_bg),
+                      image: Svg(Images.register_page_bg),
                       fit: BoxFit.fitHeight),
                   color: Theme.of(context).cardColor,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 70),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.08),
                     Center(
                         child: Text("Register",
                             style: poppinsBold.copyWith(
@@ -93,7 +94,9 @@ class CreateAccountScreen extends StatelessWidget {
                       padding: EdgeInsets.all(30),
                       child: Column(
                         children: [
-                          SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
 
                           CustomTextField(
                             hintText: 'First Name',
@@ -109,7 +112,9 @@ class CreateAccountScreen extends StatelessWidget {
                             inputType: TextInputType.name,
                             capitalization: TextCapitalization.words,
                           ),
-                          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
 
                           // for last name section
 
@@ -128,7 +133,9 @@ class CreateAccountScreen extends StatelessWidget {
                             inputType: TextInputType.name,
                             capitalization: TextCapitalization.words,
                           ),
-                          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
 
                           // for email section
 
@@ -182,7 +189,9 @@ class CreateAccountScreen extends StatelessWidget {
                                   inputType: TextInputType.emailAddress,
                                 ),
 
-                          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
 
                           // for password section
 
@@ -200,7 +209,9 @@ class CreateAccountScreen extends StatelessWidget {
                             nextFocus: _confirmPasswordFocus,
                             isShowSuffixIcon: true,
                           ),
-                          SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_LARGE),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
 
                           CustomTextField(
                             fillColor: Colors.transparent,
@@ -217,7 +228,9 @@ class CreateAccountScreen extends StatelessWidget {
                             inputAction: TextInputAction.done,
                           ),
 
-                          SizedBox(height: 22),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -241,14 +254,32 @@ class CreateAccountScreen extends StatelessWidget {
                           ),
 
                           // for signup button
-                          SizedBox(height: 70),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.06),
                           !authProvider.isLoading
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: CustomButton(
-                                    buttonText:
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: ColorResources.getPrimaryColor(
+                                          context)),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      shadowColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.transparent),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.transparent),
+                                    ),
+                                    child: Text(
                                         getTranslated('signup', context),
+                                        style: poppinsSemiBold.copyWith(
+                                            fontSize: 18)),
                                     onPressed: () {
                                       String _firstName =
                                           _firstNameController.text.trim();
@@ -405,7 +436,9 @@ class CreateAccountScreen extends StatelessWidget {
                                       Theme.of(context).primaryColor),
                                 )),
 
-                          SizedBox(height: 30),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.04),
                           /* InkWell(
                                   onTap: () {
                                     Navigator.of(context).pushReplacementNamed(
@@ -441,6 +474,7 @@ class CreateAccountScreen extends StatelessWidget {
                                                       context)),
                                         ),*/
                           RichText(
+                            textAlign: TextAlign.center,
                             text: TextSpan(
                                 style: poppinsMedium.copyWith(
                                   fontSize: Dimensions.FONT_SIZE_DEFAULT,

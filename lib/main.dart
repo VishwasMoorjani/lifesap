@@ -25,6 +25,7 @@ import 'package:flutter_grocery/helper/route_helper.dart';
 import 'package:flutter_grocery/theme/dark_theme.dart';
 import 'package:flutter_grocery/theme/light_theme.dart';
 import 'package:flutter_grocery/utill/app_constants.dart';
+import 'package:flutter_grocery/view/screens/menu/menu_screen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -112,11 +113,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     RouteHelper.setupRouter();
 
-    if (kIsWeb) {
-      Provider.of<SplashProvider>(context, listen: false).initSharedData();
-      Provider.of<CartProvider>(context, listen: false).getCartData();
-      _route();
-    }
+    Provider.of<SplashProvider>(context, listen: false).initSharedData();
+    Provider.of<CartProvider>(context, listen: false).getCartData();
+    _route();
   }
 
   void _route() {
@@ -124,15 +123,22 @@ class _MyAppState extends State<MyApp> {
         .initConfig(context)
         .then((bool isSuccess) {
       if (isSuccess) {
-        Timer(Duration(seconds: 1), () async {
-          if (Provider.of<AuthProvider>(context, listen: false).isLoggedIn()) {
-            Provider.of<AuthProvider>(context, listen: false).updateToken();
-            // Navigator.of(context).pushReplacementNamed(RouteHelper.menu, arguments: MenuScreen());
-            //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => DashboardScreen()));
-          } else {
-            // Navigator.of(context).pushReplacementNamed(RouteHelper.onBoarding, arguments: OnBoardingScreen());
-          }
-        });
+        if (Provider.of<SplashProvider>(context, listen: false)
+            .configModel
+            .maintenanceMode) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RouteHelper.getMaintenanceRoute(), (route) => false);
+        } else {
+          Timer(Duration(seconds: 0), () async {
+            if (Provider.of<AuthProvider>(context, listen: false)
+                .isLoggedIn()) {
+              Provider.of<AuthProvider>(context, listen: false).updateToken();
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  RouteHelper.menu, (route) => false,
+                  arguments: MenuScreen());
+            } else {}
+          });
+        }
       }
     });
   }
@@ -153,7 +159,10 @@ class _MyAppState extends State<MyApp> {
                     : AppConstants.APP_NAME,
                 initialRoute: ResponsiveHelper.isMobilePhone()
                     ? widget.orderID == null
-                        ? RouteHelper.splash
+                        ? Provider.of<AuthProvider>(context, listen: false)
+                                .isLoggedIn()
+                            ? RouteHelper.menu
+                            : RouteHelper.splash
                         : RouteHelper.getOrderDetailsRoute(widget.orderID)
                     : Provider.of<SplashProvider>(context, listen: false)
                             .configModel

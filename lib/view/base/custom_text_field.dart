@@ -5,6 +5,7 @@ import 'package:flutter_grocery/utill/color_resources.dart';
 import 'package:flutter_grocery/utill/dimensions.dart';
 import 'package:flutter_grocery/utill/styles.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hintText;
@@ -144,7 +145,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               ? Padding(
                   padding: const EdgeInsets.only(left: 17, right: 15),
                   child: Image(
-                    image: AssetImage(widget.prefixIconUrl),
+                    image: Svg(widget.prefixIconUrl),
                   ),
                 )
               : SizedBox.shrink(),

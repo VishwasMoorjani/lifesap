@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_grocery/view/screens/blogs/blogs.dart';
+import 'package:flutter_grocery/blogs/blogs.dart';
 import 'package:flutter_grocery/helper/html_type.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
 import 'package:flutter_grocery/helper/route_helper.dart';

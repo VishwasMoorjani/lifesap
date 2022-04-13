@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
 import 'package:flutter_grocery/helper/route_helper.dart';
 import 'package:flutter_grocery/localization/language_constrants.dart';
@@ -57,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             horizontal: Dimensions.PADDING_SIZE_LARGE),
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(Images.profile_bg),
+                                image: Svg(Images.profile_bg),
                                 fit: BoxFit.fitHeight)),
                         height: MediaQuery.of(context).size.height,
                         child: Center(
@@ -156,36 +157,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(Dimensions
                                                       .PADDING_SIZE_LARGE))),
-                                          child: ListTile(
-                                              title: Text(
-                                                "Edit Personal Details",
-                                                style: poppinsMedium.copyWith(
-                                                    fontSize: Dimensions
-                                                        .FONT_SIZE_DEFAULT,
-                                                    color: Colors.white),
-                                              ),
-                                              trailing: IconButton(
-                                                onPressed: () {
-                                                  Navigator.pushNamed(
-                                                    context,
-                                                    RouteHelper
-                                                        .getProfileEditRoute(
-                                                      profileProvider
-                                                          .userInfoModel.fName,
-                                                      profileProvider
-                                                          .userInfoModel.lName,
-                                                      profileProvider
-                                                          .userInfoModel.email,
-                                                      profileProvider
-                                                          .userInfoModel.phone,
-                                                    ),
-                                                    arguments: ProfileEditScreen(
-                                                        userInfoModel:
-                                                            profileProvider
-                                                                .userInfoModel),
-                                                  );
-                                                },
-                                                icon: Icon(
+                                          child: InkWell(
+                                              onTap: () {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  RouteHelper
+                                                      .getProfileEditRoute(
+                                                    profileProvider
+                                                        .userInfoModel.fName,
+                                                    profileProvider
+                                                        .userInfoModel.lName,
+                                                    profileProvider
+                                                        .userInfoModel.email,
+                                                    profileProvider
+                                                        .userInfoModel.phone,
+                                                  ),
+                                                  arguments: ProfileEditScreen(
+                                                      userInfoModel:
+                                                          profileProvider
+                                                              .userInfoModel),
+                                                );
+                                              },
+                                              child: ListTile(
+                                                title: Text(
+                                                  "Edit Personal Details",
+                                                  style: poppinsMedium.copyWith(
+                                                      fontSize: Dimensions
+                                                          .FONT_SIZE_DEFAULT,
+                                                      color: Colors.white),
+                                                ),
+                                                trailing: Icon(
                                                   Icons.arrow_forward_ios,
                                                   color: Colors.white,
                                                   size: 20,
@@ -202,22 +203,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           context)),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20))),
-                                          child: ListTile(
-                                              title: Text(
-                                                "Notifications",
-                                                style: poppinsMedium.copyWith(
-                                                    fontSize: Dimensions
-                                                        .FONT_SIZE_DEFAULT,
-                                                    color: Colors.white),
-                                              ),
-                                              trailing: IconButton(
-                                                onPressed: () {
-                                                  Navigator.pushNamed(context,
-                                                      RouteHelper.notification,
-                                                      arguments:
-                                                          NotificationScreen());
-                                                },
-                                                icon: Icon(
+                                          child: InkWell(
+                                              onTap: () {
+                                                Navigator.pushNamed(context,
+                                                    RouteHelper.notification,
+                                                    arguments:
+                                                        NotificationScreen());
+                                              },
+                                              child: ListTile(
+                                                title: Text(
+                                                  "Notifications",
+                                                  style: poppinsMedium.copyWith(
+                                                      fontSize: Dimensions
+                                                          .FONT_SIZE_DEFAULT,
+                                                      color: Colors.white),
+                                                ),
+                                                trailing: Icon(
                                                   Icons.arrow_forward_ios,
                                                   color: Colors.white,
                                                   size: 20,
@@ -261,23 +262,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           context)),
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20))),
-                                          child: ListTile(
-                                              title: Text(
-                                                "Log Out",
-                                                style: poppinsMedium.copyWith(
-                                                    fontSize: Dimensions
-                                                        .FONT_SIZE_DEFAULT,
-                                                    color: Colors.white),
-                                              ),
-                                              trailing: IconButton(
-                                                onPressed: () {
-                                                  showDialog(
-                                                      context: context,
-                                                      barrierDismissible: false,
-                                                      builder: (context) =>
-                                                          SignOutConfirmationDialog());
-                                                },
-                                                icon: Icon(
+                                          child: InkWell(
+                                              onTap: () {
+                                                showDialog(
+                                                    context: context,
+                                                    barrierDismissible: false,
+                                                    builder: (context) =>
+                                                        SignOutConfirmationDialog());
+                                              },
+                                              child: ListTile(
+                                                title: Text(
+                                                  "Log Out",
+                                                  style: poppinsMedium.copyWith(
+                                                      fontSize: Dimensions
+                                                          .FONT_SIZE_DEFAULT,
+                                                      color: Colors.white),
+                                                ),
+                                                trailing: Icon(
                                                   Icons.arrow_forward_ios,
                                                   color: Colors.white,
                                                   size: 20,

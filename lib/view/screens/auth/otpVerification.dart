@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter_grocery/helper/route_helper.dart';
 import 'package:flutter_grocery/utill/dimensions.dart';
 import 'package:flutter_grocery/view/base/custom_text_field.dart';
@@ -67,7 +68,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(Images.otp_verification_bg),
+                          image: Svg(Images.otp_verification_bg),
                           fit: BoxFit.contain)),
                   // padding: const EdgeInsets.all(8.0),
                   child: Center(
