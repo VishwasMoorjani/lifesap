@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -70,30 +71,34 @@ Future<void> main() async {
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
   } catch (e) {}
-
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
-      ChangeNotifierProvider(
-          create: (context) => di.sl<LocalizationProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<OnBoardingProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<CategoryProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<ProductProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<SearchProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<CartProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<CouponProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<LocationProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<ProfileProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<OrderProvider>()),
-      ChangeNotifierProvider(create: (context) => di.sl<BannerProvider>()),
-      ChangeNotifierProvider(
-          create: (context) => di.sl<NotificationProvider>()),
-    ],
-    child: MyApp(orderID: _orderID, isWeb: !kIsWeb),
-  ));
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
+        ChangeNotifierProvider(
+            create: (context) => di.sl<LocalizationProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
+        ChangeNotifierProvider(
+            create: (context) => di.sl<OnBoardingProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<CategoryProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<ProductProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<SearchProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<CartProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<CouponProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<LocationProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<ProfileProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<OrderProvider>()),
+        ChangeNotifierProvider(create: (context) => di.sl<BannerProvider>()),
+        ChangeNotifierProvider(
+            create: (context) => di.sl<NotificationProvider>()),
+      ],
+      child: MyApp(orderID: _orderID, isWeb: !kIsWeb),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

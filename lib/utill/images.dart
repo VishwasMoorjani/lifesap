@@ -48,24 +48,19 @@ class Images {
   static const String wallet = 'assets/image/wallet.png';
   static const String delivery_truck = 'assets/image/deliverytruck.svg';
   static const String male_doctor = 'assets/image/maledoctor.svg';
-  static const String get_started_bg = 'assets/image/get_started_bg.svg';
+  static const String get_started_bg = 'assets/image/get_started_bg.png';
   static const String otp_verification_bg =
-      'assets/image/otp_verification_bg.svg';
-  static const String login_page_bg = 'assets/image/login_bg.jpg';
-  static const String register_page_bg = 'assets/image/register_page_bg.svg';
+      'assets/image/otp_verification_bg.png';
+  static const String login_page_bg = 'assets/image/login_page_bg.png';
+  static const String register_page_bg = 'assets/image/register_page_bg.png';
   static const String password = 'assets/image/password.svg';
   static const String mail = 'assets/image/mail.svg';
   static const String user = 'assets/image/user.svg';
-  static const String diabetic = 'assets/image/diabetic.png';
-  static const String health = 'assets/image/health.png';
-  static const String suppliments = 'assets/image/suppliment.png';
-  static const String medical = 'assets/image/medical.png';
-  static const String pet = 'assets/image/pet.png';
-  static const String surgical = 'assets/image/surgical.png';
+
   static const String vitd = 'assets/image/vitd.png';
   static const String doc = 'assets/image/doc.png';
-  static const String profile_bg = 'assets/image/profile_bg.svg';
+  static const String profile_bg = 'assets/image/profile_bg.png';
   static const String blog = 'assets/image/blog.png';
-  static const String lab_1 = 'assets/image/labtest1.png';
+  static const String lab_1 = 'assets/image/lab1.png';
   static const String lab_2 = 'assets/image/labtest2.png';
 }

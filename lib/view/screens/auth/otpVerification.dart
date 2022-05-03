@@ -68,7 +68,7 @@ class _OtpVerificationState extends State<OtpVerification> {
                   height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: Svg(Images.otp_verification_bg),
+                          image: AssetImage(Images.otp_verification_bg),
                           fit: BoxFit.contain)),
                   // padding: const EdgeInsets.all(8.0),
                   child: Center(

@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             horizontal: Dimensions.PADDING_SIZE_LARGE),
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: Svg(Images.profile_bg),
+                                image: AssetImage(Images.profile_bg),
                                 fit: BoxFit.fitHeight)),
                         height: MediaQuery.of(context).size.height,
                         child: Center(

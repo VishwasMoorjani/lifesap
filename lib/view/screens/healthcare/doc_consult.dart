@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/base/custom_app_bar.dart';
 import 'package:flutter_grocery/view/screens/healthcare/appointment.dart';
-
 import '../../../utill/color_resources.dart';
 import '../../../utill/images.dart';
 
@@ -43,7 +42,8 @@ class _DoctorConsultState extends State<DoctorConsult> {
                         return InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Appointment()));
+                                builder: (context) =>
+                                    Appointment('Dr. Sky$index')));
                           },
                           child: Stack(children: [
                             Container(
@@ -87,7 +87,7 @@ class _DoctorConsultState extends State<DoctorConsult> {
                                 width:
                                     MediaQuery.of(context).size.width * 0.415,
                                 child: Text(
-                                  "Dr. Sky",
+                                  "Dr. Sky$index",
                                   textAlign: TextAlign.center,
                                   style: poppinsRegular.copyWith(
                                       fontSize: 16, color: Colors.white),

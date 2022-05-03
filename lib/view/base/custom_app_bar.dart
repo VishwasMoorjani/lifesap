@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/utill/dimensions.dart';
 import 'package:flutter_grocery/utill/styles.dart';
+import 'package:flutter_grocery/utill/images.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -8,20 +9,45 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function onBackPressed;
   final bool isCenter;
   final bool isElevation;
-  CustomAppBar({@required this.title, this.isBackButtonExist = true, this.onBackPressed,this.isCenter=true,this.isElevation=false});
+  final bool isTrailing;
+  CustomAppBar(
+      {@required this.title,
+      this.isTrailing = false,
+      this.isBackButtonExist = true,
+      this.onBackPressed,
+      this.isCenter = true,
+      this.isElevation = false});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title, style: poppinsMedium.copyWith(fontSize: Dimensions.FONT_SIZE_LARGE, color: Theme.of(context).textTheme.bodyText1.color)),
-      centerTitle: isCenter?true:false,
-      leading: isBackButtonExist ? IconButton(
-        icon: Icon(Icons.arrow_back_ios),
-        color: Theme.of(context).textTheme.bodyText1.color,
-        onPressed: () => onBackPressed != null ? onBackPressed() : Navigator.pop(context),
-      ) : SizedBox(),
+      title: Text(title,
+          style: poppinsMedium.copyWith(
+              fontSize: Dimensions.FONT_SIZE_LARGE,
+              color: Theme.of(context).textTheme.bodyText1.color)),
+      centerTitle: isCenter ? true : false,
+      actions: [
+        isTrailing
+            ? SizedBox(
+                height: 25,
+                width: 25,
+                child: Image(
+                  image: AssetImage(Images.blog),
+                ),
+              )
+            : Container()
+      ],
+      leading: isBackButtonExist
+          ? IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Theme.of(context).textTheme.bodyText1.color,
+              onPressed: () => onBackPressed != null
+                  ? onBackPressed()
+                  : Navigator.pop(context),
+            )
+          : SizedBox(),
       backgroundColor: Theme.of(context).cardColor,
-      elevation: isElevation?2:0,
+      elevation: isElevation ? 2 : 0,
     );
   }
 

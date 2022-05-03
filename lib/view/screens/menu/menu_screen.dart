@@ -77,27 +77,62 @@ class MenuWidget extends StatelessWidget {
                   child: Consumer<SplashProvider>(
                     builder: (context, splash, child) {
                       return Column(children: [
+                        SizedBox(
+                          height: 10,
+                        ),
                         !ResponsiveHelper.isDesktop(context)
-                            ? Align(
-                                alignment: Alignment.centerLeft,
-                                child: IconButton(
-                                  icon: Icon(Icons.close,
-                                      color: Provider.of<ThemeProvider>(context)
-                                              .darkTheme
-                                          ? ColorResources.getTextColor(context)
-                                          : ResponsiveHelper.isDesktop(context)
-                                              ? ColorResources
-                                                  .getBackgroundColor(context)
-                                              : ColorResources
-                                                  .getBackgroundColor(context)),
-                                  onPressed: () => drawerController.toggle(),
-                                ),
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: IconButton(
+                                      icon: Icon(Icons.close,
+                                          color: Provider.of<ThemeProvider>(
+                                                      context)
+                                                  .darkTheme
+                                              ? ColorResources.getTextColor(
+                                                  context)
+                                              : ResponsiveHelper.isDesktop(
+                                                      context)
+                                                  ? ColorResources
+                                                      .getBackgroundColor(
+                                                          context)
+                                                  : ColorResources
+                                                      .getBackgroundColor(
+                                                          context)),
+                                      onPressed: () =>
+                                          drawerController.toggle(),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.notifications,
+                                        color:
+                                            Provider.of<ThemeProvider>(context)
+                                                    .darkTheme
+                                                ? ColorResources.getTextColor(
+                                                    context)
+                                                : ResponsiveHelper.isDesktop(
+                                                        context)
+                                                    ? ColorResources
+                                                        .getDarkColor(context)
+                                                    : ColorResources
+                                                        .getBackgroundColor(
+                                                            context)),
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, RouteHelper.notification,
+                                          arguments: NotificationScreen());
+                                    },
+                                  ),
+                                ],
                               )
                             : SizedBox(),
                         Consumer<ProfileProvider>(
                           builder: (context, profileProvider, child) => Row(
                             children: [
-                              Expanded(
+                              /* Expanded(
                                 child: ListTile(
                                   onTap: () {
                                     Navigator.of(context).pushNamed(
@@ -240,27 +275,11 @@ class MenuWidget extends StatelessWidget {
                                               ),
                                       ]),
                                 ),
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.notifications,
-                                    color: Provider.of<ThemeProvider>(context)
-                                            .darkTheme
-                                        ? ColorResources.getTextColor(context)
-                                        : ResponsiveHelper.isDesktop(context)
-                                            ? ColorResources.getDarkColor(
-                                                context)
-                                            : ColorResources.getBackgroundColor(
-                                                context)),
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, RouteHelper.notification,
-                                      arguments: NotificationScreen());
-                                },
-                              ),
+                              ),*/
                             ],
                           ),
                         ),
-                        SizedBox(height: 50),
+                        SizedBox(height: 20),
                         ResponsiveHelper.isDesktop(context)
                             ? SizedBox()
                             : MenuButton(

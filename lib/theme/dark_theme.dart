@@ -6,6 +6,7 @@ ThemeData dark = ThemeData(
   ),
   fontFamily: 'Poppins',
   primaryColor: Color(0xFF7594D8),
+  accentColor: Colors.grey,
   brightness: Brightness.dark,
   scaffoldBackgroundColor: Color(0xFF2C2C2C),
   cardColor: Color(0xFF121212),

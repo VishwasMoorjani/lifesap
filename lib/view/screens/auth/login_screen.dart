@@ -563,6 +563,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                             color: ColorResources.getYellow(
                                                 context)),
                                       )),
+                                  InkWell(
+                                      onTap: () {
+                                        Navigator.pushReplacementNamed(
+                                            context, RouteHelper.splash,
+                                            arguments: MenuScreen());
+                                      },
+                                      child: Text(
+                                        "Don't have account? SignUp",
+                                        style: poppinsMedium.copyWith(
+                                            fontSize:
+                                                Dimensions.FONT_SIZE_DEFAULT,
+                                            color: ColorResources.getYellow(
+                                                context)),
+                                      )),
                                   SizedBox(
                                     height: Dimensions.PADDING_SIZE_LARGE,
                                   ),

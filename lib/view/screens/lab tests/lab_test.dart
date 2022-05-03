@@ -25,7 +25,7 @@ class _LabTestState extends State<LabTest> {
           child: Column(
         children: [
           Image(
-            image: AssetImage(Images.lab_1),
+            image: AssetImage("assets/image/lab1.png"),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.06,

@@ -26,6 +26,7 @@ import 'package:flutter_grocery/view/screens/home/widget/daily_item_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/product_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/upload_prescription.dart';
 import 'package:flutter_grocery/view/screens/search/search_result_screen.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../menu/widget/custom_drawer.dart';
@@ -66,15 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
           .languageCode,
     );
   }
-
-  List<String> images = [
-    Images.diabetic,
-    Images.health,
-    Images.suppliments,
-    Images.medical,
-    Images.pet,
-    Images.surgical,
-  ];
 
   List<String> text = [
     "Diabetic Care",
@@ -243,21 +235,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   Divider(
                       color: ColorResources.getDividerColor(context),
                       thickness: 10),
-                  Padding(
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/image/prescription.png"),
+                            fit: BoxFit.fitWidth)),
                     padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
                     child: Column(children: [
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
                           "Upload Prescription",
-                          style: poppinsMedium.copyWith(
-                            color: ColorResources.getPrimaryColor(context),
-                            fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                          style: poppinsBold.copyWith(
+                            color: Colors.white,
+                            fontSize: 16,
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text(
-                          "Upload prescription and tell us what you need. We do the rest!"),
+                        "Upload prescription and tell us what you need. We do the rest!",
+                        style: poppinsMedium.copyWith(
+                            color: Colors.white, fontSize: 14),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       InkWell(
                         onTap: () async {
                           await UploadPhoto().pickImage(context);
@@ -268,16 +274,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 "Upload Now",
                                 textAlign: TextAlign.left,
-                                style: poppinsSemiBold.copyWith(
-                                  color:
-                                      ColorResources.getPrimaryColor(context),
-                                  fontSize: Dimensions.FONT_SIZE_LARGE,
+                                style: poppinsMedium.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 14,
                                 ),
                               ),
                               Icon(
                                 Icons.arrow_forward,
                                 size: 15,
-                                color: ColorResources.getPrimaryColor(context),
+                                color: Colors.white,
                               )
                             ]),
                       )

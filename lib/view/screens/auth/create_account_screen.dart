@@ -66,7 +66,7 @@ class CreateAccountScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.97,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: Svg(Images.register_page_bg),
+                      image: AssetImage(Images.register_page_bg),
                       fit: BoxFit.fitHeight),
                   color: Theme.of(context).cardColor,
                 ),

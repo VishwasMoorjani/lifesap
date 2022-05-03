@@ -5,6 +5,7 @@ ThemeData light = ThemeData(
     selectionHandleColor: Colors.transparent,
   ),
   fontFamily: 'Poppins',
+  accentColor: Color(0xFF4c73f4),
   primaryColor: Color(0xFF4c73f4),
   brightness: Brightness.light,
   cardColor: Colors.white,

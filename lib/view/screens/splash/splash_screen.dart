@@ -122,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                        image: Svg(Images.get_started_bg),
+                        image: AssetImage(Images.get_started_bg),
                         fit: BoxFit.fitHeight,
                       )),
                       child: Center(
@@ -149,75 +149,78 @@ class _SplashScreenState extends State<SplashScreen> {
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.58),
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: ColorResources.getPrimaryColor(context)),
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: !((Provider.of<SplashProvider>(context,
-                                            listen: false)
-                                        .configModel) ==
-                                    null)
-                                ? ElevatedButton(
-                                    style: ButtonStyle(
-                                        shadowColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.transparent),
-                                        elevation: MaterialStateProperty.all(6),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.transparent),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                        ))),
-                                    onPressed: () {
-                                      _countryDialCode =
-                                          CountryCode.fromCountryCode(
-                                                  Provider.of<SplashProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .configModel
-                                                      .country)
-                                              .dialCode;
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SignUpScreen(
-                                                      _countryDialCode)));
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.15),
-                                        Text(
-                                          getTranslated('get_started', context),
-                                          style: poppinsSemiBold.copyWith(
-                                              fontSize: 22),
-                                        ),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.08),
-                                        Icon(Icons.login),
-                                      ],
-                                    ))
-                                : Center(
-                                    child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Theme.of(context).primaryColor),
-                                  )),
-                          ),
+                          !((Provider.of<SplashProvider>(context, listen: false)
+                                      .configModel) ==
+                                  null)
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: ColorResources.getPrimaryColor(
+                                          context)),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.08,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          shadowColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.transparent),
+                                          elevation:
+                                              MaterialStateProperty.all(6),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.transparent),
+                                          shape: MaterialStateProperty.all<
+                                                  RoundedRectangleBorder>(
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ))),
+                                      onPressed: () {
+                                        _countryDialCode =
+                                            CountryCode.fromCountryCode(
+                                                    Provider.of<SplashProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .configModel
+                                                        .country)
+                                                .dialCode;
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SignUpScreen(
+                                                        _countryDialCode)));
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.15),
+                                          Text(
+                                            getTranslated(
+                                                'get_started', context),
+                                            style: poppinsSemiBold.copyWith(
+                                                fontSize: 22),
+                                          ),
+                                          SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.08),
+                                          Icon(Icons.login),
+                                        ],
+                                      )))
+                              : Center(
+                                  child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Theme.of(context).primaryColor),
+                                )),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.008,
                           ),

@@ -18,13 +18,26 @@ class _BlogShowState extends State<BlogShow> {
         appBar: CustomAppBar(
           title: widget.topic,
           isBackButtonExist: true,
+          isTrailing: true,
         ),
         body: SingleChildScrollView(
-            child: Column(
-          children: [
-            Center(child: Text(widget.topic)),
-            Text(widget.body),
-          ],
+            child: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Image(
+                  image: AssetImage("assets/image/sample1.png"),
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Text(widget.body),
+            ],
+          ),
         )),
       ),
     );
