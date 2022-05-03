@@ -175,6 +175,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.transparent,
                     ),
                   ),
+
+                  Consumer<BannerProvider>(builder: (context, banner, child) {
+                    return banner.bannerList == null
+                        ? BannersView()
+                        : banner.bannerList.length == 0
+                            ? SizedBox()
+                            : BannersView();
+                  }),
+                  Divider(
+                      color: ColorResources.getDividerColor(context),
+                      thickness: 10),
                   Consumer<CategoryProvider>(
                       builder: (context, category, child) {
                     return category.categoryList == null
@@ -222,16 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ]);
                             })),*/
-                  Divider(
-                      color: ColorResources.getDividerColor(context),
-                      thickness: 10),
-                  Consumer<BannerProvider>(builder: (context, banner, child) {
-                    return banner.bannerList == null
-                        ? BannersView()
-                        : banner.bannerList.length == 0
-                            ? SizedBox()
-                            : BannersView();
-                  }),
+
                   Divider(
                       color: ColorResources.getDividerColor(context),
                       thickness: 10),
@@ -288,10 +290,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       )
                     ]),
                   ),
-
-                  Divider(
-                      color: ColorResources.getDividerColor(context),
-                      thickness: 10),
 
                   /*     Consumer<ProductProvider>(
                           builder: (context, product, child) {

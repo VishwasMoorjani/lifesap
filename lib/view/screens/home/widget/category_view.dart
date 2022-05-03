@@ -60,7 +60,7 @@ class CategoryView extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
 
                       itemCount: category.categoryList.length,
-                      padding: EdgeInsets.all(2),
+                      padding: EdgeInsets.only(left: 6, right: 6),
                       physics: ScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
                       // shrinkWrap: true,
@@ -73,7 +73,7 @@ class CategoryView extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Container(
                           width: 50,
-                          height: 100,
+                          height: 130,
                           child: Column(children: [
                             InkWell(
                               onTap: () {
@@ -83,8 +83,8 @@ class CategoryView extends StatelessWidget {
                                 );
                               },
                               child: Container(
-                                height: 60,
-                                width: 80,
+                                height: 70,
+                                width: 90,
                                 /* decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
@@ -114,7 +114,7 @@ class CategoryView extends StatelessWidget {
 
                             // left: 5,
                             // alignment: Alignment.bottomCenter,
-                            Container(
+                            /* Container(
                               width: 70,
                               child: Text(
                                 category.categoryList[index].name,
@@ -123,7 +123,7 @@ class CategoryView extends StatelessWidget {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                            ),
+                            ),*/
                           ]),
                         );
                       },

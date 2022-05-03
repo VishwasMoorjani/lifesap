@@ -18,19 +18,29 @@ class Blogs extends StatefulWidget {
 class _BlogsState extends State<Blogs> {
   Widget listItem(BuildContext context, int index, doc) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.1,
+        height: MediaQuery.of(context).size.height * 0.12,
         decoration: BoxDecoration(
             border: Border.all(color: Color(0xFF898A8E)),
             borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: ListTile(
-          leading: CircleAvatar(
-              foregroundImage: AssetImage("assets/image/sample.png")),
-          title: Text(doc['Topic']),
-          subtitle: Text(doc['Topic']),
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => BlogShow(doc['Topic'], doc['Body'])));
-          },
+        child: Align(
+          alignment: Alignment.center,
+          child: ListTile(
+            leading: CircleAvatar(
+              foregroundImage: doc['Topic'] ==
+                      "Need a Get Back in Shape Workout Plan?"
+                  ? AssetImage("assets/image/topic1.jpg")
+                  : doc['Topic'] ==
+                          "Can you take too many supplements? Why you might need to ditch the multivitamin"
+                      ? AssetImage("assets/image/topic2.jpg")
+                      : AssetImage("assets/image/topic3.jpg"),
+            ),
+            title: Text(doc['Topic']),
+            // subtitle: Text(doc['Topic']),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => BlogShow(doc['Topic'], doc['Body'])));
+            },
+          ),
         ));
   }
 

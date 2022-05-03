@@ -28,14 +28,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: isCenter ? true : false,
       actions: [
         isTrailing
-            ? SizedBox(
-                height: 25,
-                width: 25,
-                child: Image(
-                  image: AssetImage(Images.blog),
-                ),
+            ? Row(
+                children: [
+                  SizedBox(
+                    height: 23,
+                    width: 23,
+                    child: Image(
+                      image: AssetImage(Images.blog),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  )
+                ],
               )
-            : Container()
+            : SizedBox.shrink()
       ],
       leading: isBackButtonExist
           ? IconButton(

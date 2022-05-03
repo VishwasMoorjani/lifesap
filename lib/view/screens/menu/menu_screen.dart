@@ -279,7 +279,7 @@ class MenuWidget extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 15),
                         ResponsiveHelper.isDesktop(context)
                             ? SizedBox()
                             : MenuButton(

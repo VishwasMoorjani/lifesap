@@ -152,110 +152,123 @@ class _SplashScreenState extends State<SplashScreen> {
                           !((Provider.of<SplashProvider>(context, listen: false)
                                       .configModel) ==
                                   null)
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: ColorResources.getPrimaryColor(
-                                          context)),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.08,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.7,
-                                  child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          shadowColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.transparent),
-                                          elevation:
-                                              MaterialStateProperty.all(6),
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.transparent),
-                                          shape: MaterialStateProperty.all<
-                                                  RoundedRectangleBorder>(
-                                              RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ))),
-                                      onPressed: () {
-                                        _countryDialCode =
-                                            CountryCode.fromCountryCode(
-                                                    Provider.of<SplashProvider>(
-                                                            context,
-                                                            listen: false)
+                              ? Column(children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                          color: ColorResources.getPrimaryColor(
+                                              context)),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.08,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                              shadowColor:
+                                                  MaterialStateProperty.all<Color>(
+                                                      Colors.transparent),
+                                              elevation:
+                                                  MaterialStateProperty.all(6),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<Color>(
+                                                      Colors.transparent),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
+                                              ))),
+                                          onPressed: () {
+                                            _countryDialCode = CountryCode
+                                                    .fromCountryCode(Provider
+                                                            .of<SplashProvider>(
+                                                                context,
+                                                                listen: false)
                                                         .configModel
                                                         .country)
                                                 .dialCode;
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SignUpScreen(
-                                                        _countryDialCode)));
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.15),
-                                          Text(
-                                            getTranslated(
-                                                'get_started', context),
-                                            style: poppinsSemiBold.copyWith(
-                                                fontSize: 22),
-                                          ),
-                                          SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.08),
-                                          Icon(Icons.login),
-                                        ],
-                                      )))
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SignUpScreen(
+                                                            _countryDialCode)));
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.15),
+                                              Text(
+                                                getTranslated(
+                                                    'get_started', context),
+                                                style: poppinsSemiBold.copyWith(
+                                                    fontSize: 22),
+                                              ),
+                                              SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.08),
+                                              Icon(Icons.login),
+                                            ],
+                                          ))),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.008,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      // Navigator.push(context,
+                                      //     MaterialPageRoute(builder: (context) => LoginScreen()));
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  LoginScreen())));
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          getTranslated(
+                                              'already_a_member', context),
+                                          style: poppinsMedium.copyWith(
+                                              fontSize:
+                                                  Dimensions.FONT_SIZE_SMALL,
+                                              color:
+                                                  ColorResources.getHintColor(
+                                                      context)),
+                                        ),
+                                        SizedBox(
+                                            width: Dimensions
+                                                .PADDING_SIZE_EXTRA_SMALL),
+                                        Text(
+                                          getTranslated('login', context),
+                                          style: poppinsMedium.copyWith(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              fontSize:
+                                                  Dimensions.FONT_SIZE_SMALL,
+                                              color: ColorResources
+                                                  .getPrimaryColor(context)),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ])
                               : Center(
                                   child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                       Theme.of(context).primaryColor),
                                 )),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.008,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              // Navigator.push(context,
-                              //     MaterialPageRoute(builder: (context) => LoginScreen()));
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) => LoginScreen())));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  getTranslated('already_a_member', context),
-                                  style: poppinsMedium.copyWith(
-                                      fontSize: Dimensions.FONT_SIZE_SMALL,
-                                      color:
-                                          ColorResources.getHintColor(context)),
-                                ),
-                                SizedBox(
-                                    width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                                Text(
-                                  getTranslated('login', context),
-                                  style: poppinsMedium.copyWith(
-                                      decoration: TextDecoration.underline,
-                                      fontSize: Dimensions.FONT_SIZE_SMALL,
-                                      color: ColorResources.getPrimaryColor(
-                                          context)),
-                                ),
-                              ],
-                            ),
-                          )
                         ]),
                       ),
                     ),
