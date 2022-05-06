@@ -19,7 +19,7 @@ class Blogs extends StatefulWidget {
 class _BlogsState extends State<Blogs> {
   Widget listItem(BuildContext context, int index, doc) {
     return Container(
-        height: MediaQuery.of(context).size.height * 0.12,
+        height: MediaQuery.of(context).size.height * 0.10,
         decoration: BoxDecoration(
             border: Border.all(color: Color(0xFF898A8E)),
             borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -27,13 +27,8 @@ class _BlogsState extends State<Blogs> {
           alignment: Alignment.center,
           child: ListTile(
             leading: CircleAvatar(
-              foregroundImage: doc['title'] ==
-                      "Need a Get Back in Shape Workout Plan?"
-                  ? AssetImage("assets/image/topic1.jpg")
-                  : doc['title'] ==
-                          "Can you take too many supplements? Why you might need to ditch the multivitamin"
-                      ? AssetImage("assets/image/topic2.jpg")
-                      : AssetImage("assets/image/topic3.jpg"),
+              maxRadius: 25,
+              foregroundImage: AssetImage("assets/image/topic3.jpg"),
             ),
             title: Text(doc['title']),
             // subtitle: Text(doc['Topic']),

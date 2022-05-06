@@ -543,13 +543,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     color: Colors.grey),
                               ),
                               leading: Image(
-                                image: Svg(Images.delivery_truck),
+                                image: AssetImage("assets/image/truck.png"),
                               ),
                             ),
                           ),
                           ListTile(
                             leading: Image(
-                              image: Svg(Images.male_doctor),
+                              image: AssetImage("assets/image/doc.png"),
                             ),
                             title: Text(
                               getTranslated(

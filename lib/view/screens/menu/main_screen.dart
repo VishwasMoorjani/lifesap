@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_grocery/view/screens/blogs/blogs.dart';
 import 'package:flutter_grocery/helper/html_type.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
@@ -160,13 +161,17 @@ class _MainScreenState extends State<MainScreen> {
                   label: "Home",
                 ),
                 BottomNavigationBarItem(
+                  icon: FaIcon(FontAwesomeIcons.flask),
+                  label: "Lab Tests",
+                ),
+                BottomNavigationBarItem(
                   icon: Container(
                     height: 26,
                     width: 32,
                     child: Image.asset(
                       'assets/bottomnavicons/pulse-rate.png',
                       fit: BoxFit.cover,
-                      color: current_index == 1
+                      color: current_index == 2
                           ? Color.fromRGBO(118, 149, 216, 1)
                           : Colors.black,
                     ),
@@ -181,16 +186,12 @@ class _MainScreenState extends State<MainScreen> {
                     child: Image.asset(
                       Images.blog,
                       fit: BoxFit.contain,
-                      color: current_index == 2
+                      color: current_index == 3
                           ? Color.fromRGBO(118, 149, 216, 1)
                           : Colors.black,
                     ),
                   ),
                   label: "Blogs",
-                ),
-                BottomNavigationBarItem(
-                  icon: FaIcon(FontAwesomeIcons.bell),
-                  label: "Notifications",
                 ),
                 BottomNavigationBarItem(
                   icon: FaIcon(FontAwesomeIcons.user),

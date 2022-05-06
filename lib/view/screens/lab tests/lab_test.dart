@@ -30,6 +30,11 @@ class _LabTestState extends State<LabTest> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    /*24 is for notification bar on Android*/
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 2;
     return Scaffold(
       appBar: CustomAppBar(
         title: "Lab Tests",
@@ -42,23 +47,65 @@ class _LabTestState extends State<LabTest> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
-                body: GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: snapshot.data.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20.0,
-                  mainAxisSpacing: 20.0),
-              itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    Text(snapshot.data[index]['name']),
-                    Text(snapshot.data[index]['test_id']),
-                    Text(snapshot.data[index]['price']),
-                    Text(snapshot.data[index]['precautions']),
-                  ],
-                );
-              },
+                body: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.56,
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 6,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: (itemWidth / itemHeight),
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 15.0,
+                          mainAxisSpacing: 15.0),
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          child: Image(
+                              image:
+                                  AssetImage("assets/image/${index + 1}.png")),
+                        );
+                        /*  Column(
+                          children: [
+                            Text(snapshot.data[index]['name']),
+                            Text(snapshot.data[index]['test_id']),
+                            Text(snapshot.data[index]['price']),
+                            Text(snapshot.data[index]['precautions']),
+                          ],
+                        );*/
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.18,
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0),
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          child: Image(
+                              image: AssetImage(
+                                  "assets/image/labtest${index + 1}.png")),
+                        );
+                        /*  Column(
+                          children: [
+                            Text(snapshot.data[index]['name']),
+                            Text(snapshot.data[index]['test_id']),
+                            Text(snapshot.data[index]['price']),
+                            Text(snapshot.data[index]['precautions']),
+                          ],
+                        );*/
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ));
           } else if (snapshot.hasError) {
             return Center(
@@ -68,7 +115,8 @@ class _LabTestState extends State<LabTest> {
             );
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                  color: ColorResources.getPrimaryColor(context)),
             );
           }
         },

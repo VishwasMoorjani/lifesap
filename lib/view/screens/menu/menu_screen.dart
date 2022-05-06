@@ -131,152 +131,7 @@ class MenuWidget extends StatelessWidget {
                             : SizedBox(),
                         Consumer<ProfileProvider>(
                           builder: (context, profileProvider, child) => Row(
-                            children: [
-                              /* Expanded(
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                        RouteHelper.profile,
-                                        arguments: ProfileScreen());
-                                  },
-                                  leading: ClipOval(
-                                    child: _isLoggedIn
-                                        ? FadeInImage.assetNetwork(
-                                            placeholder: Images.placeholder,
-                                            image:
-                                                '${Provider.of<SplashProvider>(context, listen: false).baseUrls.customerImageUrl}/'
-                                                '${profileProvider.userInfoModel != null ? profileProvider.userInfoModel.image : ''}',
-                                            height: 50,
-                                            width: 50,
-                                            fit: BoxFit.cover,
-                                            imageErrorBuilder: (c, o, s) =>
-                                                Image.asset(Images.placeholder,
-                                                    height: 50,
-                                                    width: 50,
-                                                    fit: BoxFit.cover),
-                                          )
-                                        : Image.asset(Images.placeholder,
-                                            height: 50,
-                                            width: 50,
-                                            fit: BoxFit.cover),
-                                  ),
-                                  title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        _isLoggedIn
-                                            ? profileProvider.userInfoModel !=
-                                                    null
-                                                ? Text(
-                                                    '${profileProvider.userInfoModel.fName ?? ''} ${profileProvider.userInfoModel.lName ?? ''}',
-                                                    style:
-                                                        poppinsRegular.copyWith(
-                                                      color: Provider.of<
-                                                                      ThemeProvider>(
-                                                                  context)
-                                                              .darkTheme
-                                                          ? ColorResources.getTextColor(
-                                                              context)
-                                                          : ResponsiveHelper
-                                                                  .isDesktop(
-                                                                      context)
-                                                              ? ColorResources
-                                                                  .getDarkColor(
-                                                                      context)
-                                                              : ColorResources
-                                                                  .getBackgroundColor(
-                                                                      context),
-                                                    ),
-                                                  )
-                                                : Container(
-                                                    height: 10,
-                                                    width: 150,
-                                                    color: ResponsiveHelper
-                                                            .isDesktop(context)
-                                                        ? ColorResources
-                                                            .getDarkColor(
-                                                                context)
-                                                        : ColorResources
-                                                            .getBackgroundColor(
-                                                                context))
-                                            : Text(
-                                                getTranslated('guest', context),
-                                                style: poppinsRegular.copyWith(
-                                                  color: Provider.of<
-                                                                  ThemeProvider>(
-                                                              context)
-                                                          .darkTheme
-                                                      ? ColorResources
-                                                          .getTextColor(context)
-                                                      : ResponsiveHelper
-                                                              .isDesktop(
-                                                                  context)
-                                                          ? ColorResources
-                                                              .getDarkColor(
-                                                                  context)
-                                                          : ColorResources
-                                                              .getBackgroundColor(
-                                                                  context),
-                                                ),
-                                              ),
-                                        _isLoggedIn
-                                            ? profileProvider.userInfoModel !=
-                                                    null
-                                                ? Text(
-                                                    '${profileProvider.userInfoModel.phone ?? ''}',
-                                                    style:
-                                                        poppinsRegular.copyWith(
-                                                      color: Provider.of<
-                                                                      ThemeProvider>(
-                                                                  context)
-                                                              .darkTheme
-                                                          ? ColorResources.getTextColor(
-                                                              context)
-                                                          : ResponsiveHelper
-                                                                  .isDesktop(
-                                                                      context)
-                                                              ? ColorResources
-                                                                  .getDarkColor(
-                                                                      context)
-                                                              : ColorResources
-                                                                  .getBackgroundColor(
-                                                                      context),
-                                                    ))
-                                                : Container(
-                                                    height: 10,
-                                                    width: 100,
-                                                    color: ResponsiveHelper
-                                                            .isDesktop(context)
-                                                        ? ColorResources
-                                                            .getDarkColor(
-                                                                context)
-                                                        : ColorResources
-                                                            .getBackgroundColor(
-                                                                context))
-                                            : Text(
-                                                '0123456789',
-                                                style: poppinsRegular.copyWith(
-                                                  color: Provider.of<
-                                                                  ThemeProvider>(
-                                                              context)
-                                                          .darkTheme
-                                                      ? ColorResources
-                                                          .getTextColor(context)
-                                                      : ResponsiveHelper
-                                                              .isDesktop(
-                                                                  context)
-                                                          ? ColorResources
-                                                              .getDarkColor(
-                                                                  context)
-                                                          : ColorResources
-                                                              .getBackgroundColor(
-                                                                  context),
-                                                ),
-                                              ),
-                                      ]),
-                                ),
-                              ),*/
-                            ],
+                            children: [],
                           ),
                         ),
                         SizedBox(height: 15),
@@ -316,26 +171,31 @@ class MenuWidget extends StatelessWidget {
                             drawerController: drawerController,
                             index: 6,
                             icon: Images.chat,
-                            title: getTranslated('live_chat', context)),
+                            title: "Upload Prescription"),
                         MenuButton(
                             drawerController: drawerController,
                             index: 7,
+                            icon: Images.chat,
+                            title: getTranslated('live_chat', context)),
+                        MenuButton(
+                            drawerController: drawerController,
+                            index: 8,
                             icon: Images.settings,
                             title: getTranslated('settings', context)),
                         MenuButton(
                           drawerController: drawerController,
-                          index: 8,
+                          index: 9,
                           icon: Images.terms_and_conditions,
                           title: getTranslated('terms_and_condition', context),
                         ),
                         MenuButton(
                             drawerController: drawerController,
-                            index: 9,
+                            index: 10,
                             icon: Images.privacy,
                             title: getTranslated('privacy_policy', context)),
                         MenuButton(
                             drawerController: drawerController,
-                            index: 10,
+                            index: 11,
                             icon: Images.about_us,
                             title: getTranslated('about_us', context)),
                         ListTile(

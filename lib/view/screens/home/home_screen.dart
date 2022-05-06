@@ -19,12 +19,14 @@ import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/base/custom_text_field.dart';
 import 'package:flutter_grocery/view/base/main_app_bar.dart';
 import 'package:flutter_grocery/view/base/title_widget.dart';
+import 'package:flutter_grocery/view/screens/blogs/blogs.dart';
 import 'package:flutter_grocery/view/screens/cart/cart_screen.dart';
 import 'package:flutter_grocery/view/screens/home/widget/banners_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/category_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/daily_item_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/product_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/upload_prescription.dart';
+import 'package:flutter_grocery/view/screens/lab%20tests/lab_test.dart';
 import 'package:flutter_grocery/view/screens/search/search_result_screen.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:provider/provider.dart';
@@ -186,6 +188,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   Divider(
                       color: ColorResources.getDividerColor(context),
                       thickness: 10),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(children: [
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Trending",
+                                  style: poppinsBold.copyWith(fontSize: 14),
+                                ),
+                                InkWell(
+                                  child: Text(
+                                    getTranslated('view_all', context),
+                                    style: poppinsMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.getPrimaryColor(
+                                            context)),
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => LabTest()));
+                                  },
+                                )
+                              ])),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                    ]),
+                  ),
+                  Divider(
+                      color: ColorResources.getDividerColor(context),
+                      thickness: 10),
                   Consumer<CategoryProvider>(
                       builder: (context, category, child) {
                     return category.categoryList == null
@@ -234,6 +271,131 @@ class _HomeScreenState extends State<HomeScreen> {
                               ]);
                             })),*/
 
+                  Divider(
+                      color: ColorResources.getDividerColor(context),
+                      thickness: 10),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(children: [
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Tests",
+                                  style: poppinsBold.copyWith(fontSize: 14),
+                                ),
+                                InkWell(
+                                  child: Text(
+                                    getTranslated('view_all', context),
+                                    style: poppinsMedium.copyWith(
+                                        fontSize: 12,
+                                        color: ColorResources.getPrimaryColor(
+                                            context)),
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => LabTest()));
+                                  },
+                                )
+                              ])),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Image(
+                              image: AssetImage("assets/image/labtest1.png"),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Image(
+                              image: AssetImage("assets/image/labtest2.png"),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Image(
+                              fit: BoxFit.fill,
+                              image: AssetImage(
+                                "assets/image/labtest3.png",
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ]),
+                  ),
+                  Divider(
+                      color: ColorResources.getDividerColor(context),
+                      thickness: 10),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Health Tips",
+                                    style: poppinsBold.copyWith(fontSize: 14),
+                                  ),
+                                  InkWell(
+                                    child: Text(
+                                      getTranslated('view_all', context),
+                                      style: poppinsMedium.copyWith(
+                                          fontSize: 12,
+                                          color: ColorResources.getPrimaryColor(
+                                              context)),
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) => Blogs()));
+                                    },
+                                  )
+                                ])),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              height: MediaQuery.of(context).size.height * 0.10,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Color(0xFF898A8E)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    maxRadius: 25,
+                                    foregroundImage:
+                                        AssetImage("assets/image/topic3.jpg"),
+                                  ),
+                                  title: Text(
+                                      "5 Unique ways to add walking in your daily routine"),
+                                  // subtitle: Text(doc['Topic']),
+                                  onTap: () {},
+                                ),
+                              )),
+                        ),
+                      ],
+                    ),
+                  ),
                   Divider(
                       color: ColorResources.getDividerColor(context),
                       thickness: 10),

@@ -24,14 +24,14 @@ class CategoryView extends StatelessWidget {
             ? Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                    padding: EdgeInsets.all(10),
                     child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          /* Text(
+                          Text(
                             getTranslated('category', context),
-                            style: poppinsBold.copyWith(fontSize: 18),
-                          ),*/
+                            style: poppinsBold.copyWith(fontSize: 14),
+                          ),
                           InkWell(
                             child: Text(
                               getTranslated('view_all', context),
@@ -54,67 +54,55 @@ class CategoryView extends StatelessWidget {
                           )
                         ]),
                   ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.25,
                     child: GridView.builder(
                       scrollDirection: Axis.horizontal,
 
                       itemCount: category.categoryList.length,
-                      padding: EdgeInsets.only(left: 6, right: 6),
+                      padding: EdgeInsets.only(left: 10, right: 10),
                       physics: ScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
                       // shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 150,
                         childAspectRatio: 2 / 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 15,
+                        crossAxisSpacing: 5,
                       ),
                       itemBuilder: (context, index) {
-                        return Container(
-                          width: 50,
-                          height: 130,
-                          child: Column(children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  RouteHelper.getCategoryProductsRoute(
-                                      category.categoryList[index].id),
-                                );
-                              },
-                              child: Container(
-                                height: 70,
-                                width: 90,
-                                /* decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color:
-                                        ColorResources.getPrimaryColor(context),
-                                  ),
-                                  color: Colors.white.withOpacity(
-                                      Provider.of<ThemeProvider>(context)
-                                              .darkTheme
-                                          ? 0.05
-                                          : 1),
-                                ),*/
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: FadeInImage.assetNetwork(
-                                    placeholder: Images.placeholder,
-                                    image:
-                                        '${Provider.of<SplashProvider>(context, listen: false).baseUrls.categoryImageUrl}/${category.categoryList[index].image}',
-                                    fit: BoxFit.cover,
-                                    imageErrorBuilder: (c, o, s) => Image.asset(
-                                        Images.placeholder,
-                                        fit: BoxFit.fill),
-                                  ),
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              RouteHelper.getCategoryProductsRoute(
+                                  category.categoryList[index].id),
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.093,
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: Images.placeholder,
+                                  image:
+                                      '${Provider.of<SplashProvider>(context, listen: false).baseUrls.categoryImageUrl}/${category.categoryList[index].image}',
+                                  fit: BoxFit.fill,
+                                  imageErrorBuilder: (c, o, s) => Image.asset(
+                                      Images.placeholder,
+                                      fit: BoxFit.fill),
                                 ),
                               ),
-                            ),
+                            ],
+                          ),
 
-                            // left: 5,
-                            // alignment: Alignment.bottomCenter,
-                            /* Container(
+                          // left: 5,
+                          // alignment: Alignment.bottomCenter,
+                          /* Container(
                               width: 70,
                               child: Text(
                                 category.categoryList[index].name,
@@ -124,7 +112,6 @@ class CategoryView extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),*/
-                          ]),
                         );
                       },
                     ),

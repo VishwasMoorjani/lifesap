@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../../../provider/profile_provider.dart';
+import '../../../utill/color_resources.dart';
 
 class AllAppointments extends StatefulWidget {
   @override
@@ -62,7 +63,9 @@ class _AllAppointmentsState extends State<AllAppointments> {
               );
             } else {
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: ColorResources.getPrimaryColor(context),
+                ),
               );
             }
           },

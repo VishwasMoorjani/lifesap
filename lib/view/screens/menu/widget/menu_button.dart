@@ -9,6 +9,8 @@ import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/screens/menu/widget/custom_drawer.dart';
 import 'package:provider/provider.dart';
 
+import '../../home/widget/upload_prescription.dart';
+
 class MenuButton extends StatefulWidget {
   final CustomDrawerController drawerController;
   final int index;
@@ -32,7 +34,7 @@ class _MenuButtonState extends State<MenuButton> {
     return Consumer<SplashProvider>(
       builder: (context, splash, child) {
         return ListTile(
-          onTap: () {
+          onTap: () async {
             /*ResponsiveHelper.isMobilePhone()
                 ? splash.setPageIndex(index)
                 : SizedBox();*/
@@ -49,15 +51,17 @@ class _MenuButtonState extends State<MenuButton> {
               Navigator.pushNamed(context, RouteHelper.address);
             } else if (widget.index == 5) {
               Navigator.pushNamed(context, RouteHelper.coupon);
-            } else if (widget.index == 6) {
+            } else if (widget.index == 7) {
+              await UploadPhoto().pickImage(context);
+            } else if (widget.index == 7) {
               Navigator.pushNamed(context, RouteHelper.chat);
-            } else if (/*ResponsiveHelper.isWeb() &&*/ widget.index == 7) {
+            } else if (/*ResponsiveHelper.isWeb() &&*/ widget.index == 8) {
               Navigator.pushNamed(context, RouteHelper.settings);
-            } else if (widget.index == 8) {
-              Navigator.pushNamed(context, RouteHelper.getTermsRoute());
             } else if (widget.index == 9) {
-              Navigator.pushNamed(context, RouteHelper.getPolicyRoute());
+              Navigator.pushNamed(context, RouteHelper.getTermsRoute());
             } else if (widget.index == 10) {
+              Navigator.pushNamed(context, RouteHelper.getPolicyRoute());
+            } else if (widget.index == 11) {
               Navigator.pushNamed(context, RouteHelper.getAboutUsRoute());
             }
             widget.drawerController.toggle();
