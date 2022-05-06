@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
@@ -40,6 +42,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
     if (_isLoggedIn) {
       Provider.of<ProfileProvider>(context, listen: false).getUserInfo(context);
+      Provider.of<ProfileProvider>(context, listen: false)
+          .getUserID(context)
+          .then((value) => (log(value.toString())));
     }
   }
 

@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/utill/color_resources.dart';
 import 'package:flutter_grocery/view/base/no_data_screen.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../utill/dimensions.dart';
 import '../../../utill/images.dart';
 import '../../base/custom_app_bar.dart';
@@ -12,6 +15,19 @@ class LabTest extends StatefulWidget {
 }
 
 class _LabTestState extends State<LabTest> {
+  Future<dynamic> getTest() async {
+    final response = await http.get(Uri.parse(
+        'https://us-central1-lifesap-backend.cloudfunctions.net/app/api/lab/get-test'));
+    if (response.statusCode == 200) {
+      final response1 = jsonDecode(response.body);
+      log(response1["test"].toString());
+      return response1["test"];
+    } else {
+      log('error');
+      throw ('error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +40,11 @@ class _LabTestState extends State<LabTest> {
       body: Center(
           child: Column(
         children: [
+          ElevatedButton(
+              onPressed: () async {
+                final v = await getTest();
+              },
+              child: Text('okay')),
           Image(
             image: AssetImage("assets/image/lab1.png"),
           ),

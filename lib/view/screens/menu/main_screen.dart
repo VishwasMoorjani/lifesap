@@ -45,11 +45,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final screens = [
     HomeScreen(),
-
+    LabTest(),
     DoctorConsult(),
     // NotificationScreen(),
     Blogs(),
-    NotificationScreen(),
+    // NotificationScreen(),
     ProfileScreen()
   ];
   List<String> _keys = [];

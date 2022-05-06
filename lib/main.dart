@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +26,7 @@ import 'package:flutter_grocery/helper/route_helper.dart';
 import 'package:flutter_grocery/theme/dark_theme.dart';
 import 'package:flutter_grocery/theme/light_theme.dart';
 import 'package:flutter_grocery/utill/app_constants.dart';
+import 'package:flutter_grocery/view/screens/auth/widget/loading.dart';
 import 'package:flutter_grocery/view/screens/menu/menu_screen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -71,34 +72,30 @@ Future<void> main() async {
       FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
     }
   } catch (e) {}
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
-        ChangeNotifierProvider(
-            create: (context) => di.sl<LocalizationProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
-        ChangeNotifierProvider(
-            create: (context) => di.sl<OnBoardingProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<CategoryProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<ProductProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<SearchProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<CartProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<CouponProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<LocationProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<ProfileProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<OrderProvider>()),
-        ChangeNotifierProvider(create: (context) => di.sl<BannerProvider>()),
-        ChangeNotifierProvider(
-            create: (context) => di.sl<NotificationProvider>()),
-      ],
-      child: MyApp(orderID: _orderID, isWeb: !kIsWeb),
-    ),
-  );
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => di.sl<ThemeProvider>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<LocalizationProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<SplashProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<OnBoardingProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<CategoryProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<ProductProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<SearchProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<ChatProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<AuthProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<CartProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<CouponProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<LocationProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<ProfileProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<OrderProvider>()),
+      ChangeNotifierProvider(create: (context) => di.sl<BannerProvider>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<NotificationProvider>()),
+    ],
+    child: MyApp(orderID: _orderID, isWeb: !kIsWeb),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -118,32 +115,29 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     RouteHelper.setupRouter();
 
-    Provider.of<SplashProvider>(context, listen: false).initSharedData();
-    Provider.of<CartProvider>(context, listen: false).getCartData();
-    _route();
+    if (kIsWeb) {
+      Provider.of<SplashProvider>(context, listen: false).initSharedData();
+      Provider.of<CartProvider>(context, listen: false).getCartData();
+      _route();
+    }
   }
 
-  void _route() {
+  void _route() async {
     Provider.of<SplashProvider>(context, listen: false)
         .initConfig(context)
         .then((bool isSuccess) {
       if (isSuccess) {
-        if (Provider.of<SplashProvider>(context, listen: false)
-            .configModel
-            .maintenanceMode) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, RouteHelper.getMaintenanceRoute(), (route) => false);
-        } else {
-          Timer(Duration(seconds: 0), () async {
-            if (Provider.of<AuthProvider>(context, listen: false)
-                .isLoggedIn()) {
-              Provider.of<AuthProvider>(context, listen: false).updateToken();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  RouteHelper.menu, (route) => false,
-                  arguments: MenuScreen());
-            } else {}
-          });
-        }
+        Timer(Duration(seconds: 1), () async {
+          if (Provider.of<AuthProvider>(context, listen: false).isLoggedIn()) {
+            await Provider.of<AuthProvider>(context, listen: false)
+                .updateToken();
+            // Navigator.of(context).pushReplacementNamed(RouteHelper.menu,
+            // arguments: MenuScreen());
+            //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => DashboardScreen()));
+          } else {
+            // Navigator.of(context).pushReplacementNamed(RouteHelper.onBoarding, arguments: OnBoardingScreen());
+          }
+        });
       }
     });
   }
@@ -156,6 +150,7 @@ class _MyAppState extends State<MyApp> {
     });
     return Consumer<SplashProvider>(
       builder: (context, splashProvider, child) {
+        log(widget.orderID.toString());
         return (kIsWeb && splashProvider.configModel == null)
             ? SizedBox()
             : MaterialApp(
@@ -163,12 +158,10 @@ class _MyAppState extends State<MyApp> {
                     ? splashProvider.configModel.ecommerceName ?? ''
                     : AppConstants.APP_NAME,
                 initialRoute: ResponsiveHelper.isMobilePhone()
-                    ? widget.orderID == null
-                        ? Provider.of<AuthProvider>(context, listen: false)
-                                .isLoggedIn()
-                            ? RouteHelper.menu
-                            : RouteHelper.splash
-                        : RouteHelper.getOrderDetailsRoute(widget.orderID)
+                    ? widget.orderID != null
+                        // ? RouteHelper.splash
+                        ? RouteHelper.getOrderDetailsRoute(widget.orderID)
+                        : RouteHelper.splash
                     : Provider.of<SplashProvider>(context, listen: false)
                             .configModel
                             .maintenanceMode

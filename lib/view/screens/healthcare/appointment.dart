@@ -1,261 +1,100 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_grocery/utill/color_resources.dart';
-import 'package:flutter_grocery/utill/images.dart';
-import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/base/custom_app_bar.dart';
-//import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import '../../../provider/profile_provider.dart';
 
 class Appointment extends StatefulWidget {
-  final doc_name;
-  Appointment(this.doc_name);
+  final docname;
+  final preftime;
+  final expertise;
+  final id;
+  Appointment(this.docname, this.preftime, this.expertise, this.id);
   @override
   State<Appointment> createState() => _AppointmentState();
 }
 
 class _AppointmentState extends State<Appointment> {
-  DateTime _datetime;
-  String _time;
-  CalendarController _controller;
-  @override
-  void initState() {
-    super.initState();
-    _controller = CalendarController();
+  Future postAppointment() async {
+    final uid = (await Provider.of<ProfileProvider>(context, listen: false)
+            .getUserID(context))
+        .toString();
+    final url = Uri.parse(
+        'https://us-central1-lifesap-backend.cloudfunctions.net/app/api/patient/appointment/$uid/${widget.id.toString()}');
+    var response = await http.put(url,
+        body: jsonEncode(
+            {'date': 'doodle', 'time': 'blue', 'information': 'info1'}));
+    log(response.body);
   }
 
+  DateTime _datetime;
+  TimeOfDay _time;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.doc_name),
-      body: Padding(
-        padding: EdgeInsets.all(10),
+      appBar: CustomAppBar(title: widget.docname),
+      body: Center(
         child: Column(
           children: [
-            Center(
-              child: CircleAvatar(
-                backgroundImage: AssetImage(Images.doc),
-                radius: 75,
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Schedule",
-                  textAlign: TextAlign.left,
-                  style: poppinsSemiBold.copyWith(fontSize: 16),
-                ),
-              ),
-            ),
-            TableCalendar(
-              availableCalendarFormats: {CalendarFormat.week: 'Week'},
-              initialCalendarFormat: CalendarFormat.week,
-              calendarStyle: CalendarStyle(
-                  todayColor: Colors.blue,
-                  selectedColor: Theme.of(context).primaryColor,
-                  todayStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22.0,
-                      color: Colors.white)),
-              headerStyle: HeaderStyle(
-                centerHeaderTitle: true,
-                formatButtonDecoration: BoxDecoration(
-                  color: Colors.brown,
-                  borderRadius: BorderRadius.circular(22.0),
-                ),
-                formatButtonTextStyle: TextStyle(color: Colors.white),
-                formatButtonShowsNext: false,
-              ),
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              onDaySelected: (date, events, e) {
-                print(date.toUtc());
-                setState(() {
-                  _datetime = date.toUtc();
-                });
-              },
-              builders: CalendarBuilders(
-                selectedDayBuilder: (context, date, events) => Container(
-                    margin: const EdgeInsets.all(5.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(8.0)),
-                    child: Text(
-                      date.day.toString(),
-                      style: TextStyle(color: Colors.white),
-                    )),
-                todayDayBuilder: (context, date, events) => Container(
-                    margin: const EdgeInsets.all(5.0),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                        border: Border.all(color: Colors.black)),
-                    child: Text(
-                      date.day.toString(),
-                      style: TextStyle(),
-                    )),
-              ),
-              calendarController: _controller,
-            ),
-            Text(
-              _datetime == null
-                  ? "nothing yet"
-                  : _datetime.toString().substring(0, 10),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.04,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Time",
-                  textAlign: TextAlign.left,
-                  style: poppinsSemiBold.copyWith(fontSize: 16),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                InkWell(
-                  onTap: () {
+            Text('Preferred time: ${widget.preftime} '),
+            Text('Expertise: ${widget.expertise}'),
+            Text(_datetime == null
+                ? "Pick A Date"
+                : _datetime.toString().substring(0, 10)),
+            Text(_time == null ? 'Pick time' : _time.format(context)),
+            ElevatedButton(
+                onPressed: () {
+                  showDatePicker(
+                          context: context,
+                          initialDate:
+                              _datetime == null ? DateTime.now() : _datetime,
+                          firstDate: DateTime(_datetime.year),
+                          lastDate: DateTime(_datetime.year + 2))
+                      .then((value) {
                     setState(() {
-                      _time = "10:00 am";
+                      _datetime = value;
                     });
-                  },
-                  child: Card(
-                    color: Color(0xFFCDDEFF),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-                      child: Text('10:00 am',
-                          style: poppinsRegular.copyWith(
-                              fontSize: 10, color: Colors.black)),
+                  });
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.date_range),
+                    SizedBox(
+                      width: 3,
                     ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _time = "12:00 pm";
-                    });
-                  },
-                  child: Card(
-                    color: Color(0xFFCDDEFF),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-                      child: Text('12:00 pm',
-                          style: poppinsRegular.copyWith(
-                              fontSize: 10, color: Colors.black)),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _time = "2:00 pm";
-                    });
-                  },
-                  child: Card(
-                    color: Color(0xFFCDDEFF),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-                      child: Text('2:00 pm',
-                          style: poppinsRegular.copyWith(
-                              fontSize: 10, color: Colors.black)),
-                    ),
-                  ),
-                ),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _time = "4:00 pm";
-                    });
-                  },
-                  child: Card(
-                    color: Color(0xFFCDDEFF),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 22, vertical: 3),
-                      child: Text('4:00 pm',
-                          style: poppinsRegular.copyWith(
-                              fontSize: 10, color: Colors.black)),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _time = "6:00 pm";
-                    });
-                  },
-                  child: Card(
-                    color: Color(0xFFCDDEFF),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 21, vertical: 3),
-                      child: Text('6:00 pm',
-                          style: poppinsRegular.copyWith(
-                              fontSize: 10, color: Colors.black)),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _time = "8:00 pm";
-                    });
-                  },
-                  child: Card(
-                    color: Color(0xFFCDDEFF),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-                      child: Text('8:00 pm',
-                          style: poppinsRegular.copyWith(
-                              fontSize: 10, color: Colors.black)),
-                    ),
-                  ),
-                ),
-              ]),
-            ),
-            Text(_time == null ? 'no time picked' : _time),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.04,
-            ),
-            Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: ColorResources.getPrimaryColor(context)),
-                width: MediaQuery.of(context).size.width * 0.7,
-                height: MediaQuery.of(context).size.height * 0.07,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    shadowColor:
-                        MaterialStateProperty.all<Color>(Colors.transparent),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.transparent),
-                  ),
-                  child: Text(
-                    "Book Appointment",
-                    style: poppinsSemiBold.copyWith(fontSize: 18),
-                  ),
+                    Text('Select Date')
+                  ],
                 )),
+            ElevatedButton(
+                onPressed: () {
+                  showTimePicker(
+                          context: context,
+                          initialTime: _time == null ? TimeOfDay.now() : _time)
+                      .then((value) {
+                    setState(() {
+                      _time = value;
+                    });
+                  });
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.timelapse),
+                    SizedBox(
+                      width: 3,
+                    ),
+                    Text('Select Time')
+                  ],
+                )),
+            ElevatedButton(
+                onPressed: () async {
+                  await postAppointment();
+                },
+                child: Text('post')),
           ],
         ),
       ),

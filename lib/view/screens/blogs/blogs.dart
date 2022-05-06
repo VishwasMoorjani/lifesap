@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter_svg/flutter_svg.dart';
 //import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_grocery/view/screens/blogs/bloshow.dart';
 import 'package:flutter_grocery/view/base/custom_app_bar.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../utill/color_resources.dart';
 
 class Blogs extends StatefulWidget {
@@ -26,29 +27,37 @@ class _BlogsState extends State<Blogs> {
           alignment: Alignment.center,
           child: ListTile(
             leading: CircleAvatar(
-              foregroundImage: doc['Topic'] ==
+              foregroundImage: doc['title'] ==
                       "Need a Get Back in Shape Workout Plan?"
                   ? AssetImage("assets/image/topic1.jpg")
-                  : doc['Topic'] ==
+                  : doc['title'] ==
                           "Can you take too many supplements? Why you might need to ditch the multivitamin"
                       ? AssetImage("assets/image/topic2.jpg")
                       : AssetImage("assets/image/topic3.jpg"),
             ),
-            title: Text(doc['Topic']),
+            title: Text(doc['title']),
             // subtitle: Text(doc['Topic']),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BlogShow(doc['Topic'], doc['Body'])));
+                  builder: (context) =>
+                      BlogShow(doc['title'], doc['content'])));
             },
           ),
         ));
   }
 
   // Fetch content from the json file
-  Future<List> readJson() async {
-    final String response = await rootBundle.loadString('assets/sample.json');
-    final data = await jsonDecode(response);
-    return data["BLOGS"] as List;
+  Future readJson() async {
+    final response = await http.get(Uri.parse(
+        'https://us-central1-lifesap-backend.cloudfunctions.net/app/api/blog/get-all-blogs'));
+    if (response.statusCode == 200) {
+      final response1 = jsonDecode(response.body);
+      print(response1['blogs']);
+      return response1['blogs'];
+    } else {
+      log('error');
+      throw ('Error');
+    }
   }
 
   @override
@@ -59,10 +68,9 @@ class _BlogsState extends State<Blogs> {
           isElevation: true,
           isBackButtonExist: false,
         ),
-        body: FutureBuilder<List<dynamic>>(
+        body: FutureBuilder<dynamic>(
           future: readJson(),
-          builder:
-              (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               return Column(
                 children: [
@@ -90,9 +98,13 @@ class _BlogsState extends State<Blogs> {
                 ],
               );
             } else if (snapshot.hasError) {
-              return Text('/');
+              return Center(
+                child: Scaffold(
+                  body: Text('Something went wrong, Please try again'),
+                ),
+              );
             } else {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           },
         ));
