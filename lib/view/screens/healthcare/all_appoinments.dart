@@ -66,15 +66,6 @@ class _AllAppointmentsState extends State<AllAppointments> {
               );
             }
           },
-        )
-
-        // Center(
-        //     child: ElevatedButton(
-        //   onPressed: () async {
-        //     await getAppointments();
-        //   },
-        //   child: Text('get'),
-        // )),
-        );
+        ));
   }
 }
