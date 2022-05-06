@@ -37,23 +37,59 @@ class _LabTestState extends State<LabTest> {
         isBackButtonExist: false,
       ),
       backgroundColor: ColorResources.getCardBgColor(context),
-      body: Center(
-          child: Column(
-        children: [
-          ElevatedButton(
-              onPressed: () async {
-                final v = await getTest();
+      body: FutureBuilder(
+        future: getTest(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+                body: GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: snapshot.data.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20.0,
+                  mainAxisSpacing: 20.0),
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    Text(snapshot.data[index]['name']),
+                    Text(snapshot.data[index]['test_id']),
+                    Text(snapshot.data[index]['price']),
+                    Text(snapshot.data[index]['precautions']),
+                  ],
+                );
               },
-              child: Text('okay')),
-          Image(
-            image: AssetImage("assets/image/lab1.png"),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.06,
-          ),
-          Image(image: AssetImage(Images.lab_2)),
-        ],
-      )),
+            ));
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Scaffold(
+                body: Text('Something went wrong, Please try again'),
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      //  Center(
+      //     child: Column(
+      //   children: [
+      //     ElevatedButton(
+      //         onPressed: () async {
+      //           final v = await getTest();
+      //         },
+      //         child: Text('okay')),
+      //     Image(
+      //       image: AssetImage("assets/image/lab1.png"),
+      //     ),
+      //     SizedBox(
+      //       height: MediaQuery.of(context).size.height * 0.06,
+      //     ),
+      //     Image(image: AssetImage(Images.lab_2)),
+      //   ],
+      // )),
     );
     /*Scaffold(
       body: Container(
