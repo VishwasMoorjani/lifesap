@@ -4,10 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 //import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_grocery/view/screens/blogs/bloshow.dart';
+import 'package:flutter_grocery/view/screens/blogs/blog_show.dart';
 import 'package:flutter_grocery/view/base/custom_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../../../utill/color_resources.dart';
+import '../../../utill/styles.dart';
 
 class Blogs extends StatefulWidget {
   // const Blogs({Key key}) : super(key: key);
@@ -69,17 +70,26 @@ class _BlogsState extends State<Blogs> {
             if (snapshot.hasData) {
               return Column(
                 children: [
-                  /* Image(
+                  Image(
                     image: AssetImage(
-                      "assets/image/blog_bg.png",
+                      "assets/image/blog_img.png",
                     ),
-                  ),*/
-
-                  // fit: BoxFit.fitWidth,
-
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.6,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Daily Feed",
+                        textAlign: TextAlign.left,
+                        style: poppinsSemiBold.copyWith(fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  Expanded(
                     child: ListView.separated(
+                        physics: BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
                         padding: EdgeInsets.all(15),
                         separatorBuilder: (context, index) => SizedBox(
                               height: 10,
@@ -99,7 +109,10 @@ class _BlogsState extends State<Blogs> {
                 ),
               );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                  child: CircularProgressIndicator(
+                color: ColorResources.getPrimaryColor(context),
+              ));
             }
           },
         ));

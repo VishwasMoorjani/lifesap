@@ -55,7 +55,8 @@ dependencies:
   flutter_svg_provider: 
   table_calendar: ^2.1.0  
   syncfusion_flutter_calendar: ^20.1.48
-
+  flutter_math_fork: ^0.3.3+1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

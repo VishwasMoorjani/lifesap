@@ -16,6 +16,7 @@ import 'package:flutter_grocery/utill/color_resources.dart';
 import 'package:flutter_grocery/utill/dimensions.dart';
 import 'package:flutter_grocery/utill/images.dart';
 import 'package:flutter_grocery/utill/styles.dart';
+import 'package:flutter_grocery/view/base/custom_divider.dart';
 import 'package:flutter_grocery/view/base/custom_text_field.dart';
 import 'package:flutter_grocery/view/base/main_app_bar.dart';
 import 'package:flutter_grocery/view/base/title_widget.dart';
@@ -28,6 +29,7 @@ import 'package:flutter_grocery/view/screens/home/widget/product_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/upload_prescription.dart';
 import 'package:flutter_grocery/view/screens/lab%20tests/lab_test.dart';
 import 'package:flutter_grocery/view/screens/search/search_result_screen.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -185,6 +187,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? SizedBox()
                             : BannersView();
                   }),
+
+                  Divider(
+                      color: ColorResources.getDividerColor(context),
+                      thickness: 10),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                    ]),
+                  ),
                   Divider(
                       color: ColorResources.getDividerColor(context),
                       thickness: 10),
@@ -220,6 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ]),
                   ),
+
                   Divider(
                       color: ColorResources.getDividerColor(context),
                       thickness: 10),
@@ -231,45 +246,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? SizedBox()
                             : CategoryView();
                   }),
-                  /*    Container(
-                        height: MediaQuery.of(context).size.height * 0.32,
-                        padding: EdgeInsets.all(10.0),
-                        child: GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: 6,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    crossAxisSpacing: 10.0,
-                                    mainAxisSpacing: 0.0),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Stack(children: [
-                                InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    height: 85,
-                                    child: Image(
-                                        image: AssetImage(
-                                          images[index],
-                                        ),
-                                        fit: BoxFit.contain),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 65,
-                                  left: 8,
-                                  child: Container(
-                                    width: 100,
-                                    child: Text(
-                                      text[index],
-                                      textAlign: TextAlign.center,
-                                      style: poppinsSemiBold.copyWith(
-                                          fontSize: 10),
-                                    ),
-                                  ),
-                                ),
-                              ]);
-                            })),*/
 
                   Divider(
                       color: ColorResources.getDividerColor(context),

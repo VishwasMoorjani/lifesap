@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_grocery/utill/styles.dart';
+import 'package:flutter_grocery/view/base/custom_app_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import '../../../provider/profile_provider.dart';
 import '../../../utill/color_resources.dart';
 
@@ -33,27 +36,60 @@ class _AllAppointmentsState extends State<AllAppointments> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Appointments'),
-          centerTitle: true,
+        backgroundColor: ColorResources.getCardBgColor(context),
+        appBar: CustomAppBar(
+          title: "Appointments",
         ),
         body: FutureBuilder(
           future: getAppointments(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                        title: Text(snapshot.data[index]['doc_name']),
-                        subtitle: Column(
-                          children: [
-                            Text(snapshot.data[index]['date'] +
-                                snapshot.data[index]['time']),
-                            Text(snapshot.data[index]['meet_link']),
-                            Text(snapshot.data[index]['information'])
-                          ],
-                        ));
+                    return Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Material(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          color: Colors.transparent,
+                          elevation: 5,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            tileColor: Color(0xFF77B4FF),
+                            leading: CircleAvatar(
+                                maxRadius: 30,
+                                backgroundImage: AssetImage(
+                                    "assets/image/doc_default.jpeg")),
+                            title: Text(
+                              snapshot.data[index]['doc_name'],
+                              style: poppinsSemiBold.copyWith(
+                                  fontSize: 14, color: Colors.white),
+                            ),
+                            subtitle: DefaultTextStyle(
+                              style: poppinsRegular.copyWith(
+                                  color: Colors.white, fontSize: 14),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(snapshot.data[index]['date'] +
+                                      " " +
+                                      snapshot.data[index]['time']),
+                                  InkWell(
+                                      onTap: () => launch(
+                                          snapshot.data[index]['meet_link']),
+                                      child: Text("Join Meeting")),
+                                  Text(snapshot.data[index]['information'])
+                                ],
+                              ),
+                            ),
+                          )),
+                    );
                   });
             } else if (snapshot.hasError) {
               return Center(

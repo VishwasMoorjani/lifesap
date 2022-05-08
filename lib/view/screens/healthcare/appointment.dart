@@ -87,205 +87,236 @@ class _AppointmentState extends State<Appointment> {
     return GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: CustomAppBar(title: widget.docname),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        CircleAvatar(
-                          maxRadius: 60,
-                          backgroundColor: Colors.transparent,
-                          child:
-                              Image(image: AssetImage("assets/image/doc.png")),
-                        ),
-                        DefaultTextStyle(
-                          style: poppinsLight.copyWith(
-                              color: ColorResources.getPrimaryColor(context)),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Preferred time: ${widget.preftime} '),
-                                Text('Expertise: ${widget.expertise}'),
-                                Text(_datetime == null
-                                    ? "Pick A Date"
-                                    : _datetime.toString().substring(0, 10)),
-                                Text(_time == null
-                                    ? 'Pick time'
-                                    : _time.format(context)),
-                              ]),
-                        ),
-                      ]),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Schedule",
-                      textAlign: TextAlign.left,
-                      style: poppinsSemiBold.copyWith(fontSize: 16),
-                    ),
-                  ),
-                  TableCalendar(
-                    availableCalendarFormats: {CalendarFormat.week: 'Week'},
-                    initialCalendarFormat: CalendarFormat.week,
-                    calendarStyle: CalendarStyle(
-                        todayColor: Colors.blue,
-                        selectedColor: Theme.of(context).primaryColor,
-                        todayStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22.0,
-                            color: Colors.white)),
-                    headerStyle: HeaderStyle(
-                      centerHeaderTitle: true,
-                      formatButtonDecoration: BoxDecoration(
-                        color: Colors.brown,
-                        borderRadius: BorderRadius.circular(22.0),
-                      ),
-                      formatButtonTextStyle: TextStyle(color: Colors.white),
-                      formatButtonShowsNext: false,
-                    ),
-                    startingDayOfWeek: StartingDayOfWeek.monday,
-                    onDaySelected: (date, events, e) {
-                      print(date.toUtc());
-                      setState(() {
-                        _datetime = date.toUtc();
-                      });
-                    },
-                    builders: CalendarBuilders(
-                      selectedDayBuilder: (context, date, events) => Container(
-                          margin: const EdgeInsets.all(5.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(8.0)),
-                          child: Text(
-                            date.day.toString(),
-                            style: TextStyle(color: Colors.white),
-                          )),
-                      todayDayBuilder: (context, date, events) => Container(
-                          margin: const EdgeInsets.all(5.0),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                              border: Border.all(color: Colors.black)),
-                          child: Text(
-                            date.day.toString(),
-                            style: TextStyle(),
-                          )),
-                    ),
-                    calendarController: _controller,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Select Time",
-                      textAlign: TextAlign.left,
-                      style: poppinsSemiBold.copyWith(fontSize: 16),
-                    ),
-                  ),
-                  IconButton(
-                    iconSize: 30,
-                    icon: FaIcon(FontAwesomeIcons.clock),
-                    onPressed: () {
-                      showTimePicker(
-                              context: context,
-                              initialTime:
-                                  _time == null ? TimeOfDay.now() : _time)
-                          .then((value) {
-                        setState(() {
-                          _time = value;
-                        });
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  TextFormField(
-                    cursorColor: ColorResources.getPrimaryColor(context),
-                    decoration: InputDecoration(
-                      hintText: "Name",
-                      hintStyle: poppinsMedium.copyWith(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                      focusColor: ColorResources.getPrimaryColor(context),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: ColorResources.getPrimaryColor(context))),
-                    ),
-                    controller: _name,
-                  ),
-                  TextFormField(
-                    cursorColor: ColorResources.getPrimaryColor(context),
-                    decoration: InputDecoration(
-                      hintText: "Age",
-                      hintStyle: poppinsMedium.copyWith(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                      focusColor: ColorResources.getPrimaryColor(context),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: ColorResources.getPrimaryColor(context))),
-                    ),
-                    controller: _age,
-                  ),
-                  TextFormField(
-                    cursorColor: ColorResources.getPrimaryColor(context),
-                    decoration: InputDecoration(
-                      hintText: "Problem",
-                      hintStyle: poppinsMedium.copyWith(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                      focusColor: ColorResources.getPrimaryColor(context),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: ColorResources.getPrimaryColor(context))),
-                    ),
-                    controller: _problem,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.04,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: ColorResources.getPrimaryColor(context)),
-                    height: MediaQuery.of(context).size.height * 0.08,
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            shadowColor: MaterialStateProperty.all<Color>(
-                                Colors.transparent),
-                            elevation: MaterialStateProperty.all(6),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.transparent),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ))),
-                        onPressed: () async {
-                          LoadingIndicatorDialog().show(context, 'Please wait');
-                          await postAppointment(context, _name.text, _age.text,
-                              _problem.text, _datetime, _time.format(context));
-                          LoadingIndicatorDialog().dismiss();
-                        },
-                        child: Text(
-                          'Book Appointment',
-                          style: poppinsSemiBold.copyWith(fontSize: 16),
-                        )),
-                  )
-                ],
-              ),
+            backgroundColor: ColorResources.getCardBgColor(context),
+            resizeToAvoidBottomInset: false,
+            appBar: CustomAppBar(
+              title: widget.docname,
+              isElevation: true,
             ),
-          ),
-        ));
+            body: SafeArea(
+              child: Scrollbar(
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CircleAvatar(
+                                maxRadius: 60,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage:
+                                    AssetImage("assets/image/doc_default.jpeg"),
+                              ),
+                              DefaultTextStyle(
+                                style: poppinsLight.copyWith(
+                                    color: ColorResources.getPrimaryColor(
+                                        context)),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          'Preferred time: ${widget.preftime} '),
+                                      Text('Expertise: ${widget.expertise}'),
+                                      Text(_datetime == null
+                                          ? "Pick A Date"
+                                          : _datetime
+                                              .toString()
+                                              .substring(0, 10)),
+                                      Text(_time == null
+                                          ? 'Pick time'
+                                          : _time.format(context)),
+                                    ]),
+                              ),
+                            ]),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Schedule",
+                            textAlign: TextAlign.left,
+                            style: poppinsSemiBold.copyWith(fontSize: 16),
+                          ),
+                        ),
+                        TableCalendar(
+                          availableCalendarFormats: {
+                            CalendarFormat.week: 'Week'
+                          },
+                          initialCalendarFormat: CalendarFormat.week,
+                          calendarStyle: CalendarStyle(
+                              todayColor: Colors.blue,
+                              selectedColor: Theme.of(context).primaryColor,
+                              todayStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22.0,
+                                  color: Colors.white)),
+                          headerStyle: HeaderStyle(
+                            centerHeaderTitle: true,
+                            formatButtonDecoration: BoxDecoration(
+                              color: Colors.brown,
+                              borderRadius: BorderRadius.circular(22.0),
+                            ),
+                            formatButtonTextStyle:
+                                TextStyle(color: Colors.white),
+                            formatButtonShowsNext: false,
+                          ),
+                          startingDayOfWeek: StartingDayOfWeek.monday,
+                          onDaySelected: (date, events, e) {
+                            print(date.toUtc());
+                            setState(() {
+                              _datetime = date.toUtc();
+                            });
+                          },
+                          builders: CalendarBuilders(
+                            selectedDayBuilder: (context, date, events) =>
+                                Container(
+                                    margin: const EdgeInsets.all(5.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context).primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0)),
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                            todayDayBuilder: (context, date, events) =>
+                                Container(
+                                    margin: const EdgeInsets.all(5.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                        border:
+                                            Border.all(color: Colors.black)),
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(),
+                                    )),
+                          ),
+                          calendarController: _controller,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Select Time",
+                            textAlign: TextAlign.left,
+                            style: poppinsSemiBold.copyWith(fontSize: 16),
+                          ),
+                        ),
+                        IconButton(
+                          iconSize: 30,
+                          icon: FaIcon(FontAwesomeIcons.clock),
+                          onPressed: () {
+                            showTimePicker(
+                                    context: context,
+                                    initialTime:
+                                        _time == null ? TimeOfDay.now() : _time)
+                                .then((value) {
+                              setState(() {
+                                _time = value;
+                              });
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        TextFormField(
+                          cursorColor: ColorResources.getPrimaryColor(context),
+                          decoration: InputDecoration(
+                            hintText: "Name",
+                            hintStyle: poppinsMedium.copyWith(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                            focusColor: ColorResources.getPrimaryColor(context),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: ColorResources.getPrimaryColor(
+                                        context))),
+                          ),
+                          controller: _name,
+                        ),
+                        TextFormField(
+                          cursorColor: ColorResources.getPrimaryColor(context),
+                          decoration: InputDecoration(
+                            hintText: "Age",
+                            hintStyle: poppinsMedium.copyWith(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                            focusColor: ColorResources.getPrimaryColor(context),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: ColorResources.getPrimaryColor(
+                                        context))),
+                          ),
+                          controller: _age,
+                        ),
+                        TextFormField(
+                          cursorColor: ColorResources.getPrimaryColor(context),
+                          decoration: InputDecoration(
+                            hintText: "Problem",
+                            hintStyle: poppinsMedium.copyWith(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                            focusColor: ColorResources.getPrimaryColor(context),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: ColorResources.getPrimaryColor(
+                                        context))),
+                          ),
+                          controller: _problem,
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: ColorResources.getPrimaryColor(context)),
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  shadowColor: MaterialStateProperty.all<Color>(
+                                      Colors.transparent),
+                                  elevation: MaterialStateProperty.all(6),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.transparent),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ))),
+                              onPressed: () async {
+                                LoadingIndicatorDialog()
+                                    .show(context, 'Please wait');
+                                await postAppointment(
+                                    context,
+                                    _name.text,
+                                    _age.text,
+                                    _problem.text,
+                                    _datetime,
+                                    _time.format(context));
+                                LoadingIndicatorDialog().dismiss();
+                              },
+                              child: Text(
+                                'Book Appointment',
+                                style: poppinsSemiBold.copyWith(fontSize: 16),
+                              )),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )));
   }
 }

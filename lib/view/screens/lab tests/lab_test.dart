@@ -3,8 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/utill/color_resources.dart';
+import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/base/no_data_screen.dart';
-import 'package:flutter_grocery/view/screens/lab%20tests/alltest.dart';
+import 'package:flutter_grocery/view/screens/lab%20tests/all_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import '../../../provider/profile_provider.dart';
@@ -80,172 +81,201 @@ class _LabTestState extends State<LabTest> {
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width / 2;
     return Scaffold(
-      appBar: CustomAppBar(
-        title: "Lab Tests",
-        isElevation: true,
-        isBackButtonExist: false,
-      ),
-      backgroundColor: ColorResources.getCardBgColor(context),
-      body: FutureBuilder(
-        future: getTest(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasData) {
-            return Scaffold(
-                body: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.56,
-                      child: GridView.builder(
-                        // physics: NeverScrollableScrollPhysics(),
-                        itemCount: 6,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: (itemWidth / itemHeight),
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 15.0,
-                            mainAxisSpacing: 15.0),
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            child: Image(
-                                image: AssetImage(
-                                    "assets/image/${index + 1}.png")),
-                          );
-                          /*  Column(
-                            children: [
-                              Text(snapshot.data[index]['name']),
-                              Text(snapshot.data[index]['test_id']),
-                              Text(snapshot.data[index]['price']),
-                              Text(snapshot.data[index]['precautions']),
-                            ],
-                          );*/
-                        },
+        appBar: CustomAppBar(
+          title: "Lab Tests",
+          isElevation: true,
+          isBackButtonExist: false,
+        ),
+        backgroundColor: ColorResources.getCardBgColor(context),
+        body: SafeArea(
+            child: Scrollbar(
+                child: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          physics:
+              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          child: FutureBuilder(
+            future: getTest(),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              if (snapshot.hasData) {
+                return SizedBox(
+                  height: size.height,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 8,
+                        child: GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 6,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: (itemWidth / itemHeight),
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 15.0,
+                                  mainAxisSpacing: 15.0),
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              child: Image(
+                                  image: AssetImage(
+                                      "assets/image/${index + 1}.png")),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.18,
-                      child: GridView.builder(
-                        // physics: scro,
-                        itemCount: snapshot.data.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 10.0,
-                            mainAxisSpacing: 10.0),
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () async {
-                              log('message');
-                              String name = 'name';
-                              String age = '10';
-                              await addTest(
-                                  context,
-                                  snapshot.data[index]['test_id'],
-                                  DateTime.now().toString(),
-                                  TimeOfDay.now().toString(),
-                                  name,
-                                  age);
-                            },
-                            child: Image(
-                                image: AssetImage(
-                                    "assets/image/labtest${index + 1}.png")),
-                          );
-                          /*  Column(
-                            children: [
-                              Text(snapshot.data[index]['name']),
-                              Text(snapshot.data[index]['test_id']),
-                              Text(snapshot.data[index]['price']),
-                              Text(snapshot.data[index]['precautions']),
-                            ],
-                          );*/
-                        },
+                      Expanded(
+                        flex: 5,
+                        child: GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 3,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0),
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () async {
+                                return showDialog(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0)),
+                                          title: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                snapshot.data[index]['name'],
+                                                style: poppinsSemiBold.copyWith(
+                                                    fontSize: 22,
+                                                    color: ColorResources
+                                                        .getPrimaryColor(
+                                                            context)),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(Icons.close)),
+                                            ],
+                                          ),
+                                          content: SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.08,
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    "Price: Rs. " +
+                                                        snapshot.data[index]
+                                                            ['price'],
+                                                    style: poppinsSemiBold
+                                                        .copyWith(
+                                                            color: Color(
+                                                                0xFF8EBCF7),
+                                                            fontSize: 16),
+                                                  ),
+                                                  Text(
+                                                    "Precautions: ",
+                                                    style: poppinsSemiBold
+                                                        .copyWith(
+                                                            color: Color(
+                                                                0xFF8EBCF7),
+                                                            fontSize: 16),
+                                                  ),
+                                                  Text(
+                                                    snapshot.data[index]
+                                                        ['precautions'],
+                                                    style: poppinsRegular
+                                                        .copyWith(fontSize: 10),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            Center(
+                                                child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                minimumSize: Size(150, 30),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0)),
+                                                primary: ColorResources
+                                                    .getPrimaryColor(
+                                                        context), // Background color
+                                              ),
+                                              onPressed: () async {
+                                                log('message');
+                                                String name = 'name';
+                                                String age = '10';
+                                                await addTest(
+                                                    context,
+                                                    snapshot.data[index]
+                                                        ['test_id'],
+                                                    DateTime.now().toString(),
+                                                    TimeOfDay.now().toString(),
+                                                    name,
+                                                    age);
+                                                //Navigator.of(ctx).pop();
+                                              },
+                                              child: Text('Take Test'),
+                                            ))
+                                          ],
+                                        ));
+                              },
+                              child: Image(
+                                  image: AssetImage(
+                                      "assets/image/labtest${index + 1}.png")),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: ((context) => allTests())));
-                        },
-                        child: Text('Tests')),
-                  ],
-                ),
-              ),
-            ));
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Scaffold(
-                body: Text('Something went wrong, Please try again'),
-              ),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                  color: ColorResources.getPrimaryColor(context)),
-            );
-          }
-        },
-      ),
-      //  Center(
-      //     child: Column(
-      //   children: [
-      //     ElevatedButton(
-      //         onPressed: () async {
-      //           final v = await getTest();
-      //         },
-      //         child: Text('okay')),
-      //     Image(
-      //       image: AssetImage("assets/image/lab1.png"),
-      //     ),
-      //     SizedBox(
-      //       height: MediaQuery.of(context).size.height * 0.06,
-      //     ),
-      //     Image(image: AssetImage(Images.lab_2)),
-      //   ],
-      // )),
-    );
-    /*Scaffold(
-      body: Container(
-          height: MediaQuery.of(context).size.height * 0.5,
-          padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-          child: GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 6,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 0.0,
-                  mainAxisSpacing: 20.0),
-              itemBuilder: (BuildContext context, int index) {
-                return Stack(children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: 150,
-                        width: 70,
-                        child: Image(
-                            image: AssetImage(
-                              Images.vitd,
+                      Expanded(
+                          flex: 1,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size(150, 30),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              primary: ColorResources.getPrimaryColor(
+                                  context), // Background color
                             ),
-                            fit: BoxFit.cover),
-                      ),
-                    ),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => AllTests())));
+                            },
+                            child: Text('My Tests'),
+                          ))
+                    ],
                   ),
-                  /*  Positioned(
-                                    top: 65,
-                                    left: 8,
-                                    child: Container(
-                                      width: 100,
-                                      child: Text(
-                                        text[index],
-                                        textAlign: TextAlign.center,
-                                        style: poppinsSemiBold.copyWith(
-                                            fontSize: 10),
-                                      ),
-                                    ),
-                                  ),*/
-                ]);*
-              })),
-    );*/
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Scaffold(
+                    body: Text('Something went wrong, Please try again'),
+                  ),
+                );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                      color: ColorResources.getPrimaryColor(context)),
+                );
+              }
+            },
+          ),
+        ))));
   }
 }
+/*  Column(
+                            children: [
+                              Text(snapshot.data[index]['name']),
+                              Text(snapshot.data[index]['test_id']),
+                              Text(snapshot.data[index]['price']),
+                              Text(snapshot.data[index]['precautions']),
+                            ],
+                          );*/
