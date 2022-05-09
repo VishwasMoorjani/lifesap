@@ -191,17 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Divider(
                       color: ColorResources.getDividerColor(context),
                       thickness: 10),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                    ]),
-                  ),
-                  Divider(
-                      color: ColorResources.getDividerColor(context),
-                      thickness: 10),
+
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Column(children: [
@@ -222,15 +212,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: ColorResources.getPrimaryColor(
                                             context)),
                                   ),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => LabTest()));
-                                  },
+                                  onTap: () {},
                                 )
                               ])),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        child: Row(
+                          children: [
+                            Image(
+                                image: AssetImage("assets/image/product1.png")),
+                            Image(
+                                image: AssetImage("assets/image/product2.png")),
+                            Image(
+                                image: AssetImage("assets/image/product3.png")),
+                          ],
+                        ),
                       ),
                     ]),
                   ),
