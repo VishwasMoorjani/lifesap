@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/helper/product_type.dart';
@@ -32,7 +33,7 @@ import 'package:flutter_grocery/view/screens/search/search_result_screen.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:http/http.dart' as http;
 import '../menu/widget/custom_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -41,6 +42,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Future<dynamic> _loadTrending() async {
+    // var request = http.Request(
+    //     'GET',
+    //     Uri.parse(
+    //         'https://us-central1-lifesap-backend.cloudfunctions.net/app/api/products/all-products'));
+
+    // http.StreamedResponse response = await request.send();
+
+    // if (response.statusCode == 200) {
+    //   response.stream.bytesToString().then((value) {
+    //     log(value.);
+    //   });
+    // } else {
+    //   log(response.reasonPhrase);
+    // }
+    final response = await http.get(Uri.parse(
+        'https://us-central1-lifesap-backend.cloudfunctions.net/app/api/products/all-products'));
+    if (response.statusCode == 200) {
+      final response1 = jsonDecode(response.body);
+      log(response1['products'].length.toString());
+      return response1['products'];
+    } else {
+      log('error');
+      throw Exception('Error');
+    }
+  }
+
   Future<void> _loadData(BuildContext context, bool reload) async {
     // await Provider.of<CategoryProvider>(context, listen: false).getCategoryList(context, reload);
 
@@ -195,37 +223,49 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Column(children: [
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Trending",
-                                  style: poppinsBold.copyWith(fontSize: 14),
-                                ),
-                                InkWell(
-                                  child: Text(
-                                    getTranslated('view_all', context),
-                                    style: poppinsMedium.copyWith(
-                                        fontSize: 12,
-                                        color: ColorResources.getPrimaryColor(
-                                            context)),
+                      Container(
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Trending",
+                                    style: poppinsBold.copyWith(fontSize: 14),
                                   ),
-                                  onTap: () {},
-                                )
-                              ])),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child: Row(
-                          children: [
-                            Image(
-                                image: AssetImage("assets/image/product1.png")),
-                            Image(
-                                image: AssetImage("assets/image/product2.png")),
-                            Image(
-                                image: AssetImage("assets/image/product3.png")),
-                          ],
+                                  InkWell(
+                                    child: Text(
+                                      getTranslated('view_all', context),
+                                      style: poppinsMedium.copyWith(
+                                          fontSize: 12,
+                                          color: ColorResources.getPrimaryColor(
+                                              context)),
+                                    ),
+                                    onTap: () async {
+                                      await _loadTrending();
+                                    },
+                                  )
+                                ])),
+                      ),
+                      Container(
+                        child: FutureBuilder(
+                          future: _loadTrending(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<dynamic> snapshot) {
+                            if (snapshot.hasData) {
+                              return Text(snapshot.data.toString());
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Scaffold(
+                                  body: Text(
+                                      'Something went wrong, Please try again'),
+                                ),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          },
                         ),
                       ),
                     ]),

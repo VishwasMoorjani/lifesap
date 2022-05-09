@@ -25,7 +25,7 @@ class _DoctorConsultState extends State<DoctorConsult> {
       return response1;
     } else {
       log('error');
-      throw ('Error');
+      throw Exception('Error');
     }
   }
 
