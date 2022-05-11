@@ -21,7 +21,7 @@ class _DoctorConsultState extends State<DoctorConsult> {
         'https://us-central1-lifesap-backend.cloudfunctions.net/app/api/doc/get-all-doc'));
     if (response.statusCode == 200) {
       final response1 = jsonDecode(response.body);
-      print(response1['doc']);
+      log(response1['doc'].toString());
       return response1;
     } else {
       log('error');
@@ -80,6 +80,7 @@ class _DoctorConsultState extends State<DoctorConsult> {
                                                                 'qualifications'],
                                                             snapshot.data['doc']
                                                                 [index]['id'],
+                                                            420,
                                                           )));
                                             },
                                             child: Stack(children: [

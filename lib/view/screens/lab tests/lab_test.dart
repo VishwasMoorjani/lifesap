@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_grocery/utill/color_resources.dart';
 import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/base/no_data_screen.dart';
+import 'package:flutter_grocery/view/screens/auth/widget/loading.dart';
 import 'package:flutter_grocery/view/screens/lab%20tests/all_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -12,6 +13,8 @@ import '../../../provider/profile_provider.dart';
 import '../../../utill/dimensions.dart';
 import '../../../utill/images.dart';
 import '../../base/custom_app_bar.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LabTest extends StatefulWidget {
   @override
@@ -71,6 +74,62 @@ class _LabTestState extends State<LabTest> {
       log('error');
       throw Exception('error');
     }
+  }
+
+  //
+  Razorpay _razorpay;
+  @override
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  var cost;
+  Future<void> openCheckout1() async {
+    var options = {
+      'key': 'rzp_test_NNbwJ9tmM0fbxj',
+      'amount': num.parse(cost.toString()) * 100,
+      'name': 'LAB TEST',
+      'description': 'Payment',
+      'prefill': {'contact': "", 'email': ""},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  var test_id;
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    LoadingIndicatorDialog().show(context, 'Please wait');
+    String name = 'name';
+    String age = '10';
+    await addTest(context, test_id, DateTime.now().toString().substring(0, 11),
+        TimeOfDay.now().format(context).toString(), name, age);
+    LoadingIndicatorDialog().dismiss();
+    Fluttertoast.showToast(msg: "SUCCESS: ");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(msg: "ERROR: ");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(msg: "EXTERNAL_WALLET: ");
   }
 
   @override
@@ -211,16 +270,23 @@ class _LabTestState extends State<LabTest> {
                                               ),
                                               onPressed: () async {
                                                 log('message');
-                                                String name = 'name';
-                                                String age = '10';
-                                                await addTest(
-                                                    context,
-                                                    snapshot.data[index]
-                                                        ['test_id'],
-                                                    DateTime.now().toString(),
-                                                    TimeOfDay.now().toString(),
-                                                    name,
-                                                    age);
+                                                setState(() {
+                                                  test_id = snapshot.data[index]
+                                                      ['test_id'];
+                                                  cost = snapshot.data[index]
+                                                      ['price'];
+                                                });
+                                                await openCheckout1();
+                                                // String name = 'name';
+                                                // String age = '10';
+                                                // await addTest(
+                                                //     context,
+                                                //     snapshot.data[index]
+                                                //         ['test_id'],
+                                                //     DateTime.now().toString(),
+                                                //     TimeOfDay.now().toString(),
+                                                //     name,
+                                                //     age);
                                                 //Navigator.of(ctx).pop();
                                               },
                                               child: Text('Take Test'),

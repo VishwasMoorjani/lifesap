@@ -12,13 +12,16 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../../../provider/profile_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Appointment extends StatefulWidget {
   final docname;
   final preftime;
   final expertise;
   final id;
-  Appointment(this.docname, this.preftime, this.expertise, this.id);
+  final cost;
+  Appointment(this.docname, this.preftime, this.expertise, this.id, this.cost);
   @override
   State<Appointment> createState() => _AppointmentState();
 }
@@ -27,12 +30,22 @@ class _AppointmentState extends State<Appointment> {
   TextEditingController _name = TextEditingController();
   TextEditingController _age = TextEditingController();
   TextEditingController _problem = TextEditingController();
-
+  Razorpay _razorpay;
   CalendarController _controller;
   @override
   void initState() {
     super.initState();
     _controller = CalendarController();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
   }
 
   Future postAppointment(context, name, age, problem, date, time) async {
@@ -80,6 +93,48 @@ class _AppointmentState extends State<Appointment> {
     return null;
   }
 
+  bool post = false;
+  //
+
+  Future<void> openCheckout() async {
+    var options = {
+      'key': 'rzp_test_NNbwJ9tmM0fbxj',
+      'amount': num.parse(widget.cost.toString()) * 100,
+      'name': 'LIFESAP',
+      'description': 'Payment',
+      'prefill': {'contact': "", 'email': ""},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    LoadingIndicatorDialog().show(context, 'Please wait');
+    await postAppointment(context, _name.text, _age.text, _problem.text,
+        _datetime, _time.format(context));
+    LoadingIndicatorDialog().dismiss();
+    Fluttertoast.showToast(msg: "SUCCESS: ");
+    setState(() {
+      post = true;
+    });
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(msg: "ERROR: ");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(msg: "EXTERNAL_WALLET: ");
+  }
+
+  //
   DateTime _datetime = DateTime.now();
   TimeOfDay _time = TimeOfDay.now();
   @override
@@ -296,16 +351,8 @@ class _AppointmentState extends State<Appointment> {
                                     borderRadius: BorderRadius.circular(50),
                                   ))),
                               onPressed: () async {
-                                LoadingIndicatorDialog()
-                                    .show(context, 'Please wait');
-                                await postAppointment(
-                                    context,
-                                    _name.text,
-                                    _age.text,
-                                    _problem.text,
-                                    _datetime,
-                                    _time.format(context));
-                                LoadingIndicatorDialog().dismiss();
+                                await openCheckout();
+                                if (post) {}
                               },
                               child: Text(
                                 'Book Appointment',
