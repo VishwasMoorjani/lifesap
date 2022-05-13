@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:new_version/new_version.dart';
 import 'package:flutter_grocery/view/screens/blogs/blogs.dart';
 import 'package:flutter_grocery/helper/html_type.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
@@ -56,9 +57,35 @@ class _MainScreenState extends State<MainScreen> {
   List<String> _keys = [];
 
   @override
+  void _checkVersion() async {
+    final newVersion = NewVersion(
+      androidId: "com.buyyourmedicine.www",
+    );
+    final status = await newVersion.getVersionStatus();
+    if ((status?.localVersion) != (status?.storeVersion)) {
+      newVersion.showUpdateDialog(
+        context: context,
+        versionStatus: status,
+        dialogTitle: "Update",
+        dismissButtonText: "Dismiss",
+        dialogText: "Please update the app from " +
+            "${status.localVersion}" +
+            " to " +
+            "${status.storeVersion}",
+        dismissAction: () {
+          Navigator.pop(context);
+        },
+        updateButtonText: "Update",
+      );
+
+      print("DEVICE : " + status.localVersion);
+      print("STORE : " + status.storeVersion);
+    }
+  }
+
   void initState() {
     super.initState();
-
+    _checkVersion();
     final bool _isLoggedIn =
         Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
     if (_isLoggedIn) {
@@ -202,25 +229,62 @@ class _MainScreenState extends State<MainScreen> {
             body: Stack(children: [
               current_index == 0
                   ? Container(
-                      margin: EdgeInsets.only(top: 30),
+                      height: MediaQuery.of(context).size.height * 0.09,
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.04),
                       child: Row(
                         children: [
-                          Container(
-                            height: 70,
-                            width: 70,
+                          SizedBox(
+                            height: 50,
+                            width: 50,
                             child: Image(
                               image: AssetImage(Images.app_logo),
                             ),
                           ),
-                          Text(
-                            AppConstants.APP_NAME,
-                            style: poppinsBold.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
-                              color: ColorResources.getTitleColor(context),
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                AppConstants.APP_NAME,
+                                textAlign: TextAlign.left,
+                                style: poppinsBold.copyWith(
+                                  fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE,
+                                  color: ColorResources.getTitleColor(context),
+                                ),
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.001,
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text("Sample Pickup from",
+                                        style: poppinsMedium.copyWith(
+                                            fontSize:
+                                                Dimensions.FONT_SIZE_SMALL)),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, RouteHelper.address);
+                                        },
+                                        child: Text("address",
+                                            style: poppinsSemiBold.copyWith(
+                                                color:
+                                                    ColorResources.getTextColor(
+                                                        context),
+                                                fontSize: Dimensions
+                                                    .FONT_SIZE_SMALL)))
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.5,
+                            width: MediaQuery.of(context).size.width * 0.25,
                           ),
                           IconButton(
                             onPressed: () {
@@ -228,7 +292,7 @@ class _MainScreenState extends State<MainScreen> {
                             },
                             icon: Image.asset(Images.more_icon,
                                 color: Theme.of(context).primaryColor),
-                          )
+                          ),
                         ],
                       ),
                     )

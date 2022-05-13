@@ -117,39 +117,18 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadData(context, false);
 
     return RefreshIndicator(
-      onRefresh: () async {
-        await _loadData(context, true);
-      },
-      backgroundColor: Theme.of(context).primaryColor,
-      child: Scrollbar(
-        child: SingleChildScrollView(
+        onRefresh: () async {
+          await _loadData(context, true);
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+        child: Scrollbar(
+            child: SingleChildScrollView(
           controller: _scrollController,
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Column(
                 // controller: _scrollController,
                 children: [
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: Dimensions.PADDING_SIZE_DEFAULT,
-                      ),
-                      Text("Sample pickup from",
-                          style: poppinsMedium.copyWith(
-                              fontSize: Dimensions.FONT_SIZE_SMALL)),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, RouteHelper.address);
-                          },
-                          child: Text("address",
-                              style: poppinsSemiBold.copyWith(
-                                  color: ColorResources.getTextColor(context),
-                                  fontSize: Dimensions.FONT_SIZE_SMALL)))
-                    ],
-                  ),
-                  SizedBox(
-                    height: Dimensions.PADDING_SIZE_EXTRA_SMALL,
-                  ),
                   Consumer<SearchProvider>(
                       builder: (context, searchProvider, child) => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,7 +186,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.transparent,
                     ),
                   ),
-
                   Consumer<BannerProvider>(builder: (context, banner, child) {
                     return banner.bannerList == null
                         ? BannersView()
@@ -215,87 +193,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? SizedBox()
                             : BannersView();
                   }),
-
-                  Divider(
-                      color: ColorResources.getDividerColor(context),
-                      thickness: 10),
-
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(children: [
-                      Container(
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Trending",
-                                    style: poppinsBold.copyWith(fontSize: 14),
-                                  ),
-                                  InkWell(
-                                    child: Text(
-                                      getTranslated('view_all', context),
-                                      style: poppinsMedium.copyWith(
-                                          fontSize: 12,
-                                          color: ColorResources.getPrimaryColor(
-                                              context)),
-                                    ),
-                                    onTap: () async {
-                                      await _loadTrending();
-                                    },
-                                  )
-                                ])),
-                      ),
-                      Container(
-                        child: FutureBuilder(
-                          future: _loadTrending(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<dynamic> snapshot) {
-                            if (snapshot.hasData) {
-                              return Text(snapshot.data.toString());
-                            } else if (snapshot.hasError) {
-                              return Center(
-                                child: Scaffold(
-                                  body: Text(
-                                      'Something went wrong, Please try again'),
-                                ),
-                              );
-                            } else {
-                              return CircularProgressIndicator();
-                            }
-                          },
-                        ),
-                      ),
-                    ]),
-                  ),
-
-                  Divider(
-                      color: ColorResources.getDividerColor(context),
-                      thickness: 10),
-                  Consumer<CategoryProvider>(
-                      builder: (context, category, child) {
-                    return category.categoryList == null
-                        ? CategoryView()
-                        : category.categoryList.length == 0
-                            ? SizedBox()
-                            : CategoryView();
-                  }),
-
                   Divider(
                       color: ColorResources.getDividerColor(context),
                       thickness: 10),
                   Padding(
                     padding: EdgeInsets.all(10),
-                    child: Column(children: [
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Tests",
+                                  "Trending",
                                   style: poppinsBold.copyWith(fontSize: 14),
                                 ),
                                 InkWell(
@@ -306,166 +216,271 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: ColorResources.getPrimaryColor(
                                             context)),
                                   ),
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => LabTest()));
-                                  },
-                                )
-                              ])),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Image(
-                              image: AssetImage("assets/image/labtest1.png"),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Image(
-                              image: AssetImage("assets/image/labtest2.png"),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Image(
-                              fit: BoxFit.fill,
-                              image: AssetImage(
-                                "assets/image/labtest3.png",
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ]),
-                  ),
-                  Divider(
-                      color: ColorResources.getDividerColor(context),
-                      thickness: 10),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Health Tips",
-                                    style: poppinsBold.copyWith(fontSize: 14),
-                                  ),
-                                  InkWell(
-                                    child: Text(
-                                      getTranslated('view_all', context),
-                                      style: poppinsMedium.copyWith(
-                                          fontSize: 12,
-                                          color: ColorResources.getPrimaryColor(
-                                              context)),
-                                    ),
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) => Blogs()));
-                                    },
-                                  )
-                                ])),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                              height: MediaQuery.of(context).size.height * 0.10,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xFF898A8E)),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    maxRadius: 25,
-                                    foregroundImage:
-                                        AssetImage("assets/image/topic3.jpg"),
-                                  ),
-                                  title: Text(
-                                      "5 Unique ways to add walking in your daily routine"),
-                                  // subtitle: Text(doc['Topic']),
                                   onTap: () {},
-                                ),
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                      color: ColorResources.getDividerColor(context),
-                      thickness: 10),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("assets/image/prescription.png"),
-                            fit: BoxFit.fitWidth)),
-                    padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                    child: Column(children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "Upload Prescription",
-                          style: poppinsBold.copyWith(
-                            color: Colors.white,
-                            fontSize: 16,
+                                )
+                              ]),
+                          FutureBuilder(
+                            future: _loadTrending(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<dynamic> snapshot) {
+                              if (snapshot.hasData) {
+                                return Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.2,
+                                    child: ListView.builder(
+                                        reverse: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: 5,
+                                        itemBuilder: (context, position) {
+                                          return Column(children: [
+                                            SizedBox(
+                                              height: 80,
+                                              width: 80,
+                                              child: Image(
+                                                image: AssetImage(
+                                                    "assets/image/product2.png"),
+                                              ),
+                                            ),
+                                            Text(
+                                              snapshot.data[0]["name"],
+                                            ),
+                                            Text(
+                                                "Rs. " +
+                                                    snapshot.data[0]["price"],
+                                                style: TextStyle(
+                                                    color: Colors.red,
+                                                    decoration: TextDecoration
+                                                        .lineThrough)),
+                                            Text("Rs. " +
+                                                snapshot.data[0]["dprice"]),
+                                          ]);
+                                        }));
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                  child: Text(
+                                      'Something went wrong, Please try again'),
+                                );
+                              } else {
+                                return CircularProgressIndicator(
+                                  color:
+                                      ColorResources.getPrimaryColor(context),
+                                );
+                              }
+                            },
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Upload prescription and tell us what you need. We do the rest!",
-                        style: poppinsMedium.copyWith(
-                            color: Colors.white, fontSize: 14),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          await UploadPhoto().pickImage(context);
-                        },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Upload Now",
-                                textAlign: TextAlign.left,
-                                style: poppinsMedium.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
+
+                          Divider(
+                              color: ColorResources.getDividerColor(context),
+                              thickness: 10),
+                          Consumer<CategoryProvider>(
+                              builder: (context, category, child) {
+                            return category.categoryList == null
+                                ? CategoryView()
+                                : category.categoryList.length == 0
+                                    ? SizedBox()
+                                    : CategoryView();
+                          }),
+
+                          Divider(
+                              color: ColorResources.getDividerColor(context),
+                              thickness: 10),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(children: [
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Tests",
+                                          style: poppinsBold.copyWith(
+                                              fontSize: 14),
+                                        ),
+                                        InkWell(
+                                          child: Text(
+                                            getTranslated('view_all', context),
+                                            style: poppinsMedium.copyWith(
+                                                fontSize: 12,
+                                                color: ColorResources
+                                                    .getPrimaryColor(context)),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LabTest()));
+                                          },
+                                        )
+                                      ])),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.02,
                               ),
-                              Icon(
-                                Icons.arrow_forward,
-                                size: 15,
-                                color: Colors.white,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Image(
+                                      image: AssetImage(
+                                          "assets/image/labtest1.png"),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Image(
+                                      image: AssetImage(
+                                          "assets/image/labtest2.png"),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Image(
+                                      fit: BoxFit.fill,
+                                      image: AssetImage(
+                                        "assets/image/labtest3.png",
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               )
                             ]),
-                      )
-                    ]),
-                  ),
+                          ),
+                          Divider(
+                              color: ColorResources.getDividerColor(context),
+                              thickness: 10),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Health Tips",
+                                            style: poppinsBold.copyWith(
+                                                fontSize: 14),
+                                          ),
+                                          InkWell(
+                                            child: Text(
+                                              getTranslated(
+                                                  'view_all', context),
+                                              style: poppinsMedium.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorResources
+                                                      .getPrimaryColor(
+                                                          context)),
+                                            ),
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Blogs()));
+                                            },
+                                          )
+                                        ])),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.02,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.10,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Color(0xFF898A8E)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            maxRadius: 25,
+                                            foregroundImage: AssetImage(
+                                                "assets/image/topic3.jpg"),
+                                          ),
+                                          title: Text(
+                                              "5 Unique ways to add walking in your daily routine"),
+                                          // subtitle: Text(doc['Topic']),
+                                          onTap: () {},
+                                        ),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                              color: ColorResources.getDividerColor(context),
+                              thickness: 10),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        "assets/image/prescription.png"),
+                                    fit: BoxFit.fitWidth)),
+                            padding:
+                                EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                            child: Column(children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  "Upload Prescription",
+                                  style: poppinsBold.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Upload prescription and tell us what you need. We do the rest!",
+                                style: poppinsMedium.copyWith(
+                                    color: Colors.white, fontSize: 14),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  await UploadPhoto().pickImage(context);
+                                },
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Upload Now",
+                                        textAlign: TextAlign.left,
+                                        style: poppinsMedium.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward,
+                                        size: 15,
+                                        color: Colors.white,
+                                      )
+                                    ]),
+                              )
+                            ]),
+                          ),
 
-                  /*     Consumer<ProductProvider>(
+                          /*     Consumer<ProductProvider>(
                           builder: (context, product, child) {
                         return product.dailyItemList == null
                             ? DailyItemView()
@@ -474,8 +489,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 : DailyItemView();
                       }),*/
 
-                  // Popular Item
-                  /*  Padding(
+                          // Popular Item
+                          /*  Padding(
                         padding: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
                         child: TitleWidget(
                             title: getTranslated('popular_item', context)),
@@ -483,10 +498,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       ProductView(
                           productType: ProductType.POPULAR_PRODUCT,
                           scrollController: _scrollController),*/
+                        ]),
+                  ),
                 ]),
           ),
-        ),
-      ),
-    );
+        )));
   }
 }
