@@ -6,6 +6,7 @@ import 'package:flutter_grocery/helper/product_type.dart';
 import 'package:flutter_grocery/helper/responsive_helper.dart';
 import 'package:flutter_grocery/helper/route_helper.dart';
 import 'package:flutter_grocery/localization/language_constrants.dart';
+import 'package:flutter_grocery/provider/auth_provider.dart';
 import 'package:flutter_grocery/provider/banner_provider.dart';
 import 'package:flutter_grocery/provider/cart_provider.dart';
 import 'package:flutter_grocery/provider/category_provider.dart';
@@ -67,6 +68,15 @@ class _HomeScreenState extends State<HomeScreen> {
       log('error');
       throw Exception('Error');
     }
+  }
+
+  var _isLoggedIn;
+  @override
+  void initState() {
+    super.initState();
+
+    _isLoggedIn =
+        Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
   }
 
   Future<void> _loadData(BuildContext context, bool reload) async {
@@ -457,7 +467,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               InkWell(
                                 onTap: () async {
-                                  await UploadPhoto().pickImage(context);
+                                  if (_isLoggedIn) {
+                                    await UploadPhoto().pickImage(context);
+                                  }
                                 },
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,

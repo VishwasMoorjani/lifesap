@@ -69,9 +69,14 @@ class _AllTestsState extends State<AllTests> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(snapshot.data[index]['time']),
+                                    Text("Prince: INR " +
+                                        snapshot.data[index]['price']),
                                     Text(
-                                        "Rs. " + snapshot.data[index]['price']),
+                                        'Date: ${snapshot.data[index]['date']}'),
+                                    Text(
+                                        'Time: ${snapshot.data[index]['time']}'),
+                                    Text(
+                                        'Address: ${snapshot.data[index]['address']}'),
                                     Text(snapshot.data[index]['precautions'])
                                   ],
                                 ),

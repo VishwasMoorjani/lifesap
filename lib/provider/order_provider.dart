@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/data/model/body/place_order_body.dart';
@@ -16,8 +17,7 @@ import 'package:flutter_grocery/helper/date_converter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class
-OrderProvider extends ChangeNotifier {
+class OrderProvider extends ChangeNotifier {
   final OrderRepo orderRepo;
   OrderProvider({@required this.orderRepo});
 
@@ -57,7 +57,8 @@ OrderProvider extends ChangeNotifier {
 
   Future<void> getOrderList(BuildContext context) async {
     ApiResponse apiResponse = await orderRepo.getOrderList();
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _runningOrderList = [];
       _historyOrderList = [];
       apiResponse.response.data.forEach((order) {
@@ -80,11 +81,11 @@ OrderProvider extends ChangeNotifier {
   Future<void> initializeTimeSlot(BuildContext context) async {
     _distance = -1;
     ApiResponse apiResponse = await orderRepo.getTimeSlot();
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _timeSlots = [];
       _allTimeSlots = [];
       apiResponse.response.data.forEach((timeSlot) {
-
         _timeSlots.add(TimeSlotModel.fromJson(timeSlot));
         _allTimeSlots.add(TimeSlotModel.fromJson(timeSlot));
       });
@@ -112,7 +113,7 @@ OrderProvider extends ChangeNotifier {
 
   void updateDateSlot(int index) {
     _selectDateSlot = index;
-    if(_allTimeSlots != null) {
+    if (_allTimeSlots != null) {
       validateSlot(_allTimeSlots, index);
     }
     _selectTimeSlot = index;
@@ -121,43 +122,47 @@ OrderProvider extends ChangeNotifier {
 
   void validateSlot(List<TimeSlotModel> slots, int dateIndex) {
     _timeSlots = [];
-    if(dateIndex == 0) {
+    if (dateIndex == 0) {
       DateTime _date = DateTime.now();
       slots.forEach((slot) {
-        DateTime _time = DateConverter.stringTimeToDateTime(slot.endTime).subtract(Duration(hours: 1));
-        DateTime _dateTime = DateTime(_date.year, _date.month, _date.day, _time.hour, _time.minute, _time.second);
+        DateTime _time = DateConverter.stringTimeToDateTime(slot.endTime)
+            .subtract(Duration(hours: 1));
+        DateTime _dateTime = DateTime(_date.year, _date.month, _date.day,
+            _time.hour, _time.minute, _time.second);
         if (_dateTime.isAfter(DateTime.now())) {
           _timeSlots.add(slot);
         }
       });
-    }else {
+    } else {
       _timeSlots.addAll(_allTimeSlots);
     }
   }
 
   double subTotal = 0;
   double discount = 0;
-  double totalPrice=0;
+  double totalPrice = 0;
 
-  Future<List<OrderDetailsModel>> getOrderDetails(String orderID, BuildContext context) async {
+  Future<List<OrderDetailsModel>> getOrderDetails(
+      String orderID, BuildContext context) async {
     _orderDetails = null;
     _isLoading = true;
     _showCancelled = false;
     subTotal = 0;
     discount = 0;
-    totalPrice=0;
+    totalPrice = 0;
     notifyListeners();
     ApiResponse apiResponse = await orderRepo.getOrderDetails(orderID);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _orderDetails = [];
-      apiResponse.response.data.forEach((orderDetail) => _orderDetails.add(OrderDetailsModel.fromJson(orderDetail)));
+      apiResponse.response.data.forEach((orderDetail) =>
+          _orderDetails.add(OrderDetailsModel.fromJson(orderDetail)));
       _orderDetails.forEach((element) {
         subTotal += double.parse(element.productDetails.price.toString());
         discount += double.parse(element.productDetails.discount.toString());
         totalPrice += double.parse(element.price.toString());
       });
-
     } else {
       ApiChecker.checkApi(context, apiResponse);
     }
@@ -177,7 +182,8 @@ OrderProvider extends ChangeNotifier {
 
   Future<void> getDeliveryManData(String orderID, BuildContext context) async {
     ApiResponse apiResponse = await orderRepo.getDeliveryManData(orderID);
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       _deliveryManModel = DeliveryManModel.fromJson(apiResponse.response.data);
     } else {
       ApiChecker.checkApi(context, apiResponse);
@@ -185,43 +191,49 @@ OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ResponseModel> trackOrder(String orderID, OrderModel orderModel, BuildContext context, bool fromTracking) async {
+  Future<ResponseModel> trackOrder(String orderID, OrderModel orderModel,
+      BuildContext context, bool fromTracking) async {
     _trackModel = null;
     ResponseModel _responseModel;
-    if(!fromTracking) {
+    if (!fromTracking) {
       _orderDetails = null;
     }
     _showCancelled = false;
-    if(orderModel == null) {
+    if (orderModel == null) {
       _isLoading = true;
       ApiResponse apiResponse = await orderRepo.trackOrder(orderID);
-      if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+      if (apiResponse.response != null &&
+          apiResponse.response.statusCode == 200) {
         _trackModel = OrderModel.fromJson(apiResponse.response.data);
-        _responseModel = ResponseModel(true, apiResponse.response.data.toString());
+        _responseModel =
+            ResponseModel(true, apiResponse.response.data.toString());
       } else {
-        _responseModel = ResponseModel(false, apiResponse.error.errors[0].message);
+        _responseModel =
+            ResponseModel(false, apiResponse.error.errors[0].message);
         ApiChecker.checkApi(context, apiResponse);
       }
       _isLoading = false;
       notifyListeners();
-    }else {
+    } else {
       _trackModel = orderModel;
       _responseModel = ResponseModel(true, 'Successful');
     }
     return _responseModel;
   }
 
-  Future<void> placeOrder(PlaceOrderBody placeOrderBody, Function callback) async {
+  Future<void> placeOrder(
+      PlaceOrderBody placeOrderBody, Function callback) async {
     _isLoading = true;
     notifyListeners();
     print(placeOrderBody.toJson());
     ApiResponse apiResponse = await orderRepo.placeOrder(placeOrderBody);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
       String message = apiResponse.response.data['message'];
       String orderID = apiResponse.response.data['order_id'].toString();
       callback(true, message, orderID);
-      print('-------- Order placed successfully $orderID ----------');
+      log('-------- Order placed successfully $orderID ----------');
     } else {
       String errorMessage;
       if (apiResponse.error is String) {
@@ -249,21 +261,26 @@ OrderProvider extends ChangeNotifier {
     }
   }
 
-  void cancelOrder(String orderID, bool fromOrder, Function callback, ) async {
+  void cancelOrder(
+    String orderID,
+    bool fromOrder,
+    Function callback,
+  ) async {
     _isLoading = true;
     notifyListeners();
     ApiResponse apiResponse = await orderRepo.cancelOrder(orderID);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
-     if(fromOrder){
-       OrderModel orderModel;
-       _runningOrderList.forEach((order) {
-         if (order.id.toString() == orderID) {
-           orderModel = order;
-         }
-       });
-       _runningOrderList.remove(orderModel);
-     }
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
+      if (fromOrder) {
+        OrderModel orderModel;
+        _runningOrderList.forEach((order) {
+          if (order.id.toString() == orderID) {
+            orderModel = order;
+          }
+        });
+        _runningOrderList.remove(orderModel);
+      }
       _showCancelled = true;
       callback(apiResponse.response.data['message'], true, orderID);
     } else {
@@ -282,26 +299,31 @@ OrderProvider extends ChangeNotifier {
 
   void setOrderType(String type, {bool notify = true}) {
     _orderType = type;
-    if(notify) {
+    if (notify) {
       notifyListeners();
     }
   }
 
-  Future<void> updatePaymentMethod(String orderID, bool fromOrder, Function callback, ) async {
+  Future<void> updatePaymentMethod(
+    String orderID,
+    bool fromOrder,
+    Function callback,
+  ) async {
     _isLoading = true;
     notifyListeners();
     ApiResponse apiResponse = await orderRepo.updatePaymentMethod(orderID);
     _isLoading = false;
-    if (apiResponse.response != null && apiResponse.response.statusCode == 200) {
-      if(fromOrder){
+    if (apiResponse.response != null &&
+        apiResponse.response.statusCode == 200) {
+      if (fromOrder) {
         int orderIndex;
-        for(int index=0; index<_runningOrderList.length; index++) {
-          if(_runningOrderList[index].id.toString() == orderID) {
+        for (int index = 0; index < _runningOrderList.length; index++) {
+          if (_runningOrderList[index].id.toString() == orderID) {
             orderIndex = index;
             break;
           }
         }
-        if(orderIndex != null) {
+        if (orderIndex != null) {
           _runningOrderList[orderIndex].paymentMethod = 'cash_on_delivery';
         }
       }
@@ -366,9 +388,9 @@ OrderProvider extends ChangeNotifier {
       notifyListeners();
     } else {
       String errorMessage;
-      if(response.error is String) {
+      if (response.error is String) {
         errorMessage = response.error.toString();
-      }else {
+      } else {
         errorMessage = response.error.errors[0].message;
       }
       responseModel = ResponseModel(false, errorMessage);
@@ -389,9 +411,9 @@ OrderProvider extends ChangeNotifier {
       notifyListeners();
     } else {
       String errorMessage;
-      if(response.error is String) {
+      if (response.error is String) {
         errorMessage = response.error.toString();
-      }else {
+      } else {
         errorMessage = response.error.errors[0].message;
       }
       responseModel = ResponseModel(false, errorMessage);
@@ -401,26 +423,41 @@ OrderProvider extends ChangeNotifier {
     return responseModel;
   }
 
-  Future<bool> getDistanceInMeter(LatLng originLatLng, LatLng destinationLatLng) async {
+  Future<bool> getDistanceInMeter(
+      LatLng originLatLng, LatLng destinationLatLng) async {
     _distance = -1;
     bool _isSuccess = false;
-    ApiResponse response = await orderRepo.getDistanceInMeter(originLatLng, destinationLatLng);
+    ApiResponse response =
+        await orderRepo.getDistanceInMeter(originLatLng, destinationLatLng);
     try {
-      if (response.response.statusCode == 200 && response.response.data['status'] == 'OK') {
+      if (response.response.statusCode == 200 &&
+          response.response.data['status'] == 'OK') {
         _isSuccess = true;
-        _distance = DistanceModel.fromJson(response.response.data).rows[0].elements[0].distance.value / 1000;
+        _distance = DistanceModel.fromJson(response.response.data)
+                .rows[0]
+                .elements[0]
+                .distance
+                .value /
+            1000;
       } else {
         _distance = Geolocator.distanceBetween(
-          originLatLng.latitude, originLatLng.longitude, destinationLatLng.latitude, destinationLatLng.longitude,
-        ) / 1000;
+              originLatLng.latitude,
+              originLatLng.longitude,
+              destinationLatLng.latitude,
+              destinationLatLng.longitude,
+            ) /
+            1000;
       }
     } catch (e) {
       _distance = Geolocator.distanceBetween(
-        originLatLng.latitude, originLatLng.longitude, destinationLatLng.latitude, destinationLatLng.longitude,
-      ) / 1000;
+            originLatLng.latitude,
+            originLatLng.longitude,
+            destinationLatLng.latitude,
+            destinationLatLng.longitude,
+          ) /
+          1000;
     }
     notifyListeners();
     return _isSuccess;
   }
-
 }

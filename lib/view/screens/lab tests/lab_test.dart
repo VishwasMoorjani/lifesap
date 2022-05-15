@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_grocery/utill/color_resources.dart';
 import 'package:flutter_grocery/utill/styles.dart';
 import 'package:flutter_grocery/view/base/no_data_screen.dart';
+import 'package:flutter_grocery/view/base/not_login_screen.dart';
 import 'package:flutter_grocery/view/screens/auth/widget/loading.dart';
 import 'package:flutter_grocery/view/screens/lab%20tests/all_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import '../../../provider/auth_provider.dart';
 import '../../../provider/profile_provider.dart';
 import '../../../utill/dimensions.dart';
 import '../../../utill/images.dart';
@@ -22,8 +23,12 @@ class LabTest extends StatefulWidget {
 }
 
 class _LabTestState extends State<LabTest> {
-  Future<dynamic> addTest(
-      BuildContext context, String testid, date, time, name, age) async {
+  TextEditingController _name = TextEditingController();
+  TextEditingController _age = TextEditingController();
+  TextEditingController _address = TextEditingController();
+
+  Future<dynamic> addTest(BuildContext context, String testid, date, time, name,
+      age, adress) async {
     final uid = (await Provider.of<ProfileProvider>(context, listen: false)
             .getUserID(context))
         .toString();
@@ -48,10 +53,7 @@ class _LabTestState extends State<LabTest> {
         'PUT',
         Uri.parse(
             'https://us-central1-lifesap-backend.cloudfunctions.net/app/api/patient/test/$uid/$testid'));
-    request1.bodyFields = {
-      'date': date,
-      'time': time,
-    };
+    request1.bodyFields = {'date': date, 'time': time, 'address': adress};
     request1.headers.addAll(headers1);
 
     http.StreamedResponse response1 = await request1.send();
@@ -77,6 +79,7 @@ class _LabTestState extends State<LabTest> {
   }
 
   //
+  var _isLoggedIn;
   Razorpay _razorpay;
   @override
   void initState() {
@@ -85,6 +88,8 @@ class _LabTestState extends State<LabTest> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    _isLoggedIn =
+        Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
   }
 
   @override
@@ -118,8 +123,8 @@ class _LabTestState extends State<LabTest> {
     LoadingIndicatorDialog().show(context, 'Please wait');
     String name = 'name';
     String age = '10';
-    await addTest(context, test_id, DateTime.now().toString().substring(0, 11),
-        TimeOfDay.now().format(context).toString(), name, age);
+    await addTest(context, test_id, selectedDate.toString().substring(0, 11),
+        selectedTime.format(context), _name.text, _age.text, _address.text);
     LoadingIndicatorDialog().dismiss();
     Fluttertoast.showToast(msg: "SUCCESS: ");
   }
@@ -132,6 +137,25 @@ class _LabTestState extends State<LabTest> {
     Fluttertoast.showToast(msg: "EXTERNAL_WALLET: ");
   }
 
+  TimeOfDay selectedTime = TimeOfDay.now();
+  DateTime selectedDate = DateTime.now();
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay picked_s = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+            child: child,
+          );
+        });
+
+    if (picked_s != null && picked_s != selectedTime)
+      setState(() {
+        // selectedTime = picked_s.format(context);
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -139,202 +163,269 @@ class _LabTestState extends State<LabTest> {
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width / 2;
-    return Scaffold(
-        appBar: CustomAppBar(
-          title: "Lab Tests",
-          isElevation: true,
-          isBackButtonExist: false,
-        ),
-        backgroundColor: ColorResources.getCardBgColor(context),
-        body: SafeArea(
-            child: Scrollbar(
-                child: SingleChildScrollView(
-          padding: EdgeInsets.all(20),
-          physics:
-              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          child: FutureBuilder(
-            future: getTest(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.hasData) {
-                return SizedBox(
-                  height: size.height,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 8,
-                        child: GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: 6,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: (itemWidth / itemHeight),
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 15.0,
-                                  mainAxisSpacing: 15.0),
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              child: Image(
-                                  image: AssetImage(
-                                      "assets/image/${index + 1}.png")),
-                            );
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: 3,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 10.0,
-                                  mainAxisSpacing: 10.0),
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () async {
-                                return showDialog(
-                                    context: context,
-                                    builder: (ctx) => AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0)),
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                snapshot.data[index]['name'],
-                                                style: poppinsSemiBold.copyWith(
-                                                    fontSize: 22,
-                                                    color: ColorResources
-                                                        .getPrimaryColor(
-                                                            context)),
-                                              ),
-                                              IconButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  icon: Icon(Icons.close)),
-                                            ],
-                                          ),
-                                          content: SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.08,
-                                            child: Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Column(
+    return _isLoggedIn
+        ? Scaffold(
+            appBar: CustomAppBar(
+              title: "Lab Tests",
+              isElevation: true,
+              isBackButtonExist: false,
+            ),
+            backgroundColor: ColorResources.getCardBgColor(context),
+            body: SafeArea(
+                child: Scrollbar(
+                    child: SingleChildScrollView(
+              padding: EdgeInsets.all(20),
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              child: FutureBuilder(
+                future: getTest(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasData) {
+                    return SizedBox(
+                      height: size.height,
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 8,
+                            child: GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 6,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio:
+                                          (itemWidth / itemHeight),
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 15.0,
+                                      mainAxisSpacing: 15.0),
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  child: Image(
+                                      image: AssetImage(
+                                          "assets/image/${index + 1}.png")),
+                                );
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 3,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      crossAxisSpacing: 10.0,
+                                      mainAxisSpacing: 10.0),
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () async {
+                                    return showDialog(
+                                        context: context,
+                                        builder: (ctx) => AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0)),
+                                              title: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    "Price: Rs. " +
-                                                        snapshot.data[index]
-                                                            ['price'],
-                                                    style: poppinsSemiBold
-                                                        .copyWith(
-                                                            color: Color(
-                                                                0xFF8EBCF7),
-                                                            fontSize: 16),
-                                                  ),
-                                                  Text(
-                                                    "Precautions: ",
-                                                    style: poppinsSemiBold
-                                                        .copyWith(
-                                                            color: Color(
-                                                                0xFF8EBCF7),
-                                                            fontSize: 16),
-                                                  ),
-                                                  Text(
                                                     snapshot.data[index]
-                                                        ['precautions'],
-                                                    style: poppinsRegular
-                                                        .copyWith(fontSize: 10),
+                                                        ['name'],
+                                                    style: poppinsSemiBold
+                                                        .copyWith(
+                                                            fontSize: 22,
+                                                            color: ColorResources
+                                                                .getPrimaryColor(
+                                                                    context)),
                                                   ),
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      icon: Icon(Icons.close)),
                                                 ],
                                               ),
-                                            ),
-                                          ),
-                                          actions: <Widget>[
-                                            Center(
-                                                child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(150, 30),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20.0)),
-                                                primary: ColorResources
-                                                    .getPrimaryColor(
-                                                        context), // Background color
+                                              content: SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.08,
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          "Price: Rs. " +
+                                                              snapshot.data[
+                                                                      index]
+                                                                  ['price'],
+                                                          style: poppinsSemiBold
+                                                              .copyWith(
+                                                                  color: Color(
+                                                                      0xFF8EBCF7),
+                                                                  fontSize: 16),
+                                                        ),
+                                                        Text(
+                                                          "Precautions: ",
+                                                          style: poppinsSemiBold
+                                                              .copyWith(
+                                                                  color: Color(
+                                                                      0xFF8EBCF7),
+                                                                  fontSize: 16),
+                                                        ),
+                                                        Text(
+                                                          snapshot.data[index]
+                                                              ['precautions'],
+                                                          style: poppinsRegular
+                                                              .copyWith(
+                                                                  fontSize: 10),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                              onPressed: () async {
-                                                log('message');
-                                                setState(() {
-                                                  test_id = snapshot.data[index]
-                                                      ['test_id'];
-                                                  cost = snapshot.data[index]
-                                                      ['price'];
-                                                });
-                                                await openCheckout1();
-                                                // String name = 'name';
-                                                // String age = '10';
-                                                // await addTest(
-                                                //     context,
-                                                //     snapshot.data[index]
-                                                //         ['test_id'],
-                                                //     DateTime.now().toString(),
-                                                //     TimeOfDay.now().toString(),
-                                                //     name,
-                                                //     age);
-                                                //Navigator.of(ctx).pop();
-                                              },
-                                              child: Text('Take Test'),
-                                            ))
-                                          ],
-                                        ));
+                                              actions: <Widget>[
+                                                Center(
+                                                    child:
+                                                        SingleChildScrollView(
+                                                  child: Column(
+                                                    children: [
+                                                      TextFormField(
+                                                        controller: _name,
+                                                      ),
+                                                      TextFormField(
+                                                        controller: _age,
+                                                      ),
+                                                      TextFormField(
+                                                        controller: _address,
+                                                      ),
+                                                      IconButton(
+                                                          onPressed: () async {
+                                                            selectedTime =
+                                                                await showTimePicker(
+                                                                    context:
+                                                                        context,
+                                                                    initialTime:
+                                                                        selectedTime);
+                                                            setState(() {});
+                                                          },
+                                                          icon: Icon(Icons
+                                                              .punch_clock_outlined)),
+                                                      IconButton(
+                                                          onPressed: () async {
+                                                            selectedDate = await showDatePicker(
+                                                                context:
+                                                                    context,
+                                                                initialDate:
+                                                                    selectedDate,
+                                                                firstDate:
+                                                                    DateTime
+                                                                        .now(),
+                                                                lastDate: DateTime(
+                                                                    DateTime.now()
+                                                                            .year +
+                                                                        2));
+                                                            setState(() {});
+                                                          },
+                                                          icon: Icon(Icons
+                                                              .date_range)),
+                                                      ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          minimumSize:
+                                                              Size(150, 30),
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20.0)),
+                                                          primary: ColorResources
+                                                              .getPrimaryColor(
+                                                                  context), // Background color
+                                                        ),
+                                                        onPressed: () async {
+                                                          log('message');
+                                                          setState(() {
+                                                            test_id = snapshot
+                                                                    .data[index]
+                                                                ['test_id'];
+                                                            cost = snapshot
+                                                                    .data[index]
+                                                                ['price'];
+                                                          });
+                                                          await openCheckout1();
+                                                          // await addTest(
+                                                          //     context,
+                                                          //     test_id,
+                                                          //     selectedDate
+                                                          //         .toString()
+                                                          //         .substring(
+                                                          //             0, 11),
+                                                          //     selectedTime
+                                                          //         .format(
+                                                          //             context),
+                                                          //     _name.text,
+                                                          //     _age.text,
+                                                          //     _address.text);
+                                                        },
+                                                        child:
+                                                            Text('Take Test'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ))
+                                              ],
+                                            ));
+                                  },
+                                  child: Image(
+                                      image: AssetImage(
+                                          "assets/image/labtest${index + 1}.png")),
+                                );
                               },
-                              child: Image(
-                                  image: AssetImage(
-                                      "assets/image/labtest${index + 1}.png")),
-                            );
-                          },
-                        ),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(150, 30),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0)),
-                              primary: ColorResources.getPrimaryColor(
-                                  context), // Background color
                             ),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: ((context) => AllTests())));
-                            },
-                            child: Text('My Tests'),
-                          ))
-                    ],
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Scaffold(
-                    body: Text('Something went wrong, Please try again'),
-                  ),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(
-                      color: ColorResources.getPrimaryColor(context)),
-                );
-              }
-            },
-          ),
-        ))));
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(150, 30),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  primary: ColorResources.getPrimaryColor(
+                                      context), // Background color
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: ((context) => AllTests())));
+                                },
+                                child: Text('My Tests'),
+                              ))
+                        ],
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Scaffold(
+                        body: Text('Something went wrong, Please try again'),
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                          color: ColorResources.getPrimaryColor(context)),
+                    );
+                  }
+                },
+              ),
+            ))))
+        : NotLoggedInScreen();
   }
 }
 /*  Column(
