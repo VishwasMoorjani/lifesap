@@ -281,6 +281,7 @@ class _AppointmentState extends State<Appointment> {
                           height: MediaQuery.of(context).size.height * 0.01,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.text,
                           cursorColor: ColorResources.getPrimaryColor(context),
                           decoration: InputDecoration(
                             hintText: "Name",
@@ -297,6 +298,7 @@ class _AppointmentState extends State<Appointment> {
                           controller: _name,
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.number,
                           cursorColor: ColorResources.getPrimaryColor(context),
                           decoration: InputDecoration(
                             hintText: "Age",

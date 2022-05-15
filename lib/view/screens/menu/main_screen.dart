@@ -154,8 +154,8 @@ class _MainScreenState extends State<MainScreen> {
                     child: Icon(Icons.shopping_cart),
                   ),
                   Positioned(
-                    top: -3.5,
-                    right: -0.24,
+                    top: -3.7,
+                    right: -0.23,
                     child: Container(
                       padding: EdgeInsets.all(3),
                       decoration: BoxDecoration(
@@ -163,8 +163,7 @@ class _MainScreenState extends State<MainScreen> {
                       child: Text(
                           '${Provider.of<CartProvider>(context).cartList.length}',
                           style: TextStyle(
-                              color: Theme.of(context).cardColor,
-                              fontSize: 10)),
+                              color: Theme.of(context).cardColor, fontSize: 8)),
                     ),
                   ),
                 ])),

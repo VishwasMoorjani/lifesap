@@ -336,16 +336,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 100,
                                     width: 100,
                                     child: Image(
-                                      image: AssetImage(
-                                          "assets/image/labtest1.png"),
+                                      image: AssetImage("assets/image/7.png"),
                                     ),
                                   ),
                                   SizedBox(
                                     height: 100,
                                     width: 100,
                                     child: Image(
-                                      image: AssetImage(
-                                          "assets/image/labtest2.png"),
+                                      image: AssetImage("assets/image/8.png"),
                                     ),
                                   ),
                                   SizedBox(
@@ -354,7 +352,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Image(
                                       fit: BoxFit.fill,
                                       image: AssetImage(
-                                        "assets/image/labtest3.png",
+                                        "assets/image/9.png",
                                       ),
                                     ),
                                   ),
