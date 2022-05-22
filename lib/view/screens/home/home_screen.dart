@@ -29,6 +29,7 @@ import 'package:flutter_grocery/view/screens/home/widget/category_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/daily_item_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/product_view.dart';
 import 'package:flutter_grocery/view/screens/home/widget/upload_prescription.dart';
+import 'package:flutter_grocery/view/screens/hospitals/hospitals.dart';
 import 'package:flutter_grocery/view/screens/lab%20tests/lab_test.dart';
 import 'package:flutter_grocery/view/screens/search/search_result_screen.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -486,7 +487,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white,
                                       )
                                     ]),
-                              )
+                              ),
                             ]),
                           ),
 
@@ -510,6 +511,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           scrollController: _scrollController),*/
                         ]),
                   ),
+                  Center(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: ((context) => SearchHospitals())));
+                        },
+                        child: Text('HOSPITALS')),
+                  )
                 ]),
           ),
         )));

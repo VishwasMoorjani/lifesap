@@ -80,7 +80,7 @@ class _LabTestState extends State<LabTest> {
                             flex: 8,
                             child: GridView.builder(
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: 9,
+                              itemCount: snapshot.data.length,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                       childAspectRatio:
